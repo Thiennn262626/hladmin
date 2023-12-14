@@ -1,0 +1,10 @@
+.brighten {
+   border: 5px solid #ef2020;
+   animation: border-color-change 1s infinite;
+  }
+  @keyframes border-color-change {
+    100% {
+      border-color: #d8f905;
+    }
+  
+  }

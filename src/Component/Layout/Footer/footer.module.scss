@@ -1,0 +1,116 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.footer__content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: start;
+  width: 90%;
+  margin: 2% 0;
+}
+
+.footer__content_col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 2;
+
+  .title {
+    font-size: 1.2rem;
+    width: 100%;
+    font-weight: bold;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 100%;
+    margin-top: 5%;
+    background-color: #fff;
+    border-radius: 5px;
+    span {
+      margin: 1% 0;
+      font-size: 0.9rem;
+      font-weight: 300;
+    }
+  }
+}
+
+.footer__content__contact {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 2.5;
+
+  .title {
+    font-size: 1.2rem;
+    width: 100%;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 5%;
+    background-color: #fff;
+    border-radius: 5px;
+    .man {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 0 2%;
+
+      .name {
+        font-size: 1rem;
+        font-weight: bold;
+        margin: 5% 0;
+        color: #000000;
+        // con chuột
+        cursor: pointer;
+        // Tạo 1 hover cho cái này
+        &:hover {
+          color: #00aeff;
+        }
+      }
+    }
+  }
+}
+
+.footer__content__payment {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 2.5;
+
+  .title {
+    font-size: 1.2rem;
+    width: 100%;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    margin-top: 5%;
+    flex-wrap: wrap;
+  }
+}
