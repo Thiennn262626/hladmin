@@ -1,61 +1,57 @@
 import React from 'react'
 
 import { Tabs } from 'antd';
-import { useState } from 'react';
 import {BodyMain} from './index';
 import classname from "classnames/bind";
 import styles from "./../order.module.scss";
-
+import { setLoangding } from '../../slice/couterSlice';
+import { useDispatch } from 'react-redux';
 export const Tab = () => {
-    const [key, setKey] = useState('1');
+    const dispatch = useDispatch();
     const onChange = (key) => {
-    console.log(key);
+      dispatch(setLoangding(true))
     };
     const items = [  
+   
     {
         key: '0',
-        label: 'Tất cả',
-        children: <BodyMain/>,
+        label: 'Chờ xác nhận',
+        children: <BodyMain status={0}/>,
     },
     {
         key: '1',
-        label: 'Chờ xác nhận',
-        children: <BodyMain/>,
+        label: 'Chờ đống gói',
+        children: <BodyMain status={1}/>,
     },
     {
         key: '2',
-        label: 'Chờ đống gói',
-        children: <BodyMain/>,
+        label: 'Đang đống gói',
+        children: <BodyMain status={2}/>,
     },
     {
         key: '3',
-        label: 'Đang đống gói',
-        children: <BodyMain/>,
+        label: 'Đang giao hàng',
+        children: <BodyMain status={3}/>,
     },
     {
         key: '4',
-        label: 'Đang giao hàng',
-        children: <BodyMain/>,
+        label: 'Đã giao hàng',
+        children: <BodyMain status={4}/>,
     },
     {
-        key: '5',
-        label: 'Đã giao hàng',
-        children: <BodyMain/>,
+      key: '5',
+      label: 'Khách hàng đã hủy',
+      children: <BodyMain status={5}/>,
     },
     {
       key: '6',
-      label: 'Khách hàng đã hủy',
-      children: <BodyMain/>,
+      label: 'Người bán đã hủy',
+      children: <BodyMain status={6}/>,
     },
     {
       key: '7',
-      label: 'Người bán đã hủy',
-      children: <BodyMain/>,
-    },
-    {
-      key: '8',
       label: 'Đã trả hàng',
-      children: <BodyMain/>,
+      children: <BodyMain status={7}/>,
     },
     ];
     const cx = classname.bind(styles);
@@ -65,7 +61,7 @@ export const Tab = () => {
       {items.map((tab) => { 
         const { key, label, children } = tab;
         return (
-          <Tabs.TabPane key={key} tab={label} className={cx("tabPane")}>
+          <Tabs.TabPane  key={key} tab={label} className={cx("tabPane")}>
             {children}
           </Tabs.TabPane>
         );

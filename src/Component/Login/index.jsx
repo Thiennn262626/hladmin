@@ -25,11 +25,11 @@ export default function Login() {
 }
   const res = await loginService.login(data)
   if(res){
-    navigate("/");
-
+    //load lại trang
+    window.location.href = "/order";
+    // navigate("/order");
   }
   }
-
   return (
   
     <div className={cx("body")}>
@@ -49,12 +49,7 @@ export default function Login() {
               />
               <div className={cx("error-input")}></div>
               <span></span>
-            </div>
-            {/* <div className={cx("input">
-                            <input type="email" placeholder="Email" />
-                            <div className={cx("error-input"></div>
-                            <span></span>
-                        </div> */}
+            </div>        
             <div className={cx("input")}>
               <input
                 name="password"
@@ -66,18 +61,10 @@ export default function Login() {
               />
               <div className={cx("error-input")}></div>
               <span></span>
-            </div>
-            {/* <div className={cx("input">
-                            <input type="password" placeholder="Confirm Password" />
-                            <div className={cx("error-input"></div>
-                            <span></span>
-                        </div> */}
+            </div>        
           </div>
           <button className={cx("loginbtn")}  onClick={login}>Đăng nhập</button>
-          {/* <div className={cx('signup')}>
-                            Already have an account?
-                            <a href="#"> Signup</a>
-                        </div> */}
+         
         </div>
       </div>
     </div>

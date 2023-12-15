@@ -3,7 +3,9 @@
 }
 
 .tab {
-    margin: 20px 10px;
+    margin: 20px 250px;
+    padding-top: 20px;
+    background-color: #ffffff;
 }
 .tabPane{
     background-color: #fff;
@@ -29,10 +31,12 @@
     background-color: #fff;
     transition: background-color 0.3s ease;
     padding: 10px;
+    width: 100%;
 }
 
 .orderContent { 
     display: flex;
+    width: 100%;
 }
 
 .orderCode {
@@ -53,6 +57,7 @@
     flex-direction: column;
     flex-wrap: wrap;
     flex: 1;
+    width: 100%;
 }
 
 .orderItemDetail {
@@ -63,6 +68,7 @@
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
+    width: 100%;
 }
 
 .imgAndInfo {
@@ -85,6 +91,7 @@
 .productName {
     font-weight: bold;
     margin-bottom: 0px;
+    width: 100%;
 }
 
 .priceAndQuantity p {
@@ -104,6 +111,7 @@
     flex-shrink: 0;
     padding-left: 20px;
     text-align: right;
+    margin-right: 20px;
 }
 
 .feeShipColumn,

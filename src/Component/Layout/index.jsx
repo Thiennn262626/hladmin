@@ -3,35 +3,45 @@ import { Outlet } from "react-router-dom";
 import Header1 from "./Header/index";
 import ModelLogin from "../Login/ModelLogin/index";
 import { Layout, Space } from "antd";
-const { Header, Footer, Sider, Content } = Layout;
+import { useEffect } from "react";
+import { loginService } from "../../services/loginService";
+const { Header, Sider, Content } = Layout;
 
 const Index = () => {
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      window.location.href = "/login";
+    }
+    else {
+      const getProfile = async () => {
+        const res = await loginService.getProfile();
+        if (res) {
+          localStorage.setItem("user", JSON.stringify(res));
+        }
+      }
+      getProfile();
+    }
+  }, []);
   const headerStyle = {
     textAlign: "center",
-    color: "#fff",
-    height: 64,
-    paddingInline: 50,
-    lineHeight: "64px",
-    backgroundColor: "#7dbcea",
+    width: "100%",
+    backgroundColor: "#ffffff",
   };
   const contentStyle = {
     textAlign: "center",
     minHeight: 120,
     lineHeight: "120px",
     color: "#fff",
-    backgroundColor: "#108ee9",
+    backgroundColor: "#F5F6F9",
   };
   const siderStyle = {
     textAlign: "center",
     lineHeight: "120px",
     color: "#fff",
-    backgroundColor: "#3ba0e9",
+    backgroundColor: "#ffffff",
   };
-  const footerStyle = {
-    textAlign: "center",
-    color: "#fff",
-    backgroundColor: "#7dbcea",
-  };
+
   return (
     <>
       <Space
@@ -42,11 +52,11 @@ const Index = () => {
         size={[0, 48]}
       >
         <Layout>
-            <ModelLogin/>
-          <Header style={headerStyle}>{<Header1/>}</Header>
+          <ModelLogin />
+          <Header style={headerStyle}>{<Header1 />}</Header>
           <Layout hasSider>
             <Sider style={siderStyle}>Sider</Sider>
-            <Content style={contentStyle}>{<Outlet/>}</Content>
+            <Content style={contentStyle}>{<Outlet />}</Content>
           </Layout>
           {/* <Footer style={footerStyle}>{ <Footer1/>}</Footer> */}
         </Layout>
