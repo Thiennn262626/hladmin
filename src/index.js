@@ -9,8 +9,8 @@ import {
   Login,
   Details,
   Model,
-  Cart,
   Order,
+  AddProduct
 } from "./Component";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -37,7 +37,10 @@ const router = createBrowserRouter([
         path: "/order",
         element: <Order />,
       },
-
+      {
+        path: "/add-product",
+        element: <AddProduct />,
+      },
       {
         path: "detail/",
         element: <Outlet />,
@@ -49,30 +52,6 @@ const router = createBrowserRouter([
         ],
       },
 
-      {
-        path: "cart/",
-        element: (
-          <CheckLogin>
-            {" "}
-            <Cart />
-          </CheckLogin>
-        ),
-      },
-      {
-        path: "pay/",
-        element: (
-          <CheckLogin>
-            {" "}
-            <Outlet />
-          </CheckLogin>
-        ),
-        children: [
-          {
-            path: ":id",
-            element: <Pay />,
-          },
-        ],
-      },
     ],
   },
   {
