@@ -1,4 +1,53 @@
 import { createSlice } from "@reduxjs/toolkit";
+
+const handleAddAttribute = (items, dataAttribute) => {
+    if (items.length === 0)
+        return []
+    else{
+        let data = [];
+        items.forEach((item) => {
+            let attributeValue = [];
+            dataAttribute.forEach((data) => {
+                if (data.locAttributeName === item) {
+                    attributeValue.push({
+                        locAttributeValueName: data.locAttributeValueName,
+                        mediaID: data.mediaID
+                    })
+                }
+            })
+            data.push({
+                locAttributeName: item,
+                attributeValue: attributeValue
+            })
+        }
+        )
+        return data;
+    }
+}
+// const handleAddAttribute = (items, dataAttribute) => {
+//     if (items.length === 0)
+//         return []
+//     else{
+//         let data = [];
+//         items.forEach((item) => {
+//             let attributeValue = [];
+//             dataAttribute.forEach((data) => {
+//                 if (data.locAttributeName === item) {
+//                     attributeValue.push({
+//                         locAttributeValueName: data.locAttributeValueName,
+//                         mediaID: data.mediaID
+//                     })
+//                 }
+//             })
+//             data.push({
+//                 locAttributeName: item,
+//                 attributeValue: attributeValue
+//             })
+//         }
+//         )
+//         return data;
+//     }
+// }
 const counterSlice = createSlice({
     name: "counter",
     initialState: {
@@ -21,7 +70,10 @@ const counterSlice = createSlice({
             avatarMediaIDS: [],
             attributes: [],
             productSKUs: [],
-        }
+        },
+        items: [],
+        dataAttribute: []
+
     },
     reducers: {
         setUser(state, action) {
@@ -71,6 +123,14 @@ const counterSlice = createSlice({
         , setUses(state, action) {
             state.dataPost.uses = action.payload;
         },
+        setItems(state, action) {
+            state.items = action.payload;
+        },
+        setDataAttribute(state, action) {
+            state.dataAttribute = action.payload;
+            console.log("dataAttribute", state.dataAttribute);
+
+        }
 
 
     },
@@ -91,6 +151,8 @@ export const {
     setProductCategoryID,
     setMadeIn,
     setUses,
-    
+    setItems,
+    setDataAttribute
+
 } = counterSlice.actions;
 export default counterSlice.reducer;

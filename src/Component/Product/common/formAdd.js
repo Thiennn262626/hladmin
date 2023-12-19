@@ -1,6 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { PlusOutlined } from '@ant-design/icons';
-import { productServices } from '../../../services/productService'
+import React from 'react';
 import FormAddImg from './formImg'
 import FormInfo from './formInfo'
 import FormAttributes from './formAttributes'
@@ -8,7 +6,7 @@ import {
   Form,
 } from 'antd';
 
-const FormDisabledDemo = () => {
+const Index = () => {
 
 
 
@@ -28,4 +26,4 @@ const FormDisabledDemo = () => {
 
   );
 };
-export default FormDisabledDemo;
+export default Index;

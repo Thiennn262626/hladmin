@@ -5,7 +5,7 @@ const index = () => {
   return (
     <div>
       <div >
-        {/* <FormAdd /> */}
+        <FormAdd />
       </div>
     </div>
 

@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setAvatars } from '../../slice/couterSlice';
 
 
-const FormAddImg = () => {
+const Index = () => {
   const dispatch = useDispatch();
   const avatarMediaIDS = useSelector(state => state.counter.avatars);
   const [fileList, setFileList] = useState([]);
@@ -64,4 +64,4 @@ const FormAddImg = () => {
     </Form.Item>
   );
 };
-export default FormAddImg;
+export default Index;
