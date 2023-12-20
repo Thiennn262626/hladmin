@@ -12,10 +12,13 @@ import { Avatar, Space } from 'antd';
 const cx = classname.bind(styles);
 function Header() {
   const navigate = useNavigate();
-  const confirm = () => {
-    localStorage.removeItem("user");
-    navigate("./login");
+  const clickOrder = () => {
+    navigate("/order");
   };
+  const clickCart = () => {
+    navigate("/add-product");
+  };
+
   return (
     <div className='w-full h-100'>
       <div className={cx("inner")}>
@@ -28,12 +31,11 @@ function Header() {
           <img className={cx("avt")} src={logo} alt="" />
         </div>
         <div className={cx("menu")}>
-          <ul>Order</ul>
+          <ul onClick={clickOrder} className="hover:text-blue-600">Order</ul>
+          <ul onClick={clickCart}  className="hover:text-blue-600">Product</ul>
         </div>
         <div className={cx("actions")}>
-
           <div className={cx("account")}>
-
             {localStorage.getItem("user") ? (
               <span
                 onClick={() => {
@@ -44,14 +46,12 @@ function Header() {
               >
                 <div className={cx("profile")} >
                   <Space className={cx("profileATV")} size={24} wrap>
-                    {JSON.parse(localStorage.getItem("user"))?.userAvatar ?   <Avatar src={<img src={JSON.parse(localStorage.getItem("user"))?.userAvatar} alt="avatar" />} /> :  <Avatar icon={ <UserOutlined />} />}
-                  
+                    {JSON.parse(localStorage.getItem("user"))?.userAvatar ? 
+                      <Avatar src={<img src={JSON.parse(localStorage.getItem("user"))?.userAvatar} alt="avatar" />} /> : 
+                       <Avatar icon={ <UserOutlined />} />}                 
                   </Space>
-                  
-                    {JSON.parse(localStorage.getItem("user"))?.contactFullName}
-                  
+                    {JSON.parse(localStorage.getItem("user"))?.contactFullName}                  
                 </div>
-
               </span>
             ) : (
               <>
@@ -64,7 +64,6 @@ function Header() {
                   Đăng nhập
                 </span>
               </>
-
             )}
           </div>
         </div>

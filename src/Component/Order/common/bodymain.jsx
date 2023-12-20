@@ -47,7 +47,6 @@ const Bodymain = ({ status }) => {
         const actionDateDate = new Date(actionDate);
         const timeDifference = currentDate - actionDateDate;
         const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
-        console.log("daysDifference: " + daysDifference);
         return daysDifference >= 10;
     }
 

@@ -5,8 +5,7 @@ import ModelLogin from "../Login/ModelLogin/index";
 import { Layout, Space } from "antd";
 import { useEffect } from "react";
 import { loginService } from "../../services/loginService";
-const { Header, Sider, Content } = Layout;
-
+const { Header, Sider, Content,  } = Layout;
 const Index = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -41,7 +40,6 @@ const Index = () => {
     color: "#fff",
     backgroundColor: "#ffffff",
   };
-
   return (
     <>
       <Space
@@ -58,7 +56,6 @@ const Index = () => {
             <Sider style={siderStyle}>Sider</Sider>
             <Content style={contentStyle}>{<Outlet />}</Content>
           </Layout>
-          {/* <Footer style={footerStyle}>{ <Footer1/>}</Footer> */}
         </Layout>
       </Space>
     </>

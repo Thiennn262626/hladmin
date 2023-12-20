@@ -8,3 +8,4 @@ export { default as Model } from "./Login/ModelLogin";
 export { default as Cart } from "./Cart";
 export { default as Item } from "./Item";
 export { default as Order } from "./Order";
+export { default as AddProduct } from "./Product";

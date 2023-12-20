@@ -23,7 +23,7 @@ async function getProfile() {
       `/api/hlshop/admin/users/get-profile`, 
     );
     if (response) {
-      console.log(response);
+     
       return response;
     }
   } catch (error) {
