@@ -17,7 +17,7 @@ import { Provider } from "react-redux";
 import counterReducer from "./Component/slice/couterSlice";
 import "./index.css";
 import { configureStore } from "@reduxjs/toolkit";
-import Test from "./Test";
+import Test from "./Test.tsx";
 const storeNodemy = configureStore({
   reducer: {
     counter: counterReducer,
@@ -31,7 +31,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: <Order />,
       },
       {
         path: "/order",

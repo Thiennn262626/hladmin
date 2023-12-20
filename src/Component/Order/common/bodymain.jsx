@@ -74,10 +74,12 @@ const Bodymain = ({ status }) => {
             render: (orderCode, dataOrder) => (
                 <div className={cx("orderContainer")}>
                     <div className={cx("actionColumn")}>
-                        <p > Mã đơn hàng: {orderCode}  </p>
+                        <div>
+                        <p className='mb-[20px]'> Mã đơn hàng: {orderCode}  </p>
                         <div className={cx("feeShipColumn")}>Phí vận chuyển: {dataOrder.orderShippingFee.shippingFee}</div>
                         <div className={cx("totalPriceColumn")}>Tổng giá: {calculateTotalPrice(dataOrder)}</div>
-                        <div className={cx("actionColumn")}>
+                        </div>
+                        <div className={cx("")}>
                             {status === 0 && (dataOrder?.paymentMethod === 0 || (dataOrder?.finishPay === true && dataOrder?.paymentMethod === 1)) ?
                                 <div className='flex flex-col pr-[7px]'>
                                     <Button className='!bg-sky-500 mb-[3px]' onClick={() => handleSetStatus(dataOrder.orderID, 2)} type="primary">Xác nhận</Button>
