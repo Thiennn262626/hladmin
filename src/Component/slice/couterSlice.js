@@ -1,53 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const handleAddAttribute = (items, dataAttribute) => {
-    if (items.length === 0)
-        return []
-    else{
-        let data = [];
-        items.forEach((item) => {
-            let attributeValue = [];
-            dataAttribute.forEach((data) => {
-                if (data.locAttributeName === item) {
-                    attributeValue.push({
-                        locAttributeValueName: data.locAttributeValueName,
-                        mediaID: data.mediaID
-                    })
-                }
-            })
-            data.push({
-                locAttributeName: item,
-                attributeValue: attributeValue
-            })
-        }
-        )
-        return data;
-    }
-}
-// const handleAddAttribute = (items, dataAttribute) => {
-//     if (items.length === 0)
-//         return []
-//     else{
-//         let data = [];
-//         items.forEach((item) => {
-//             let attributeValue = [];
-//             dataAttribute.forEach((data) => {
-//                 if (data.locAttributeName === item) {
-//                     attributeValue.push({
-//                         locAttributeValueName: data.locAttributeValueName,
-//                         mediaID: data.mediaID
-//                     })
-//                 }
-//             })
-//             data.push({
-//                 locAttributeName: item,
-//                 attributeValue: attributeValue
-//             })
-//         }
-//         )
-//         return data;
-//     }
-// }
 const counterSlice = createSlice({
     name: "counter",
     initialState: {
@@ -60,13 +12,21 @@ const counterSlice = createSlice({
         isLoading: true,
         avatars: [],
         dataPost: {
-            name: "",
-            slogan: "",
-            description: "",
-            notes: "",
-            productCategoryID: "",
-            madeIn: "",
-            uses: "",
+            productName: "",
+            productSlogan: "",
+            productDescription: "",
+            productNotes: "",
+            productMadeIn: "",
+            productUses: "",
+            productIngredient: "",
+            productObjectsOfUse: "",
+            productPreserve: "",
+            productInstructionsForUse: "",
+            productHeight: "",
+            productWidth: "",
+            productLength: "",
+            productWeight: "",
+            productCategoryID: "",          
             avatarMediaIDS: [],
             attributes: [],
             productSKUs: [],
@@ -102,27 +62,7 @@ const counterSlice = createSlice({
             }));
             console.log("data", state.dataPost);
         },
-        setName(state, action) {
-            state.dataPost.name = action.payload;
-        }
-        , setSlogan(state, action) {
-            state.dataPost.slogan = action.payload;
-        }
-        , setDescription(state, action) {
-            state.dataPost.description = action.payload;
-        }
-        , setNotes(state, action) {
-            state.dataPost.notes = action.payload;
-        }
-        , setProductCategoryID(state, action) {
-            state.dataPost.productCategoryID = action.payload;
-        }
-        , setMadeIn(state, action) {
-            state.dataPost.madeIn = action.payload;
-        }
-        , setUses(state, action) {
-            state.dataPost.uses = action.payload;
-        },
+
         setItems(state, action) {
             state.items = action.payload;
         },
@@ -131,6 +71,63 @@ const counterSlice = createSlice({
             console.log("dataAttribute", state.dataAttribute);
 
         }
+        , setAttributess(state, action) {
+            state.dataPost.attributes = action.payload;
+            console.log("attributes", state.dataPost.attributes);
+            console.log("datapost", state.dataPost);
+        }
+        , setProductSKUs(state, action) {
+            state.dataPost.productSKUs = action.payload;
+            console.log("productSKUs", state.dataPost.productSKUs);
+            console.log("datapost", state.dataPost);
+        },
+        setProductName(state, action) {
+            state.dataPost.productName = action.payload;
+        },
+        setProductSlogan(state, action) {
+            state.dataPost.productSlogan = action.payload;
+        },
+        setProductDescription(state, action) {
+            state.dataPost.productDescription = action.payload;
+        },
+        setProductNotes(state, action) {
+            state.dataPost.productNotes = action.payload;
+        },
+        setProductMadeIn(state, action) {
+            state.dataPost.productMadeIn = action.payload;
+        },
+        setProductUses(state, action) {
+            state.dataPost.productUses = action.payload;
+        },
+        setProductIngredient(state, action) {
+            state.dataPost.productIngredient = action.payload;
+        },
+        setProductObjectsOfUse(state, action) {
+            state.dataPost.productObjectsOfUse = action.payload;
+        },
+        setProductPreserve(state, action) {
+            state.dataPost.productPreserve = action.payload;
+        },
+        setProductInstructionsForUse(state, action) {
+            state.dataPost.productInstructionsForUse = action.payload;
+        },
+        setProductHeight(state, action) {
+            state.dataPost.productHeight = action.payload;
+        },
+        setProductWidth(state, action) {
+            state.dataPost.productWidth = action.payload;
+        },
+        setProductLength(state, action) {
+            state.dataPost.productLength = action.payload;
+        },
+        setProductWeight(state, action) {
+            state.dataPost.productWeight = action.payload;
+        },
+        setProductCategoryID(state, action) {
+            state.dataPost.productCategoryID = action.payload;
+        },
+    
+
 
 
     },
@@ -144,15 +141,26 @@ export const {
     setOpenDrawerApply,
     setIdOrder,
     setLoangding,
-    setName,
-    setSlogan,
-    setDescription,
-    setNotes,
-    setProductCategoryID,
-    setMadeIn,
-    setUses,
     setItems,
-    setDataAttribute
+    setDataAttribute,
+    setAttributess,
+    setProductSKUs,
+    setProductName,
+    setProductSlogan,
+    setProductDescription,
+    setProductNotes,
+    setProductMadeIn,
+    setProductUses,
+    setProductIngredient,
+    setProductObjectsOfUse,
+    setProductPreserve,
+    setProductInstructionsForUse,
+    setProductHeight,
+    setProductWidth,
+    setProductLength,
+    setProductWeight,
+    setProductCategoryID,
+
 
 } = counterSlice.actions;
 export default counterSlice.reducer;

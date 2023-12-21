@@ -1,8 +1,7 @@
 import React from "react";
 import FormAddImg from "./formImg";
 import FormInfo from "./formInfo";
-import FormAttributes from "./formAttributes";
-import Test from "../../../Test.tsx";
+import ImputInfoItem from "./ImputInfoItem.tsx";
 import { Form } from "antd";
 
 const Index = () => {
@@ -16,8 +15,7 @@ const Index = () => {
     >
       <FormAddImg />
       <FormInfo />
-      <FormAttributes />
-      <Test />
+      <ImputInfoItem />
     </Form>
   );
 };

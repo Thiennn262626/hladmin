@@ -47,7 +47,7 @@ const Index = () => {
                 <Form.Item label="Phân loại">
                     <Space>
                         <Input
-                            placeholder="Please enter item"
+                            placeholder="Tối đa 2 phân loại"
                             ref={inputRef}
                             value={name}
                             onChange={onNameChange}
