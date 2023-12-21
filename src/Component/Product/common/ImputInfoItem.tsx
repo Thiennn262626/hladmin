@@ -1,9 +1,14 @@
-import { useRef, Fragment } from 'react';
-import { productServices } from './services/productService'
-import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
+import { useRef, Fragment, useEffect } from 'react';
+import { productServices } from '../../../services/productService'
+import { PlusOutlined, DeleteOutlined, SaveOutlined } from '@ant-design/icons';
 import { Space, Tag } from 'antd';
 import React, { useState } from 'react';
-import { notify } from './utils/notify';
+import { notify } from '../../../utils/notify';
+import {
+  setAttributess,
+  setProductSKUs
+} from '../../../Component/slice/couterSlice';
+import { useDispatch } from 'react-redux';
 import {
   Form,
   Input,
@@ -30,12 +35,18 @@ type SKU = {
 };
 
 export default function TestPhanLoai() {
+  const dispatch = useDispatch();
   const [attributes, setAttributes] = useState<attributes[]>([]);
   const [SKUs, setSKUs] = useState<{ price: number; totalStock: number; priceBefore: number }[]>([]);
   const initialSKUs = [
     { price: 0, totalStock: 0, priceBefore: 0 },
   ];
 
+
+  const saveRedux = () => {
+    dispatch(setAttributess(attributes));
+    dispatch(setProductSKUs(SKUs));
+  };
   const resetSKUs = () => {
     setSKUs(initialSKUs);
   };
@@ -223,7 +234,11 @@ export default function TestPhanLoai() {
     <>
       <div>
         <Divider />
-        <b className='!pb-[20px]'>Thông tin bán hàng:</b>
+        <b className='!pb-[20px]'>Thông tin bán hàng</b>
+        <Button type="text" icon={<SaveOutlined />} onClick={saveRedux}>
+              Save
+            </Button>
+
         <Divider />
         <div>
           <Form.Item label="Phân loại">
@@ -268,8 +283,13 @@ export default function TestPhanLoai() {
           <Divider />
         </div>
         {attributes.length > 0 &&
+          //<<<SaveOutlined /> /> />
           <div className='!w-full'>
-            <b className='!pb-[20px]'>Thông tin phân loại:</b>
+            <b className='!pb-[20px] !pr-[20px]'>Thông tin phân loại</b>
+            <Button type="text" icon={<SaveOutlined />} onClick={saveRedux}>
+              Save
+            </Button>
+
             <div className='flex  m-[15px] !w-full'>
               <div className='w-[20%]'>
                 {attributes.map((attribute, index) =>
@@ -476,119 +496,119 @@ export default function TestPhanLoai() {
                         <>
                           <Divider className='!w-full' />
                           <Fragment key={index1}>
-                            {attributes[1].attributesValue.map((c2, index2) => (                         
-                                <tr   key={`${index1}${index2}`}>
-                                  {index2 === 0 ?
-                                    <td className='!h-full'>
-                                      {c1.mediaID !== "" && (
-                                        <div
+                            {attributes[1].attributesValue.map((c2, index2) => (
+                              <tr key={`${index1}${index2}`}>
+                                {index2 === 0 ?
+                                  <td className='!h-full'>
+                                    {c1.mediaID !== "" && (
+                                      <div
+                                        style={{
+                                          position: 'relative',
+                                          width: '102px', // Đặt kích thước vuông ở đây (ví dụ: 100px)
+                                          height: '102px', // Đặt kích thước vuông ở đây (ví dụ: 100px)
+                                          overflow: 'hidden',
+                                          borderRadius: '8px',
+                                          border: '1px dashed gray',
+                                        }}
+                                      >
+                                        <Image
+                                          preview={false}
+                                          width={'100%'}
+                                          height={'100%'}
+                                          src={c1.urlMedia}
                                           style={{
-                                            position: 'relative',
-                                            width: '102px', // Đặt kích thước vuông ở đây (ví dụ: 100px)
-                                            height: '102px', // Đặt kích thước vuông ở đây (ví dụ: 100px)
-                                            overflow: 'hidden',
-                                            borderRadius: '8px',
-                                            border: '1px dashed gray',
+                                            objectFit: 'cover', // Đảm bảo ảnh fit đúng vào kích thước vuông
                                           }}
-                                        >
-                                          <Image
-                                            preview={false}
-                                            width={'100%'}
-                                            height={'100%'}
-                                            src={c1.urlMedia}
-                                            style={{
-                                              objectFit: 'cover', // Đảm bảo ảnh fit đúng vào kích thước vuông
-                                            }}
-                                          />
-                                          <Button
-                                            type="text"
-                                            shape="circle"
-                                            size='large'
-                                            icon={<DeleteOutlined />}
-                                            style={{
-                                              position: 'absolute',
-                                              top: '50%',
-                                              left: '50%',
-                                              transform: 'translate(-50%, -50%)',
-                                              zIndex: 1,
-                                            }}
-                                            onClick={() => {
+                                        />
+                                        <Button
+                                          type="text"
+                                          shape="circle"
+                                          size='large'
+                                          icon={<DeleteOutlined />}
+                                          style={{
+                                            position: 'absolute',
+                                            top: '50%',
+                                            left: '50%',
+                                            transform: 'translate(-50%, -50%)',
+                                            zIndex: 1,
+                                          }}
+                                          onClick={() => {
+                                            handleChangeAttributeValueMedia(0, index1, "", "");
+                                          }}
+                                        />
+                                      </div>
+                                    )}
+                                    {c1.mediaID === "" && (
+                                      <div>
+                                        <Form.Item name="upload">
+                                          <Upload
+                                            listType="picture-card"
+                                            onRemove={() => {
                                               handleChangeAttributeValueMedia(0, index1, "", "");
                                             }}
-                                          />
-                                        </div>
-                                      )}
-                                      {c1.mediaID === "" && (
-                                        <div>
-                                          <Form.Item name="upload">
-                                            <Upload
-                                              listType="picture-card"
-                                              onRemove={() => {
-                                                handleChangeAttributeValueMedia(0, index1, "", "");
-                                              }}
-                                              onPreview={() => { console.log("onPreview") }}
-                                              beforeUpload={(file) => {
-                                                uploadImagePL(file, 0, index1);
-                                              }}
-                                            >
-                                              {c1.mediaID === "" && (
-                                                <div>
-                                                  <PlusOutlined />
-                                                  <div
-                                                    style={{
-                                                      marginTop: 8,
-                                                    }}
-                                                  >
-                                                    Upload
-                                                  </div>
+                                            onPreview={() => { console.log("onPreview") }}
+                                            beforeUpload={(file) => {
+                                              uploadImagePL(file, 0, index1);
+                                            }}
+                                          >
+                                            {c1.mediaID === "" && (
+                                              <div>
+                                                <PlusOutlined />
+                                                <div
+                                                  style={{
+                                                    marginTop: 8,
+                                                  }}
+                                                >
+                                                  Upload
                                                 </div>
-                                              )}
+                                              </div>
+                                            )}
 
-                                            </Upload>
-                                          </Form.Item>
-                                        </div>
-                                      )}
-                                    </td>
-                                    : <td className='!mp-[51px]'></td>}
-                                  <td className='!mp-[51px]'>{c1.locAttributeValueName}</td>
-                                  <td>{c2.locAttributeValueName}</td>
-                                  <td>
-                                    <Input
-                                      value={SKUs[index1 * attributes[1].attributesValue.length + index2]?.price || ''}
-                                      onChange={(e) => {
-                                        handleChangeValue(
-                                          index1 * attributes[1].attributesValue.length + index2,
-                                          'price',
-                                          e.target.value
-                                        );
-                                      }}
-                                    />
+                                          </Upload>
+                                        </Form.Item>
+                                      </div>
+                                    )}
                                   </td>
-                                  <td>
-                                    <Input
-                                      value={SKUs[index1 * attributes[1].attributesValue.length + index2]?.priceBefore || ''}
-                                      onChange={(e) => {
-                                        handleChangeValue(
-                                          index1 * attributes[1].attributesValue.length + index2,
-                                          'priceBefore',
-                                          e.target.value
-                                        );
-                                      }}
-                                    />
-                                  </td>
-                                  <td>
-                                    <Input
-                                      value={SKUs[index1 * attributes[1].attributesValue.length + index2]?.totalStock || ''}
-                                      onChange={(e) => {
-                                        handleChangeValue(
-                                          index1 * attributes[1].attributesValue.length + index2,
-                                          'totalStock',
-                                          e.target.value
-                                        );
-                                      }}
-                                    />
-                                  </td>
-                                </tr>                             
+                                  : <td className='!mp-[51px]'></td>}
+                                <td className='!mp-[51px]'>{c1.locAttributeValueName}</td>
+                                <td>{c2.locAttributeValueName}</td>
+                                <td>
+                                  <Input
+                                    value={SKUs[index1 * attributes[1].attributesValue.length + index2]?.price || ''}
+                                    onChange={(e) => {
+                                      handleChangeValue(
+                                        index1 * attributes[1].attributesValue.length + index2,
+                                        'price',
+                                        e.target.value
+                                      );
+                                    }}
+                                  />
+                                </td>
+                                <td>
+                                  <Input
+                                    value={SKUs[index1 * attributes[1].attributesValue.length + index2]?.priceBefore || ''}
+                                    onChange={(e) => {
+                                      handleChangeValue(
+                                        index1 * attributes[1].attributesValue.length + index2,
+                                        'priceBefore',
+                                        e.target.value
+                                      );
+                                    }}
+                                  />
+                                </td>
+                                <td>
+                                  <Input
+                                    value={SKUs[index1 * attributes[1].attributesValue.length + index2]?.totalStock || ''}
+                                    onChange={(e) => {
+                                      handleChangeValue(
+                                        index1 * attributes[1].attributesValue.length + index2,
+                                        'totalStock',
+                                        e.target.value
+                                      );
+                                    }}
+                                  />
+                                </td>
+                              </tr>
                             ))}
                           </Fragment>
                         </>
@@ -643,6 +663,7 @@ export default function TestPhanLoai() {
               }}
             />
           </Form.Item>
+
         </div>
       )}
 
