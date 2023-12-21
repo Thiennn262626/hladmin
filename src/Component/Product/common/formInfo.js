@@ -190,6 +190,16 @@ const Index = () => {
         <Form.Item label="Description">
           <TextArea rows={4} maxLength={1000} value={description} onChange={onChangeProductDescription} />
         </Form.Item>
+        <Form.Item label="Category">
+          <Select value={categoryID} onChange={onChangeProductCategoryID}>
+            {category.length > 0 &&
+              category.map((item) => (
+                <Select.Option key={item.productCategoryID} value={item.productCategoryID}>
+                  {item.productCategoryName}
+                </Select.Option>
+              ))}
+          </Select>
+        </Form.Item>
         <Form.Item label="Note ">
           <TextArea rows={3} maxLength={1000} value={notes} onChange={onChangeProductNotes} />
         </Form.Item>
@@ -211,6 +221,10 @@ const Index = () => {
         <Form.Item label="Instructions">
           <TextArea rows={3} maxLength={500} value={instructionsForUse} onChange={onChangeProductInstructionsForUse} />
         </Form.Item>
+        <b className='!pb-[20px] !pr-[20px]'>Thông tin vận chuyển</b>
+            <Button type="text" icon={<DeleteOutlined />} onClick={clearInput}>
+              Clean
+            </Button>
         <Form.Item label="Height">
           <Input maxLength={30} value={height} onChange={onChangeProductHeight} />
         </Form.Item>
@@ -224,16 +238,7 @@ const Index = () => {
           <Input maxLength={30} value={weight} onChange={onChangeProductWeight} />
         </Form.Item>
   
-        <Form.Item label="Category">
-          <Select value={categoryID} onChange={onChangeProductCategoryID}>
-            {category.length > 0 &&
-              category.map((item) => (
-                <Select.Option key={item.productCategoryID} value={item.productCategoryID}>
-                  {item.productCategoryName}
-                </Select.Option>
-              ))}
-          </Select>
-        </Form.Item>
+       
         
       </>
 
