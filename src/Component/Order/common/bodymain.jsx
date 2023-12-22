@@ -81,20 +81,20 @@ const Bodymain = ({ status }) => {
                         <div className={cx("")}>
                             {status === 0 && (dataOrder?.paymentMethod === 0 || (dataOrder?.finishPay === true && dataOrder?.paymentMethod === 1)) ?
                                 <div className='flex flex-col pr-[7px]'>
-                                    <Button className='!bg-sky-500 mb-[3px]' onClick={() => handleSetStatus(dataOrder.orderID, 2)} type="primary">Xác nhận</Button>
-                                    <Button className='!bg-red-500 mb-[3px]' onClick={() => handleSetStatus(dataOrder.orderID, 6)} type="primary">Hủy đơn hàng</Button>
+                                    <Button className='!bg-sky-500 mb-[3px]' onClick={() => handleSetStatus(dataOrder.orderID, 1)} type="primary">Xác nhận</Button>
+                                    {/* <Button className='!bg-red-500 mb-[3px]' onClick={() => handleSetStatus(dataOrder.orderID, 6)} type="primary">Hủy đơn hàng</Button> */}
                                 </div>
                                 : status === 0 && (dataOrder?.finishPay === false && dataOrder?.paymentMethod === 1) &&
                                 <div className='flex flex-col pr-[7px]'>
                                     <p className='!text-red-500'> Khách chưa thanh toán    </p>
-                                    <Button className='!bg-red-500 mb-[3px]' onClick={() => handleSetStatus(dataOrder.orderID, 6)} type="primary">Hủy đơn hàng</Button>
+                                    {/* <Button className='!bg-red-500 mb-[3px]' onClick={() => handleSetStatus(dataOrder.orderID, 6)} type="primary">Hủy đơn hàng</Button> */}
 
                                 </div>
                             }
                             {status === 1 &&
                                 <div className='flex flex-col pr-[7px]'>
                                     <Button className='!bg-green-500  mb-[3px]' onClick={() => handleSetStatus(dataOrder.orderID, 2)} type="primary">Đóng gói</Button>
-                                    <Button className='!bg-red-500 mb-[3px]' onClick={() => handleSetStatus(dataOrder.orderID, 6)} type="primary">Hủy đơn hàng</Button>
+                                    {/* <Button className='!bg-red-500 mb-[3px]' onClick={() => handleSetStatus(dataOrder.orderID, 6)} type="primary">Hủy đơn hàng</Button> */}
 
                                 </div>
 

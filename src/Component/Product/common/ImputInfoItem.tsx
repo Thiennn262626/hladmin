@@ -19,7 +19,7 @@ import {
 } from 'antd';
 type attributes = {
   locAttributeName: string;
-  attributesValue: attributeValue[];
+  attributeValue: attributeValue[];
 };
 
 type attributeValue = {
@@ -78,11 +78,11 @@ export default function TestPhanLoai() {
 
       if (
         newAttributes[attributeIndex] &&
-        newAttributes[attributeIndex].attributesValue &&
-        newAttributes[attributeIndex].attributesValue[valueIndex]
+        newAttributes[attributeIndex].attributeValue &&
+        newAttributes[attributeIndex].attributeValue[valueIndex]
       ) {
-        newAttributes[attributeIndex].attributesValue[valueIndex] = {
-          ...newAttributes[attributeIndex].attributesValue[valueIndex],
+        newAttributes[attributeIndex].attributeValue[valueIndex] = {
+          ...newAttributes[attributeIndex].attributeValue[valueIndex],
           mediaID: mediaID,
           urlMedia: urlMedia,
         };
@@ -101,7 +101,7 @@ export default function TestPhanLoai() {
           ...prevAttributes,
           {
             locAttributeName: '',
-            attributesValue: [
+            attributeValue: [
               {
                 locAttributeValueName: 'Loại 1',
                 mediaID: '',
@@ -119,8 +119,8 @@ export default function TestPhanLoai() {
   const handleDeleteItemInAttributes = (index: number) => {
     resetSKUs();
     setAttributes((prevAttributes) => {
-      prevAttributes[index].attributesValue.forEach((value) => {
-        handleChangeAttributeValueMedia(index, prevAttributes[index].attributesValue.indexOf(value), "", "");
+      prevAttributes[index].attributeValue.forEach((value) => {
+        handleChangeAttributeValueMedia(index, prevAttributes[index].attributeValue.indexOf(value), "", "");
       }
       );
       // Use the functional form of setAttributes to ensure the update is based on the latest state
@@ -135,8 +135,8 @@ export default function TestPhanLoai() {
     setAttributes((prevAttributes) => {
       const newAttributes = [...prevAttributes];
 
-      if (newAttributes[attributeIndex] && newAttributes[attributeIndex].attributesValue[valueIndex]) {
-        newAttributes[attributeIndex].attributesValue[valueIndex].locAttributeValueName = locAttributeValueName;
+      if (newAttributes[attributeIndex] && newAttributes[attributeIndex].attributeValue[valueIndex]) {
+        newAttributes[attributeIndex].attributeValue[valueIndex].locAttributeValueName = locAttributeValueName;
       }
 
       return newAttributes;
@@ -152,8 +152,8 @@ export default function TestPhanLoai() {
         if (index === attributeIndex) {
           return {
             ...attribute,
-            attributesValue: [
-              ...attribute.attributesValue,
+            attributeValue: [
+              ...attribute.attributeValue,
               {
                 locAttributeValueName: '',
                 mediaID: '',
@@ -170,7 +170,7 @@ export default function TestPhanLoai() {
 
   const handleDeleteItemInAttributeValue = (attributeIndex: number, valueIndex: number) => {
     //nếu còn 1 phần tử thì không cho xóa
-    if (attributes[attributeIndex].attributesValue.length === 1) {
+    if (attributes[attributeIndex].attributeValue.length === 1) {
       notify.notify1('Phải có ít nhất 1 loại', 'info');
       return;
     }
@@ -180,11 +180,11 @@ export default function TestPhanLoai() {
       return prevAttributes.map((attribute, index) => {
         if (index === attributeIndex) {
           // Check if there's more than one element before applying the filter
-          if (attribute.attributesValue.length > 1) {
+          if (attribute.attributeValue.length > 1) {
             handleChangeAttributeValueMedia(attributeIndex, valueIndex, "", "");
             return {
               ...attribute,
-              attributesValue: attribute.attributesValue.filter((_, i) => i !== valueIndex),
+              attributeValue: attribute.attributeValue.filter((_, i) => i !== valueIndex),
             };
           }
         }
@@ -236,8 +236,8 @@ export default function TestPhanLoai() {
         <Divider />
         <b className='!pb-[20px]'>Thông tin bán hàng</b>
         <Button type="text" icon={<SaveOutlined />} onClick={saveRedux}>
-              Save
-            </Button>
+          Save
+        </Button>
 
         <Divider />
         <div>
@@ -321,7 +321,7 @@ export default function TestPhanLoai() {
                             return;
                           }
                           handleAddItemToAttributeValue(index)
-                          handleChangeAttributeValue(index, attribute.attributesValue.length, name1);
+                          handleChangeAttributeValue(index, attribute.attributeValue.length, name1);
                           setName1('');
                         }}>
                           Add
@@ -330,7 +330,7 @@ export default function TestPhanLoai() {
 
 
                       <span className=''>Danh sách loại:  <b className='!pb-[20px]'> {attribute.locAttributeName}</b> </span>
-                      {attribute.attributesValue.map((value, valueIndex) => (
+                      {attribute.attributeValue.map((value, valueIndex) => (
                         <div className='mb-[5px] mt-[5px] flex items-center mb-15' key={valueIndex}>
                           <Input
                             value={value.locAttributeValueName}
@@ -364,7 +364,7 @@ export default function TestPhanLoai() {
                         <th className="border p-2">Giá before</th>
                         <th className="border p-2">Kho hàng</th>
                       </tr>
-                      {attributes[0].attributesValue.map((c1, index1) => (
+                      {attributes[0].attributeValue.map((c1, index1) => (
                         <Fragment key={index1}>
                           <tr key={`${index1}`} className='h-[135px]'>
                             {/* <td>{c1.locAttributeValueName}</td>  */}
@@ -492,11 +492,11 @@ export default function TestPhanLoai() {
                         <th className="border p-2 rounded-br-md">Kho hàng</th>
                       </tr>
 
-                      {attributes[0].attributesValue.map((c1, index1) => (
+                      {attributes[0].attributeValue.map((c1, index1) => (
                         <>
                           <Divider className='!w-full' />
                           <Fragment key={index1}>
-                            {attributes[1].attributesValue.map((c2, index2) => (
+                            {attributes[1].attributeValue.map((c2, index2) => (
                               <tr key={`${index1}${index2}`}>
                                 {index2 === 0 ?
                                   <td className='!h-full'>
@@ -574,10 +574,10 @@ export default function TestPhanLoai() {
                                 <td>{c2.locAttributeValueName}</td>
                                 <td>
                                   <Input
-                                    value={SKUs[index1 * attributes[1].attributesValue.length + index2]?.price || ''}
+                                    value={SKUs[index1 * attributes[1].attributeValue.length + index2]?.price || ''}
                                     onChange={(e) => {
                                       handleChangeValue(
-                                        index1 * attributes[1].attributesValue.length + index2,
+                                        index1 * attributes[1].attributeValue.length + index2,
                                         'price',
                                         e.target.value
                                       );
@@ -586,10 +586,10 @@ export default function TestPhanLoai() {
                                 </td>
                                 <td>
                                   <Input
-                                    value={SKUs[index1 * attributes[1].attributesValue.length + index2]?.priceBefore || ''}
+                                    value={SKUs[index1 * attributes[1].attributeValue.length + index2]?.priceBefore || ''}
                                     onChange={(e) => {
                                       handleChangeValue(
-                                        index1 * attributes[1].attributesValue.length + index2,
+                                        index1 * attributes[1].attributeValue.length + index2,
                                         'priceBefore',
                                         e.target.value
                                       );
@@ -598,10 +598,10 @@ export default function TestPhanLoai() {
                                 </td>
                                 <td>
                                   <Input
-                                    value={SKUs[index1 * attributes[1].attributesValue.length + index2]?.totalStock || ''}
+                                    value={SKUs[index1 * attributes[1].attributeValue.length + index2]?.totalStock || ''}
                                     onChange={(e) => {
                                       handleChangeValue(
-                                        index1 * attributes[1].attributesValue.length + index2,
+                                        index1 * attributes[1].attributeValue.length + index2,
                                         'totalStock',
                                         e.target.value
                                       );
