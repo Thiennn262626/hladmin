@@ -3,15 +3,15 @@ import FormAddImg from "./formImg";
 import FormInfo from "./formInfo";
 import ImputInfoItem from "./ImputInfoItem.tsx";
 import { Form } from "antd";
-import { useSelector } from 'react-redux';
-import  { useState } from 'react';
-import { FolderAddOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
-import { productServices } from '../../../services/productService'
-import { notify } from '../../../utils/notify';
+import { useSelector } from "react-redux";
+import { useState } from "react";
+import { FolderAddOutlined } from "@ant-design/icons";
+import { Button } from "antd";
+import { productServices } from "../../../services/productService";
+import { notify } from "../../../utils/notify";
 
 const Index = () => {
-  const dataPost = useSelector(state => state.counter.dataPost);
+  const dataPost = useSelector((state) => state.counter.dataPost);
   const [loadings, setLoadings] = useState(false);
   const enterLoading = async () => {
     //kiểm tra dữ liệu
@@ -75,10 +75,6 @@ const Index = () => {
       notify.notify1("Vui lòng nhập danh mục", "error");
       return;
     }
-    if (dataPost.attributes.length === 0) {
-      notify.notify1("Vui lòng nhập thuộc tính", "error");
-      return;
-    }
     if (dataPost.productSKUs.length === 0) {
       notify.notify1("Vui lòng nhập SKU", "error");
       return;
@@ -89,7 +85,6 @@ const Index = () => {
     if (response) {
       setLoadings(false);
     }
-  
   };
   return (
     <Form
@@ -103,14 +98,14 @@ const Index = () => {
       <FormInfo />
       <ImputInfoItem />
       <Button
-          type="primary"
-          icon={<FolderAddOutlined />}
-          loading={loadings}
-          onClick={() => enterLoading(1)}
-          className="!bg-blue-500 !text-white !hover:bg-green-600 !border-none !rounded-lg !shadow-xl  "
-        >
-          Add
-        </Button>
+        type="primary"
+        icon={<FolderAddOutlined />}
+        loading={loadings}
+        onClick={() => enterLoading(1)}
+        className="!bg-blue-500 !text-white !hover:bg-green-600 !border-none !rounded-lg !shadow-xl  "
+      >
+        Add
+      </Button>
     </Form>
   );
 };

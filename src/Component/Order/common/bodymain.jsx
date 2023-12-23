@@ -50,6 +50,22 @@ const Bodymain = ({ status }) => {
         return daysDifference >= 10;
     }
 
+    function getExpiredOrder(actionDate) {
+        const currentDate = new Date();
+        const actionDateDate = new Date(actionDate);
+        const timeDifference = currentDate - actionDateDate;
+        const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+        const countdown = Math.floor(10 - daysDifference);
+        if(countdown > 0){
+            return countdown + ' ngày';
+        }else{
+            const hoursDifference = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutesDifference = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+            
+            return `${hoursDifference} giờ ${minutesDifference} phút`;
+        }
+    }
+
     const handleSetStatus = async (orderId, statusId) => {
         const check = await notify.notify2('Change status', 'info', 'Are you sure?');
         if (check === false) {
@@ -91,12 +107,18 @@ const Bodymain = ({ status }) => {
 
                                 </div>
                             }
-                            {status === 1 &&
+                            {status === 1 && checkExpiredOrder(dataOrder?.actionDateNewest?.actionDate) === true ?
                                 <div className='flex flex-col pr-[7px]'>
                                     <Button className='!bg-green-500  mb-[3px]' onClick={() => handleSetStatus(dataOrder.orderID, 2)} type="primary">Đóng gói</Button>
-                                    {/* <Button className='!bg-red-500 mb-[3px]' onClick={() => handleSetStatus(dataOrder.orderID, 6)} type="primary">Hủy đơn hàng</Button> */}
-
+                                    <Button className='!bg-red-500 mb-[3px]' onClick={() => handleSetStatus(dataOrder.orderID, 6)} type="primary">Hủy đơn hàng</Button>
+                                </div> : status === 1 && <div className='flex flex-col pr-[7px]'>
+                                    <Button className='!bg-green-500  mb-[3px]' onClick={() => handleSetStatus(dataOrder.orderID, 2)} type="primary">Đóng gói</Button>
+                                    <p className='!text-red-500'> Có thể hủy sau {getExpiredOrder(dataOrder?.actionDateNewest?.actionDate)} </p>
                                 </div>
+                                // {checkExpiredOrder(dataOrder?.actionDateNewest?.actionDate) === true ?
+                                //          
+
+                                //     }
 
                             }
                             {status === 2 &&
