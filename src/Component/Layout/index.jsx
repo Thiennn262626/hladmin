@@ -1,6 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Header1 from "./Header/index";
+import Sider1 from "./Sider/index";
 import ModelLogin from "../Login/ModelLogin/index";
 import { Layout, Space } from "antd";
 import { useEffect } from "react";
@@ -53,7 +54,7 @@ const Index = () => {
           <ModelLogin />
           <Header style={headerStyle}>{<Header1 />}</Header>
           <Layout hasSider>
-            <Sider style={siderStyle}>Sider</Sider>
+            <Sider className="!w-full" style={siderStyle}>{<Sider1/>}</Sider>
             <Content style={contentStyle}>{<Outlet />}</Content>
           </Layout>
         </Layout>

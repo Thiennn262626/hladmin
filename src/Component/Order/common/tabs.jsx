@@ -2,17 +2,14 @@ import React from 'react'
 
 import { Tabs } from 'antd';
 import {BodyMain} from './index';
-import classname from "classnames/bind";
-import styles from "./../order.module.scss";
 import { setLoangding } from '../../slice/couterSlice';
 import { useDispatch } from 'react-redux';
 export const Tab = () => {
     const dispatch = useDispatch();
-    const onChange = (key) => {
+    const onChange = () => {
       dispatch(setLoangding(true))
     };
     const items = [  
-   
     {
         key: '0',
         label: 'Chờ xác nhận',
@@ -20,12 +17,12 @@ export const Tab = () => {
     },
     {
         key: '1',
-        label: 'Chờ đống gói',
+        label: 'Chờ đóng gói',
         children: <BodyMain status={1}/>,
     },
     {
         key: '2',
-        label: 'Đang đống gói',
+        label: 'Đang đóng gói',
         children: <BodyMain status={2}/>,
     },
     {
@@ -52,16 +49,15 @@ export const Tab = () => {
       key: '7',
       label: 'Đã trả hàng',
       children: <BodyMain status={7}/>,
-    },
+    }
     ];
-    const cx = classname.bind(styles);
+  
   return (
-    //<Tabs className={cx("tabsDetail")} defaultActiveKey="1" items={items} onChange={onChange} />
-    <Tabs className={cx("tabsDetail")} onChange={onChange}>
+    <Tabs className='bg-[#ffffff] p-[25px]' onChange={onChange}>
       {items.map((tab) => { 
         const { key, label, children } = tab;
         return (
-          <Tabs.TabPane  key={key} tab={label} className={cx("tabPane")}>
+          <Tabs.TabPane key={key} tab={label} >
             {children}
           </Tabs.TabPane>
         );

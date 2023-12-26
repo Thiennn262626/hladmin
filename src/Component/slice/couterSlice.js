@@ -32,8 +32,14 @@ const counterSlice = createSlice({
             productSKUs: [],
         },
         items: [],
-        dataAttribute: []
-
+        dataAttribute: [],
+        search: "",
+        sortBy: -1,
+        minAmount: -1,
+        maxAmount: -1,
+        loadListProduct: true,
+        modalSkus: false,
+        productID: "",
     },
     reducers: {
         setUser(state, action) {
@@ -126,6 +132,30 @@ const counterSlice = createSlice({
         setProductCategoryID(state, action) {
             state.dataPost.productCategoryID = action.payload;
         },
+        setSearch(state, action) {
+            state.search = action.payload;
+        },
+        setSortBy(state, action) {
+            state.sortBy = action.payload;
+            console.log("sortBy", state.sortBy);
+        },
+        setMin(state, action) {
+            state.minAmount = action.payload;
+        },
+        setMax(state, action) {
+            state.maxAmount = action.payload;
+        },
+        setLoadProduct(state, action) {
+            state.loadListProduct = action.payload;
+        },
+        setModalSkus(state, action) {
+            state.modalSkus = action.payload;
+            console.log("modalSkus", state.modalSkus);
+        },
+        setProductID(state, action) {
+            state.productID = action.payload;
+            console.log("productID", state.productID);
+        },
     
 
 
@@ -160,7 +190,13 @@ export const {
     setProductLength,
     setProductWeight,
     setProductCategoryID,
-
+    setSearch,
+    setSortBy,
+    setMin,
+    setMax,
+    setLoadProduct,
+    setModalSkus,
+    setProductID,
 
 } = counterSlice.actions;
 export default counterSlice.reducer;

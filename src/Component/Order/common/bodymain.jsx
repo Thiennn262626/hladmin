@@ -24,17 +24,19 @@ const Bodymain = ({ status }) => {
     }
 
     useEffect(() => {
-        if (isLoading === false) {
-            return;
-        }
+ 
         const fetchOrder = async () => {
             const res = await orderServices.getListOrderByStatus(status);
             dispatch(setLoangding(false));
             setOrder(res);
         }
         fetchOrder();
+        return () => {
+            setOrder([]);
+        }
 
     }, [status, isLoading]);
+
 
     const calculateTotalPrice = (dataOrder) => {
         const productTotal = dataOrder.dataOrderItem.reduce((total, item) => total + item.quantity * item.price, 0);
@@ -62,8 +64,6 @@ const Bodymain = ({ status }) => {
         }
 
     }
-
-
     const columns = [
         {
             //title so luong don hang

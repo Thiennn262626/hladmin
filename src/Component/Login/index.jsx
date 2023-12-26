@@ -25,9 +25,9 @@ export default function Login() {
 }
   const res = await loginService.login(data)
   if(res){
-    //load lại trang
+    //
+    window.location.href = "/"
     window.location.href = "/order";
-    // navigate("/order");
   }
   }
   return (

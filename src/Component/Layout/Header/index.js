@@ -1,22 +1,40 @@
 import styles from "./header.module.scss";
 import classname from "classnames/bind";
 import logo from "../../../images/app_logo_name.svg";
-import CheckLogin from "../../Login/CheckLogin/index";
-import ModelLogin from "../../Login/ModelLogin";
-import { ShoppingCartOutlined, UserOutlined } from "@ant-design/icons";
+
+
+import { UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import _debounce from "lodash/debounce";
-import { setModeLogin } from "../../slice/couterSlice";
-import React from 'react';
-import { Avatar, Space } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
+import React, { useState, useEffect } from 'react';
+import { Avatar, Space, Dropdown } from 'antd';
+
+
 const cx = classname.bind(styles);
 function Header() {
   const navigate = useNavigate();
-  const clickOrder = () => {
-    navigate("/order");
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("user")));
+  }, []);
+  const handleMenuClick = (e) => {
+    console.log('click', e);
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    navigate("./login");
   };
-  const clickCart = () => {
-    navigate("/add-product");
+  const items = [
+    {
+      label: 'Logout',
+      key: '1',
+      icon: <UserOutlined />,
+      danger: true,
+    },
+
+  ];
+  const menuProps = {
+    items,
+    onClick: handleMenuClick,
   };
 
   return (
@@ -30,28 +48,24 @@ function Header() {
         >
           <img className={cx("avt")} src={logo} alt="" />
         </div>
-        <div className={cx("menu")}>
-          <ul onClick={clickOrder} className="hover:text-blue-600">Order</ul>
-          <ul onClick={clickCart}  className="hover:text-blue-600">Product</ul>
-        </div>
+
         <div className={cx("actions")}>
           <div className={cx("account")}>
-            {localStorage.getItem("user") ? (
+            {user ? (
+
               <span
-                onClick={() => {
-                  localStorage.removeItem("user");
-                  localStorage.removeItem("token");
-                  navigate("./login");
-                }}
               >
                 <div className={cx("profile")} >
-                  <Space className={cx("profileATV")} size={24} wrap>
-                    {JSON.parse(localStorage.getItem("user"))?.userAvatar ? 
-                      <Avatar src={<img src={JSON.parse(localStorage.getItem("user"))?.userAvatar} alt="avatar" />} /> : 
-                       <Avatar icon={ <UserOutlined />} />}                 
-                  </Space>
-                    {JSON.parse(localStorage.getItem("user"))?.contactFullName}                  
+                  <Dropdown.Button menu={menuProps} placement="bottom" icon={
+                    <UserOutlined />  
+                  }>
+                    {user?.userAvatar ?
+                      <Avatar className=" !pb-[4px]  !w-[25px] !h-[25px]" src={<img src={user?.userAvatar} alt="avatar" />} /> :
+                      <Avatar icon={<UserOutlined />} />}
+                    {user?.contactFullName}
+                  </Dropdown.Button>
                 </div>
+
               </span>
             ) : (
               <>
