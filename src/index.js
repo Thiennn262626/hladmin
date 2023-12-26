@@ -2,15 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 import {
-  Home,
-  Pay,
-  CheckLogin,
   Layout,
   Login,
-  Details,
   Model,
   Order,
-  AddProduct
+  AddProduct,
+  ListProduct
 } from "./Component";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -42,15 +39,11 @@ const router = createBrowserRouter([
         element: <AddProduct />,
       },
       {
-        path: "detail/",
-        element: <Outlet />,
-        children: [
-          {
-            path: ":slug",
-            element: <Details />,
-          },
-        ],
+        path: "/product",
+        element: <ListProduct />,
       },
+
+
 
     ],
   },
@@ -62,10 +55,7 @@ const router = createBrowserRouter([
     path: "model/",
     element: <Model />,
   },
-  {
-    path: "test/",
-    element: <Test />,
-  },
+
 ]);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

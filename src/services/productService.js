@@ -38,10 +38,119 @@ async function addProduct(data) {
             return response;
         }
     } catch (error) {
-        handelException.handelNotificationSwal("Error", "error")    
+        handelException.handelNotificationSwal("Error", "error")
         console.error("Error fetching location data:", error);
     }
 }
+async function listProduct(filter) {
+    console.log("filter", filter);
+    try {
+        const apiUrl = "api/hlshop/admin/product/get-all-product"
+        const queryParams = [];
+        if (filter) {
+            if (filter?.limit) {
+                queryParams.push(`limit=${filter.limit}`)
+            }
+            if (filter?.offset) {
+                queryParams.push(`offset=${filter.offset}`)
+            }
+            if (filter?.search) {
+                queryParams.push(`search=${filter.search}`)
+            }
+            if (filter?.sortBy || filter?.sortBy === 0) {
+                queryParams.push(`sortBy=${filter.sortBy}`)
+            }
+            if (filter?.minAmount) {
+                queryParams.push(`minAmount=${filter.minAmount}`)
+            }
+            if (filter?.maxAmount) {
+                queryParams.push(`maxAmount=${filter.maxAmount}`)
+            }
+        }
+        const url = `${apiUrl}?${queryParams.join('&')}`
+        console.log("url", url);
+        const response = await apiAuth.get(
+            url
+        );
+        if (response) {
+            console.log("response", response);
+            return response;
+        }
+    } catch (error) {
+        console.error("Error fetching location data:", error);
+    }
+}
+async function getProductSku(id) {
+    try {
+        const response = await apiAuth.get(
+            `api/hlshop/admin/product/get-product-sku-by-product-id?productID=${id}`
+        );
+        if (response) {
+            console.log("response", response);
+            return response;
+        }
+    } catch (error) {
+        console.error("Error fetching location data:", error);
+    }
+}
+
+async function enableProduct(productID, enable) {
+    let data = {
+        productID: productID,
+        enable: enable
+    }
+    try {
+        const response = await apiAuth.post(
+            `api/hlshop/admin/product/enable-product`, data
+        );
+        if (response) {
+            handelException.handelNotificationSwal(`${response?.message}`, "success")
+            return true;
+        }
+    } catch (error) {
+        handelException.handelNotificationSwal("Error", "error")
+        console.error("Error fetching location data:", error);
+    }
+}
+
+async function enableSku(productSKUID, enable) {
+    let data = {
+        productSKUID: productSKUID,
+        enable: enable
+    }
+    try {
+        const response = await apiAuth.post(
+            `api/hlshop/admin/product/enable-sku`, data
+        );
+        if (response) {
+            handelException.handelNotificationSwal(`${response?.message}`, "success")
+            return true;
+        }
+    } catch (error) {
+        handelException.handelNotificationSwal("Error", "error")
+        console.error("Error fetching location data:", error);
+    }
+}
+//api/hlshop/admin/product/restock-sku
+async function restockSku(productSKUID, totalStock) {
+    let data = {
+        productSKUID: productSKUID,
+        totalStock: totalStock
+    }
+    try {
+        const response = await apiAuth.post(
+            `api/hlshop/admin/product/restock-sku`, data
+        );
+        if (response) {
+            handelException.handelNotificationSwal(`${response?.message}`, "success")
+            return true;
+        }
+    } catch (error) {
+        handelException.handelNotificationSwal("Error", "error")
+        console.error("Error fetching location data:", error);
+    }
+}
+
 export const productServices = {
-    addImg, getCategory, addProduct
+    addImg, getCategory, addProduct, listProduct, getProductSku, enableProduct, enableSku, restockSku
 }
