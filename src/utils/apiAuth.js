@@ -1,39 +1,117 @@
+// import axios from "axios";
+// import NProgress from "nprogress";
+// import "nprogress/nprogress.css";
+// import { handelException } from "../services/handelException.js";
+// // const URL = "https://hl-shop.azurewebsites.net";
+// const URL = "http://localhost:80";
+// const token = localStorage.getItem("token");
+// const api = axios.create({
+//   baseURL: URL,
+//   headers: {
+//     Authorization: token ? `Bearer ${token}` : "",
+//   },
+// });
+// //Khi một yêu cầu được thực hiện
+// api.interceptors.request.use(
+//   (config) => {
+//     NProgress.start();
+//     return config;
+//   },
+//   (error) => {
+//     return Promise.reject(error);
+//   }
+// );
+// api.interceptors.response.use(
+//   async (response) => {
+//     NProgress.done();
+
+//     if (response && response.data) {
+//       return response.data;
+//     }
+//     return response;
+//   },
+//   (error) => {
+//     NProgress.done();
+//     handelException.handelExceptions(error);
+//     return Promise.reject(error);
+//   }
+// );
+// export default api;
+
 import axios from "axios";
+//NProgress: Thư viện cho việc hiển thị thanh tiến trình (progress bar).
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
-import { handelException } from "../services/handelException.js";
-const URL = "https://hl-shop.azurewebsites.net";
-// const URL = "http://localhost:80";
-const token = localStorage.getItem("token");
-const api = axios.create({
+import { handelException } from "../services/handelException";
+const URL = "http://localhost:80";
+//Tạo một khách hàng Axios:
+const apiClient = axios.create({
   baseURL: URL,
   headers: {
-    Authorization: token ? `Bearer ${token}` : "",
+    "Content-Type": "application/json",
   },
 });
+
 //Khi một yêu cầu được thực hiện
-api.interceptors.request.use(
-  (config) => {
+apiClient.interceptors.request.use(
+  async (config) => {
     NProgress.start();
+    const accessToken = await checkTokens();
+    if (accessToken) config.headers.Authorization = "Bearer " + accessToken;
+    else {
+      config.cancelToken = new axios.CancelToken((cancel) => cancel());
+    }
     return config;
   },
   (error) => {
     return Promise.reject(error);
   }
 );
-api.interceptors.response.use(
+apiClient.interceptors.response.use(
   async (response) => {
     NProgress.done();
-
     if (response && response.data) {
       return response.data;
     }
+
     return response;
   },
   (error) => {
-    NProgress.done();
     handelException.handelExceptions(error);
+    NProgress.done();
     return Promise.reject(error);
   }
 );
-export default api;
+
+const checkTokens = async () => {
+  const accessToken = localStorage.getItem("token");
+
+  if (!accessToken) {
+    console.log("Không có token");
+    return;
+  }
+
+  const payload = decodeToken(accessToken);
+  if (isTokenExpired(payload)) {
+    clearLocalStorage();
+    return;
+  }
+  return accessToken;
+};
+
+const clearLocalStorage = () => {
+  localStorage.clear();
+};
+
+const decodeToken = (token) => {
+  const [, payloadBase64] = token?.split(".");
+  return JSON.parse(atob(payloadBase64));
+};
+
+const isTokenExpired = (payload) => {
+  const expirationTime = payload.exp;
+  const currentTime = Math.floor(Date.now() / 1000);
+  return expirationTime < currentTime;
+};
+
+export default apiClient;
