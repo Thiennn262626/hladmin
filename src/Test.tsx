@@ -539,7 +539,7 @@ export default function TestPhanLoai() {
                                                       marginTop: 8,
                                                     }}
                                                   >
-                                                    Upload
+                                                    Tải lên
                                                   </div>
                                                 </div>
                                               )}
@@ -619,7 +619,7 @@ export default function TestPhanLoai() {
               }}
             />
           </Form.Item>
-          <Form.Item label="Giá before">
+          <Form.Item label="Giá gốc">
             <Input
               value={SKUs[0]?.priceBefore || ''}
               onChange={(e) => {

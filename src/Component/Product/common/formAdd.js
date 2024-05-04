@@ -104,7 +104,7 @@ const Index = () => {
         onClick={() => enterLoading(1)}
         className="!bg-blue-500 !text-white !hover:bg-green-600 !border-none !rounded-lg !shadow-xl  "
       >
-        Add
+        Thêm sản phẩm
       </Button>
     </Form>
   );

@@ -49,7 +49,7 @@ const App = () => {
   }
 
   return (
-    <div className='border rounded-[12px] m-[10px] hover:shadow-lg transition-all duration-300 bg-[#FFFFFF]'>
+    <div className='border rounded-[12px] m-[10px] hover:shadow-lg transition-all duration-300 bg-[#FFFFFF] flex justify-center'>
       <Form
         className='p-[25px] flex flex-wrap justify-between'
         layout={formLayout}
@@ -61,12 +61,12 @@ const App = () => {
           maxWidth: formLayout === 'inline' ? 'none' : 600,
         }}
       >
-        <Form.Item label="Search">
+        {/* <Form.Item label="Search">
           <Input value={search} onChange={onSearch} placeholder="Sản phẩm A" />
-        </Form.Item>
-        <Form.Item name="layout">
+        </Form.Item> */}
+        <Form.Item name="layout" className='w-full md:w-auto' >
           <Radio.Group value={sortBy} onChange={handleSortBy}>
-            <Radio.Button value={-1}>All</Radio.Button>
+            <Radio.Button value={-1}>Tất cả</Radio.Button>
             <Radio.Button value={0}>Thấp đến cao</Radio.Button>
             <Radio.Button value={1}>Cao đến thấp</Radio.Button>
             <Radio.Button value={2}>Mới nhất</Radio.Button>
@@ -75,7 +75,7 @@ const App = () => {
             <Radio.Button value={5}>Bán chạy</Radio.Button>
           </Radio.Group>
         </Form.Item>
-        <Form.Item label="Min">
+        {/* <Form.Item label="Min">
           <InputNumber
 
             formatter={(value) => (value ? `${value}`.replace(/\D/g, '') : '')}
@@ -95,10 +95,10 @@ const App = () => {
             placeholder="Max value"
             value={max}
           />
-        </Form.Item>
-        <Form.Item >
+        </Form.Item> */}
+        {/* <Form.Item >
           <Button onClick={handleSubmit} className='bg-[#4096FF]' type="primary">Submit</Button>
-        </Form.Item>
+        </Form.Item> */}
       </Form>
     </div>
 

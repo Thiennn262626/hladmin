@@ -236,7 +236,7 @@ export default function TestPhanLoai() {
         <Divider />
         <b className='!pb-[20px]'>Thông tin bán hàng</b>
         <Button type="text" icon={<SaveOutlined />} onClick={saveRedux}>
-          Save
+          Lưu
         </Button>
 
         <Divider />
@@ -287,7 +287,7 @@ export default function TestPhanLoai() {
           <div className='!w-full'>
             <b className='!pb-[20px] !pr-[20px]'>Thông tin phân loại</b>
             <Button type="text" icon={<SaveOutlined />} onClick={saveRedux}>
-              Save
+              Lưu
             </Button>
 
             <div className='flex  m-[15px] !w-full'>
@@ -324,7 +324,7 @@ export default function TestPhanLoai() {
                           handleChangeAttributeValue(index, attribute.attributeValue.length, name1);
                           setName1('');
                         }}>
-                          Add
+                          Thêm
                         </Button>
                       </Space>
 
@@ -361,7 +361,7 @@ export default function TestPhanLoai() {
                       <tr>
                         <th className="border p-2">{attributes[0].locAttributeName || 'Nhóm phân loại 1'}</th>
                         <th className="border p-2">Giá</th>
-                        <th className="border p-2">Giá before</th>
+                        <th className="border p-2">Giá gốc</th>
                         <th className="border p-2">Kho hàng</th>
                       </tr>
                       {attributes[0].attributeValue.map((c1, index1) => (
@@ -429,7 +429,7 @@ export default function TestPhanLoai() {
                                               marginTop: 8,
                                             }}
                                           >
-                                            Upload
+                                            Tải lên
                                           </div>
                                         </div>
                                       )}
@@ -488,7 +488,7 @@ export default function TestPhanLoai() {
                         <th className="border p-2">{attributes[0].locAttributeName || 'Nhóm phân loại 1'}</th>
                         <th className="border p-2">{attributes[1].locAttributeName || 'Nhóm phân loại 2'}</th>
                         <th className="border p-2">Giá</th>
-                        <th className="border p-2">Giá before</th>
+                        <th className="border p-2">Giá gốc</th>
                         <th className="border p-2 rounded-br-md">Kho hàng</th>
                       </tr>
 
@@ -639,7 +639,7 @@ export default function TestPhanLoai() {
               }}
             />
           </Form.Item>
-          <Form.Item label="Giá before">
+          <Form.Item label="Giá gốc">
             <Input
               value={SKUs[0]?.priceBefore || ''}
               onChange={(e) => {

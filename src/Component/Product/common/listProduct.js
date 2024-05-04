@@ -19,8 +19,8 @@ const Bodymain = () => {
         dispatch(setProductID(record?.productID));
     }
     const handleOnCLickLock = async (record, enable) => {
-        let content = enable === 0 ? "Are you sure you want to lock this product?" : "Are you sure you want to unlock this product?";
-        const check = await notify.notify2("Lock/UnClock", "warning", content, "Yes", "No")
+        let content = enable === 0 ? "Bạn có chắc muốn ẩn sản phẩm này không?" : "Bạn có chắc muốn hiển thị sản phẩm này không?";
+        const check = await notify.notify2("", "warning", content, "Có", "Không")
         if (check) {
             const res = await productServices.enableProduct(record?.productID, enable);
             if (res) {
@@ -56,39 +56,41 @@ const Bodymain = () => {
                 dispatch(setLoadProduct(false));
             };
         }
-            fetchProduct();
-    }, [search, sortBy, minAmount, maxAmount, loadListProduct]);
+        fetchProduct();
+    },
+        [search, sortBy, minAmount, maxAmount, loadListProduct]
+    );
 
     const columns = [
         {
-            title: 'Img',
+            title: 'Ảnh',
             dataIndex: 'name',
             render: (_, record) => (
                 <img className='w-[50px] h-[50px]' src={record?.medias[0]?.linkString}></img>
             )
         },
         {
-            title: 'Name',
+            title: 'Tên sản phẩm',
             dataIndex: 'name',
             render: (_, record) => (
                 <p onClick={() => handleOnCLick(record)}> {record?.productName}</p>
             ),
         },
         {
-            title: 'Status',
+            title: 'Trạng thái',
             dataIndex: 'productEnable',
             render: (_, record) => (
                 record?.productEnable === true ?
                     <Tag bordered={false} color="processing">
-                        Enable
+                        Hiển thị
                     </Tag > :
                     <Tag bordered={false} color="error">
-                        Disable
+                        Ẩn
                     </Tag >
             ),
         },
         {
-            title: 'Action',
+            title: 'Hành động',
             render: (_, record) => (
                 record?.productEnable === true ?
                     <Space size="middle">

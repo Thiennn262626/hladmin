@@ -1,5 +1,5 @@
 import React from 'react';
-import {  ShopOutlined ,FileDoneOutlined  } from '@ant-design/icons';
+import { ShopOutlined, FileDoneOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import { useNavigate } from "react-router-dom";
 function getItem(label, key, icon, children, type) {
@@ -12,16 +12,16 @@ function getItem(label, key, icon, children, type) {
     };
 }
 const items = [
-    getItem('Order management', 'sub1', <FileDoneOutlined />, [
-        getItem('Orders', '1'),
+    getItem('Quản lý đơn hàng', 'sub1', <FileDoneOutlined />, [
+        getItem('Đơn hàng', '1'),
     ]),
 
     {
         type: 'divider',
     },
-    getItem('Product management', 'sub4', <ShopOutlined />, [
-        getItem('Products', '2'),
-        getItem('Add Product', '3'),
+    getItem('Quản lý sản phẩm', 'sub4', <ShopOutlined />, [
+        getItem('Sản phẩm', '2'),
+        getItem('Thêm sản phẩm', '3'),
         ,
     ]),
 

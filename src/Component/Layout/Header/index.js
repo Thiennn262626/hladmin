@@ -25,7 +25,7 @@ function Header() {
   };
   const items = [
     {
-      label: 'Logout',
+      label: 'Đăng xuất',
       key: '1',
       icon: <UserOutlined />,
       danger: true,

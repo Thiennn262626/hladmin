@@ -24,7 +24,7 @@ const Bodymain = ({ status }) => {
     }
 
     useEffect(() => {
- 
+
         const fetchOrder = async () => {
             const res = await orderServices.getListOrderByStatus(status);
             dispatch(setLoangding(false));
@@ -58,12 +58,12 @@ const Bodymain = ({ status }) => {
         const timeDifference = currentDate - actionDateDate;
         const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
         const countdown = Math.floor(10 - daysDifference);
-        if(countdown > 0){
+        if (countdown > 0) {
             return countdown + ' ngày';
-        }else{
+        } else {
             const hoursDifference = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutesDifference = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-            
+
             return `${hoursDifference} giờ ${minutesDifference} phút`;
         }
     }
@@ -90,9 +90,16 @@ const Bodymain = ({ status }) => {
                 <div className={cx("orderContainer")}>
                     <div className={cx("actionColumn")}>
                         <div>
-                        <p className='mb-[20px]'> Mã đơn hàng: {orderCode}  </p>
-                        <div className={cx("feeShipColumn")}>Phí vận chuyển: {dataOrder.orderShippingFee.shippingFee}</div>
-                        <div className={cx("totalPriceColumn")}>Tổng giá: {calculateTotalPrice(dataOrder)}</div>
+                            <p className='mb-[20px]'> Mã đơn hàng: {orderCode}  </p>
+                            <div className={cx("feeShipColumn")}>
+                                Phí vận chuyển: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(dataOrder.orderShippingFee.shippingFee)}
+                            </div>
+
+                            <div className={cx("totalPriceColumn")}>
+                                Tổng giá:  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(calculateTotalPrice(dataOrder))}
+                            </div>
+
+
                         </div>
                         <div className={cx("")}>
                             {status === 0 && (dataOrder?.paymentMethod === 0 || (dataOrder?.finishPay === true && dataOrder?.paymentMethod === 1)) ?
@@ -153,8 +160,8 @@ const Bodymain = ({ status }) => {
                                         <div className={cx("productInfo")}>
                                             <p className={cx("productName")}>{item.productName}</p>
                                             <div className={cx("priceAndQuantity")}>
-                                                <p>Quantity: {item.quantity}</p>
-                                                <p>Price: {item.price}</p>
+                                                <p>Số lượng: {item.quantity}</p>
+                                                <p>Giá: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}</p>
                                             </div>
                                         </div>
                                     </div>

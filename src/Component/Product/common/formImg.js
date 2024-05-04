@@ -57,7 +57,7 @@ const Index = () => {
               marginTop: 8,
             }}
           >
-            Upload
+            Tải lên
           </div>
         </div>
       </Upload>

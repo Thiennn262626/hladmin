@@ -3,7 +3,7 @@ import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import { handelException } from "../services/handelException.js";
 // const URL = "https://hl-shop.azurewebsites.net";
-const URL = "http://localhost:80";
+const URL = "http://localhost:3000";
 
 const api = axios.create({
   baseURL: URL,
