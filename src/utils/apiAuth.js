@@ -43,7 +43,7 @@ import axios from "axios";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import { handelException } from "../services/handelException";
-const URL = "http://localhost:3000";
+const URL = "https://hl-backend-a6uq.onrender.com/";
 //Tạo một khách hàng Axios:
 const apiClient = axios.create({
   baseURL: URL,
