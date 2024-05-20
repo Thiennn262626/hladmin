@@ -1,3 +1,4 @@
+import './notify.css';
 import Swal from "sweetalert2";
 import { toast } from 'react-toastify';
 
@@ -28,6 +29,10 @@ async function notify2(title, icon, text, confirmButtonText, cancelButtonText) {
       cancelButtonColor: "#d33",
       confirmButtonText: confirmButtonText || "Yes",
       cancelButtonText: cancelButtonText || "Cancel",
+      customClass: {
+        confirmButton: 'swal-button--confirm',
+        cancelButton: 'swal-button--cancel'
+      }
     }).then((result) => {
       if (result.isConfirmed) {
         resolve(true);
@@ -78,7 +83,7 @@ async function showNotification(title, body, link, autoCloseDelayInSeconds) {
           // Thực hiện hành động khi thông báo được nhấp vào
           handleNotificationAction(link);
           event.preventDefault();
-        }; 
+        };
       }
       else {
         // Xử lý khi quyền hiển thị thông báo bị từ chối

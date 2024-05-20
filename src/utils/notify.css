@@ -1,0 +1,4 @@
+.swal-button--confirm,
+.swal-button--cancel {
+  min-width: 100px; /* Adjust as needed */
+}

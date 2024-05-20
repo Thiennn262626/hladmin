@@ -69,7 +69,7 @@ const Bodymain = ({ status }) => {
     }
 
     const handleSetStatus = async (orderId, statusId) => {
-        const check = await notify.notify2('Change status', 'info', 'Are you sure?');
+        const check = await notify.notify2('Cập nhật trạng thái', 'info', 'Bạn có chắc chắn muốn cập nhật trạng thái đơn hàng này không?','có' ,'không');
         if (check === false) {
             return;
         }
