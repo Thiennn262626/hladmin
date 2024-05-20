@@ -2,7 +2,7 @@ import styles from "./header.module.scss";
 import classname from "classnames/bind";
 import logo from "../../../images/app_logo_name.svg";
 
-
+import appLogo from './app_logo.png'; // Import the image file
 import { UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { DownOutlined } from '@ant-design/icons';
@@ -51,34 +51,23 @@ function Header() {
 
         <div className={cx("actions")}>
           <div className={cx("account")}>
-            {user ? (
-
+            {
               <span
               >
                 <div className={cx("profile")} >
                   <Dropdown.Button menu={menuProps} placement="bottom" icon={
-                    <UserOutlined />  
+                    <UserOutlined />
                   }>
-                    {user?.userAvatar ?
-                      <Avatar className=" !pb-[4px]  !w-[25px] !h-[25px]" src={<img src={user?.userAvatar} alt="avatar" />} /> :
-                      <Avatar icon={<UserOutlined />} />}
-                    {user?.contactFullName}
+                    {
+
+                      <Avatar className=" !pb-[4px]  !w-[25px] !h-[25px]" src={<img src={appLogo} alt="avatar" />} />
+                    }
+                    {"Admin"}
                   </Dropdown.Button>
                 </div>
 
               </span>
-            ) : (
-              <>
-                <UserOutlined style={{ margin: "0px 3%", fontSize: "1rem" }} />
-                <span
-                  onClick={() => {
-                    navigate("./login");
-                  }}
-                >
-                  Đăng nhập
-                </span>
-              </>
-            )}
+            }
           </div>
         </div>
       </div>
