@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+// import Test from "./Test.tsx";
 import reportWebVitals from "./reportWebVitals";
 import {
   Layout,
@@ -7,17 +8,18 @@ import {
   Model,
   Order,
   AddProduct,
-  ListProduct
+  ListProduct,
 } from "./Component";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { Provider } from "react-redux";
-import counterReducer from "./Component/slice/couterSlice";
 import "./index.css";
 import { configureStore } from "@reduxjs/toolkit";
-import Test from "./Test.tsx";
+import counterReducer from "./Component/slice/couterSlice";
+import counterOrderReducer from "./Component/Order/counterOrder";
 const storeNodemy = configureStore({
   reducer: {
     counter: counterReducer,
+    countOrder: counterOrderReducer,
   },
 });
 
@@ -42,9 +44,6 @@ const router = createBrowserRouter([
         path: "/product",
         element: <ListProduct />,
       },
-
-
-
     ],
   },
   {
@@ -55,7 +54,6 @@ const router = createBrowserRouter([
     path: "model/",
     element: <Model />,
   },
-
 ]);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

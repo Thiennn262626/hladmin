@@ -3,40 +3,46 @@ import { orderServices } from '../../../services/orderService'
 import { Table, Button } from 'antd';
 import classname from "classnames/bind";
 import styles from "./../order.module.scss";
-import { setOpenDrawerApply, setIdOrder, setLoangding } from '../../slice/couterSlice';
+import { setOpenDrawerApply, setIdOrder, setOrderData, setReloadOrder, setOrderCountList } from '../../Order/counterOrder';
 import { useDispatch, useSelector } from 'react-redux';
 import DrawerApply from './drawer';
 import { notify } from '../../../utils/notify';
-const Bodymain = ({ status }) => {
+const Bodymain = ({ status, countList}) => {
+    console.log('countList:', countList);
     const dispatch = useDispatch();
+    const orderCountList = useSelector(state => state.countOrder.orderCountList);
     const [order, setOrder] = useState([]);
-    const isLoading = useSelector(state => state.counter.isLoading);
+    const [pagination, setPagination] = useState({ current: 1, pageSize: 10, total: countList });
+    const [isLoading, setIsLoading] = useState(useSelector(state => state.countOrder.isReloadOrder[status]));
+    function handleTableChange(pagination, filters, sorter, extra) {
+        console.log('pagination:', pagination);
+        setPagination(pagination);
+        const offset = (pagination.current - 1) * pagination.pageSize;
+        const limit = pagination.pageSize;
+        fetchOrder(offset, limit);
+    }
+     const fetchOrder = async (offset, limit) => {
+        const res = await orderServices.getListOrderByStatus(status, offset, limit);
+        console.log('res:', res);
+        setOrder(res);
+        // dispatch(setOrderData({ status: status, data: res.orders }));
+    }
+     useEffect(() => {
+        fetchOrder(0, 10);
+        return () => {
+            setOrder([]);
+        }
+    }, [status, isLoading]);
+
+
     const openDrawerApply = () => {
         dispatch(setOpenDrawerApply(true));
     }
-    useEffect(() => {
-        setOrder([]);
-    }, [status])
 
     const handleDetailOrder = (orderID) => {
         dispatch(setIdOrder(orderID));
         openDrawerApply();
     }
-
-    useEffect(() => {
-
-        const fetchOrder = async () => {
-            const res = await orderServices.getListOrderByStatus(status);
-            dispatch(setLoangding(false));
-            setOrder(res);
-        }
-        fetchOrder();
-        return () => {
-            setOrder([]);
-        }
-
-    }, [status, isLoading]);
-
 
     const calculateTotalPrice = (dataOrder) => {
         const productTotal = dataOrder.dataOrderItem.reduce((total, item) => total + item.quantity * item.price, 0);
@@ -177,7 +183,17 @@ const Bodymain = ({ status }) => {
 
     const cx = classname.bind(styles);
     return <>
-        <Table className={cx("tableOrder")} columns={columns} dataSource={order} />
+        <Table  className={cx("tableOrder")} 
+                columns={columns} 
+                dataSource={order}
+                pagination={{
+                ...pagination,
+                total: countList, // Cập nhật lại total từ countList
+                totalPage: Math.ceil(countList / pagination.pageSize) // Tính tổng số trang
+            }}
+            // loading={isLoadingg}
+            onChange={handleTableChange}
+                />
         <DrawerApply />
     </>
 

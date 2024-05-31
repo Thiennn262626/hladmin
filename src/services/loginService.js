@@ -1,15 +1,15 @@
 import api from "../utils/api";
 import apiAuth from "../utils/apiAuth";
-import {handelException} from "./handelException";
+import { handelException } from "./handelException";
 async function login(data) {
   try {
     const response = await api.post(
-      `/api/hlshop/admin/auth/signin-phone`,
+      `/api/hlshop/admin/auth/signin-email`,
       data
     );
     if (response) {
       localStorage.setItem("token", response.token);
-      handelException.handelNotificationSwal("Đăng nhập thành công", "success")
+      handelException.handelNotificationSwal("Đăng nhập thành công", "success");
       return true;
     }
   } catch (error) {
@@ -19,11 +19,8 @@ async function login(data) {
 }
 async function getProfile() {
   try {
-    const response = await apiAuth.get(
-      `/api/hlshop/admin/users/get-profile`, 
-    );
+    const response = await apiAuth.get(`/api/hlshop/admin/users/get-profile`);
     if (response) {
-     
       return response;
     }
   } catch (error) {
@@ -31,5 +28,6 @@ async function getProfile() {
   }
 }
 export const loginService = {
-  login, getProfile
+  login,
+  getProfile,
 };
