@@ -10,29 +10,67 @@ import { notify } from '../../../utils/notify';
 const Bodymain = ({ status, countList}) => {
     console.log('countList:', countList);
     const dispatch = useDispatch();
-    const orderCountList = useSelector(state => state.countOrder.orderCountList);
+    const isLoading = useSelector(state => state.countOrder.isReloadOrder[status]);
     const [order, setOrder] = useState([]);
     const [pagination, setPagination] = useState({ current: 1, pageSize: 10, total: countList });
-    const [isLoading, setIsLoading] = useState(useSelector(state => state.countOrder.isReloadOrder[status]));
-    function handleTableChange(pagination, filters, sorter, extra) {
+
+    const fetchOrder = async (offset, limit) => {
+        try {
+            dispatch(setReloadOrder({ status: status, isLoading: true }));
+            const res = await orderServices.getListOrderByStatus(status, offset, limit);
+            console.log('res:', res);
+            if (res) {
+                setOrder(res || []);
+                setPagination(prev => ({ ...prev, total: countList }));
+            }
+        } catch (error) {
+            console.error('Error fetching orders:', error);
+        } finally {
+            dispatch(setReloadOrder({ status: status, isLoading:false}));
+        }
+    }
+
+    const handleTableChange = (pagination, filters, sorter, extra) => {
         console.log('pagination:', pagination);
         setPagination(pagination);
         const offset = (pagination.current - 1) * pagination.pageSize;
         const limit = pagination.pageSize;
+        console.log('offset0000000:', offset);
+        console.log('limit0000000:', limit);
         fetchOrder(offset, limit);
     }
-     const fetchOrder = async (offset, limit) => {
-        const res = await orderServices.getListOrderByStatus(status, offset, limit);
-        console.log('res:', res);
-        setOrder(res);
-        // dispatch(setOrderData({ status: status, data: res.orders }));
-    }
-     useEffect(() => {
-        fetchOrder(0, 10);
+
+    useEffect(() => {
+        fetchOrder(0, pagination.pageSize);
         return () => {
             setOrder([]);
         }
-    }, [status, isLoading]);
+    }, [status]);
+    // console.log('countList:', countList);
+    // const dispatch = useDispatch();
+    // const orderCountList = useSelector(state => state.countOrder.orderCountList);
+    // const [order, setOrder] = useState([]);
+    // const [pagination, setPagination] = useState({ current: 1, pageSize: 10, total: countList });
+    // const [isLoading, setIsLoading] = useState(useSelector(state => state.countOrder.isReloadOrder[status]));
+    // function handleTableChange(pagination, filters, sorter, extra) {
+    //     console.log('pagination:', pagination);
+    //     setPagination(pagination);
+    //     const offset = (pagination.current - 1) * pagination.pageSize;
+    //     const limit = pagination.pageSize;
+    //     fetchOrder(offset, limit);
+    // }
+    //  const fetchOrder = async (offset, limit) => {
+    //     const res = await orderServices.getListOrderByStatus(status, offset, limit);
+    //     console.log('res:', res);
+    //     setOrder(res);
+    //     // dispatch(setOrderData({ status: status, data: res.orders }));
+    // }
+    //  useEffect(() => {
+    //     fetchOrder(0, pagination.pageSize);
+    //     return () => {
+    //         setOrder([]);
+    //     }
+    // }, [status]);
 
 
     const openDrawerApply = () => {

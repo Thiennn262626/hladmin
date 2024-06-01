@@ -2,15 +2,6 @@ import apiAuth from "../utils/apiAuth";
 import { handelException } from "./handelException";
 async function getListOrderByStatus(orderStatus, offset, limit) {
   try {
-    if (orderStatus < 0 || orderStatus > 7) {
-      throw "Invalid order status";
-    }
-    if (offset < 0 || limit < 0) {
-      throw "Invalid offset";
-    }
-    if (limit - offset > 100 || limit - offset < 0) {
-      throw "Invalid limit";
-    }
     console.log("getListOrderByStatus", orderStatus, offset, limit);
     const response = await apiAuth.get(
       `/api/hlshop/admin/order/get-list?orderStatus=${orderStatus}&offset=${offset}&limit=${limit}`
