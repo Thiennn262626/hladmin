@@ -60,7 +60,7 @@ const Bodymain = () => {
       data.maxAmount = maxAmount;
     }
     const fetchProduct = async () => {
-      const res = await productServices.listProduct(data);
+      const res = await productServices.listProduct(0, 100, 0);
       if (res) {
         setListProduct(res.result);
         dispatch(setLoadProduct(false));
