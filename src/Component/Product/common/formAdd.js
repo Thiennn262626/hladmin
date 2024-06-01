@@ -11,7 +11,7 @@ import { productServices } from "../../../services/productService";
 import { notify } from "../../../utils/notify";
 
 const Index = () => {
-  const dataPost = useSelector((state) => state.counter.dataPost);
+  const dataPost = useSelector((state) => state.counterProduct.dataPost);
   const [loadings, setLoadings] = useState(false);
   const enterLoading = async () => {
     //kiểm tra dữ liệu

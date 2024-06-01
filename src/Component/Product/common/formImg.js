@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { PlusOutlined } from '@ant-design/icons';
-import { productServices } from '../../../services/productService'
-import {
-  Form,
-  Upload
-} from 'antd';
-import { useSelector, useDispatch } from 'react-redux';
-import { setAvatars } from '../../slice/couterSlice';
-
+import React, { useEffect, useState } from "react";
+import { PlusOutlined } from "@ant-design/icons";
+import { productServices } from "../../../services/productService";
+import { Form, Upload } from "antd";
+import { useSelector, useDispatch } from "react-redux";
+import { setAvatars } from "../../Product/counterProduct";
 
 const Index = () => {
   const dispatch = useDispatch();
-  const avatarMediaIDS = useSelector(state => state.counter.avatars);
+  const avatarMediaIDS = useSelector((state) => state.counterProduct.avatars);
   const [fileList, setFileList] = useState([]);
   useEffect(() => {
     setFileList(avatarMediaIDS);
@@ -22,28 +18,38 @@ const Index = () => {
     }
     return e?.fileList;
   };
- 
+
   const uploadImage = async (file) => {
     const data = new FormData();
     data.append("file", file);
     const response = await productServices.addImg(data);
     if (response) {
-      const avatarMediaID = { mediaID: response?.mediaID, uid: file?.uid, url: response?.url };
+      const avatarMediaID = {
+        mediaID: response?.mediaID,
+        uid: file?.uid,
+        url: response?.url,
+      };
       dispatch(setAvatars([...fileList, avatarMediaID]));
     }
-  }
+  };
   const handleRemove = (file) => {
-    const newAvatarMediaIDS = avatarMediaIDS.filter(item => item.uid !== file?.uid); 
+    const newAvatarMediaIDS = avatarMediaIDS.filter(
+      (item) => item.uid !== file?.uid
+    );
     dispatch(setAvatars(newAvatarMediaIDS));
   };
   const setPreviewImage = (file) => {
-    const avatarMediaID = avatarMediaIDS.find(item => item.uid === file?.uid);
+    const avatarMediaID = avatarMediaIDS.find((item) => item.uid === file?.uid);
     window.open(avatarMediaID?.url, "_blank");
   };
   return (
-
-    <Form.Item label="Hình ảnh" valuePropName="fileList" getValueFromEvent={normFile}>
-      <Upload listType="picture-card"
+    <Form.Item
+      label="Hình ảnh"
+      valuePropName="fileList"
+      getValueFromEvent={normFile}
+    >
+      <Upload
+        listType="picture-card"
         beforeUpload={(file) => {
           uploadImage(file);
         }}

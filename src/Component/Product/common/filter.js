@@ -1,70 +1,70 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Form, Input, Radio } from 'antd';
-import { InputNumber, Space } from 'antd';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from "react";
+import { Button, Form, Input, Radio } from "antd";
+import { InputNumber, Space } from "antd";
+import { useDispatch } from "react-redux";
 import {
   setSearch,
   setSortBy,
   setMin,
   setMax,
-  setLoadProduct
-} from '../../slice/couterSlice';
+  setLoadProduct,
+} from "../../Product/counterProduct";
 
 const App = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
-  const [formLayout, setFormLayout] = useState('inline');
+  const [formLayout, setFormLayout] = useState("inline");
   const [sortBy, setSortBy1] = useState(-1);
   const [min, setMin1] = useState();
   const [max, setMax1] = useState();
-  const [search, setSearch1] = useState('');
+  const [search, setSearch1] = useState("");
 
   const handleSubmit = () => {
     dispatch(setLoadProduct(true));
-  }
+  };
 
   const handleSortBy = (e) => {
-    setSortBy1(e.target.value)
+    setSortBy1(e.target.value);
     dispatch(setSortBy(e.target.value));
     dispatch(setLoadProduct(true));
-  }
+  };
   const onChangeMin = (value) => {
-    console.log(value)
+    console.log(value);
     if (value !== null) {
-      setMin1(value)
+      setMin1(value);
       dispatch(setMin(value));
     }
   };
   const onChangeMax = (value) => {
-    console.log(value)
+    console.log(value);
     if (value !== null) {
-      setMax1(value)
+      setMax1(value);
       dispatch(setMax(value));
     }
   };
   const onSearch = (e) => {
-    console.log(e.target.value)
-    setSearch1(e.target.value)
+    console.log(e.target.value);
+    setSearch1(e.target.value);
     dispatch(setSearch(e.target.value));
-  }
+  };
 
   return (
-    <div className='border rounded-[12px] m-[10px] hover:shadow-lg transition-all duration-300 bg-[#FFFFFF] flex justify-center'>
+    <div className="border rounded-[12px] m-[10px] hover:shadow-lg transition-all duration-300 bg-[#FFFFFF] flex justify-center">
       <Form
-        className='p-[25px] flex flex-wrap justify-between'
+        className="p-[25px] flex flex-wrap justify-between"
         layout={formLayout}
         form={form}
         initialValues={{
           layout: formLayout,
         }}
         style={{
-          maxWidth: formLayout === 'inline' ? 'none' : 600,
+          maxWidth: formLayout === "inline" ? "none" : 600,
         }}
       >
         {/* <Form.Item label="Search">
           <Input value={search} onChange={onSearch} placeholder="Sản phẩm A" />
         </Form.Item> */}
-        <Form.Item name="layout" className='w-full md:w-auto' >
+        <Form.Item name="layout" className="w-full md:w-auto">
           <Radio.Group value={sortBy} onChange={handleSortBy}>
             <Radio.Button value={-1}>Tất cả</Radio.Button>
             <Radio.Button value={0}>Thấp đến cao</Radio.Button>
@@ -101,7 +101,6 @@ const App = () => {
         </Form.Item> */}
       </Form>
     </div>
-
   );
 };
 export default App;

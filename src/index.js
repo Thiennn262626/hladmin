@@ -16,10 +16,12 @@ import "./index.css";
 import { configureStore } from "@reduxjs/toolkit";
 import counterReducer from "./Component/slice/couterSlice";
 import counterOrderReducer from "./Component/Order/counterOrder";
+import counterProduct from "./Component/Product/counterProduct";
 const storeNodemy = configureStore({
   reducer: {
     counter: counterReducer,
-    countOrder: counterOrderReducer,
+    counterOrder: counterOrderReducer,
+    counterProduct: counterProduct,
   },
 });
 

@@ -7,7 +7,7 @@ import { notify } from '../../../utils/notify';
 import {
   setAttributess,
   setProductSKUs
-} from '../../../Component/slice/couterSlice';
+} from '../../../Component/Product/counterProduct';
 import { useDispatch } from 'react-redux';
 import {
   Form,

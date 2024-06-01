@@ -11,7 +11,7 @@ import { notify } from '../../../utils/notify';
 const Bodymain = ({ status, countList}) => {
     console.log('countList:', countList);
     const dispatch = useDispatch();
-    const isLoading = useSelector(state => state.countOrder.isReloadOrder[status]);
+    const isLoading = useSelector(state => state.counterOrder.isReloadOrder[status]);
     const [order, setOrder] = useState([]);
     const [pagination, setPagination] = useState({ current: 1, pageSize: 10, total: countList });
 

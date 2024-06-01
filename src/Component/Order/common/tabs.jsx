@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 // import { keys, update } from 'lodash';
 export const Tab = () => {
   const dispatch = useDispatch();
-  const [orderCountListPrev, setOrderCountListPrev] = useState(useSelector((state) => state.countOrder.orderCountList));
+  const [orderCountListPrev, setOrderCountListPrev] = useState(useSelector((state) => state.counterOrder.orderCountList));
   const [counts, setCounts] = useState(orderCountListPrev);
   const [activeTab, setActiveTab] = useState('0');
 

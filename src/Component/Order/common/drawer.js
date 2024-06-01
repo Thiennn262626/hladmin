@@ -15,8 +15,8 @@ const DescriptionItem = ({ title, content }) => (
 
 const Drawers = () => {
   const dispatch = useDispatch();
-  const open = useSelector((state) => state.counter.openDrawerApply);
-  const idOrder = useSelector((state) => state.counter.idOrder);
+  const open = useSelector((state) => state.counterOrder.openDrawerApply);
+  const idOrder = useSelector((state) => state.counterOrder.idOrder);
   const [data, setData] = useState({});
   const onClose = () => {
     dispatch(setOpenDrawerApply(false));
