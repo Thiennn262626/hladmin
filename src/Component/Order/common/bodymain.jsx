@@ -7,6 +7,7 @@ import { setOpenDrawerApply, setIdOrder, setOrderData, setReloadOrder, setOrderC
 import { useDispatch, useSelector } from 'react-redux';
 import DrawerApply from './drawer';
 import { notify } from '../../../utils/notify';
+
 const Bodymain = ({ status, countList}) => {
     console.log('countList:', countList);
     const dispatch = useDispatch();
@@ -18,7 +19,6 @@ const Bodymain = ({ status, countList}) => {
         try {
             dispatch(setReloadOrder({ status: status, isLoading: true }));
             const res = await orderServices.getListOrderByStatus(status, offset, limit);
-            console.log('res:', res);
             if (res) {
                 setOrder(res || []);
                 setPagination(prev => ({ ...prev, total: countList }));
@@ -31,47 +31,18 @@ const Bodymain = ({ status, countList}) => {
     }
 
     const handleTableChange = (pagination, filters, sorter, extra) => {
-        console.log('pagination:', pagination);
         setPagination(pagination);
         const offset = (pagination.current - 1) * pagination.pageSize;
         const limit = pagination.pageSize;
-        console.log('offset0000000:', offset);
-        console.log('limit0000000:', limit);
         fetchOrder(offset, limit);
     }
 
     useEffect(() => {
         fetchOrder(0, pagination.pageSize);
-        return () => {
-            setOrder([]);
-        }
-    }, [status]);
-    // console.log('countList:', countList);
-    // const dispatch = useDispatch();
-    // const orderCountList = useSelector(state => state.countOrder.orderCountList);
-    // const [order, setOrder] = useState([]);
-    // const [pagination, setPagination] = useState({ current: 1, pageSize: 10, total: countList });
-    // const [isLoading, setIsLoading] = useState(useSelector(state => state.countOrder.isReloadOrder[status]));
-    // function handleTableChange(pagination, filters, sorter, extra) {
-    //     console.log('pagination:', pagination);
-    //     setPagination(pagination);
-    //     const offset = (pagination.current - 1) * pagination.pageSize;
-    //     const limit = pagination.pageSize;
-    //     fetchOrder(offset, limit);
-    // }
-    //  const fetchOrder = async (offset, limit) => {
-    //     const res = await orderServices.getListOrderByStatus(status, offset, limit);
-    //     console.log('res:', res);
-    //     setOrder(res);
-    //     // dispatch(setOrderData({ status: status, data: res.orders }));
-    // }
-    //  useEffect(() => {
-    //     fetchOrder(0, pagination.pageSize);
-    //     return () => {
-    //         setOrder([]);
-    //     }
-    // }, [status]);
-
+        // return () => {
+        //     setOrder([]);
+        // }
+    }, []);
 
     const openDrawerApply = () => {
         dispatch(setOpenDrawerApply(true));
@@ -224,8 +195,10 @@ const Bodymain = ({ status, countList}) => {
         <Table  className={cx("tableOrder")} 
                 columns={columns} 
                 dataSource={order}
+                showHeader={false}
                 pagination={{
                 ...pagination,
+                position: ['topCenter'],
                 total: countList, // Cập nhật lại total từ countList
                 totalPage: Math.ceil(countList / pagination.pageSize) // Tính tổng số trang
             }}
@@ -236,5 +209,7 @@ const Bodymain = ({ status, countList}) => {
     </>
 
 }
+
+
 
 export default Bodymain
