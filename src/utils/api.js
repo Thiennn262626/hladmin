@@ -2,8 +2,8 @@ import axios from "axios";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import { handelException } from "../services/handelException.js";
-// const URL = "https://hlshop.azurewebsites.net";
-const URL = "http://localhost:3001";
+const URL = "https://hlshop.azurewebsites.net";
+// const URL = "http://localhost:3001";
 
 const api = axios.create({
   baseURL: URL,
