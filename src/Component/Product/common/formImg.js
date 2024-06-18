@@ -18,20 +18,37 @@ const Index = () => {
     }
     return e?.fileList;
   };
-
   const uploadImage = async (file) => {
     const data = new FormData();
     data.append("file", file);
-    const response = await productServices.addImg(data);
-    if (response) {
-      const avatarMediaID = {
-        mediaID: response?.mediaID,
-        uid: file?.uid,
-        url: response?.url,
-      };
-      dispatch(setAvatars([...fileList, avatarMediaID]));
+    try {
+      const response = await productServices.addImg(data);
+      if (response) {
+        const avatarMediaID = {
+          media_url: response?.media_url,
+          uid: file?.uid,
+        };
+        dispatch(setAvatars([...fileList, avatarMediaID]));
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
     }
   };
+
+  // const uploadImage = async (file) => {
+  //   const data = new FormData();
+  //   data.append("file", file);
+  //   console.log("file1", file?.name);
+  //   console.log("file2", file?.uid);
+  //   const response = await productServices.addImg(data);
+  //   if (response) {
+  //     const avatarMediaID = {
+  //       media_url: response?.media_url,
+  //       uid: file?.uid,
+  //     };
+  //     dispatch(setAvatars([...fileList, avatarMediaID]));
+  //   }
+  // };
   const handleRemove = (file) => {
     const newAvatarMediaIDS = avatarMediaIDS.filter(
       (item) => item.uid !== file?.uid
@@ -40,7 +57,7 @@ const Index = () => {
   };
   const setPreviewImage = (file) => {
     const avatarMediaID = avatarMediaIDS.find((item) => item.uid === file?.uid);
-    window.open(avatarMediaID?.url, "_blank");
+    window.open(avatarMediaID?.media_url, "_blank");
   };
   return (
     <Form.Item

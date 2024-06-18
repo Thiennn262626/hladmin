@@ -6,13 +6,20 @@ async function addImg(file) {
   try {
     const response = await apiAuth.post(
       `api/hlshop/admin/product/upload-image`,
-      file
+      file,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
     );
+
+    console.log("response", response);
     if (response) {
       return response;
     }
   } catch (error) {
-    console.error("Error fetching location data:", error);
+    console.error("Error uploading image:", error);
   }
 }
 //lấy ngành hàng
@@ -30,6 +37,7 @@ async function getCategory() {
 }
 async function addProduct(data) {
   try {
+    console.log("data addProduct", data);
     const response = await apiAuth.post(
       `api/hlshop/admin/product/create-product`,
       data

@@ -51,26 +51,26 @@ const Index = () => {
     dispatch(setProductDescription(description));
   }, [description]);
   useEffect(() => {
-    dispatch(setProductNotes(notes));
-  }, [notes]);
-  useEffect(() => {
     dispatch(setProductMadeIn(madeIn));
   }, [madeIn]);
-  useEffect(() => {
-    dispatch(setProductUses(uses));
-  }, [uses]);
-  useEffect(() => {
-    dispatch(setProductIngredient(ingredient));
-  }, [ingredient]);
-  useEffect(() => {
-    dispatch(setProductObjectsOfUse(objectsOfUse));
-  }, [objectsOfUse]);
-  useEffect(() => {
-    dispatch(setProductPreserve(preserve));
-  }, [preserve]);
-  useEffect(() => {
-    dispatch(setProductInstructionsForUse(instructionsForUse));
-  }, [instructionsForUse]);
+  // useEffect(() => {
+  //   dispatch(setProductNotes(notes));
+  // }, [notes]);
+  // useEffect(() => {
+  //   dispatch(setProductUses(uses));
+  // }, [uses]);
+  // useEffect(() => {
+  //   dispatch(setProductIngredient(ingredient));
+  // }, [ingredient]);
+  // useEffect(() => {
+  //   dispatch(setProductObjectsOfUse(objectsOfUse));
+  // }, [objectsOfUse]);
+  // useEffect(() => {
+  //   dispatch(setProductPreserve(preserve));
+  // }, [preserve]);
+  // useEffect(() => {
+  //   dispatch(setProductInstructionsForUse(instructionsForUse));
+  // }, [instructionsForUse]);
   useEffect(() => {
     dispatch(setProductHeight(height));
   }, [height]);
@@ -106,27 +106,27 @@ const Index = () => {
   const onChangeProductDescription = (e) => {
     setDescription(e.target.value);
   };
-  const onChangeProductNotes = (e) => {
-    setNotes(e.target.value);
-  };
   const onChangeProductMadeIn = (e) => {
     setMadeIn(e.target.value);
   };
-  const onChangeProductUses = (e) => {
-    setUses(e.target.value);
-  };
-  const onChangeProductIngredient = (e) => {
-    setIngredient(e.target.value);
-  };
-  const onChangeProductObjectsOfUse = (e) => {
-    setObjectsOfUse(e.target.value);
-  };
-  const onChangeProductPreserve = (e) => {
-    setPreserve(e.target.value);
-  };
-  const onChangeProductInstructionsForUse = (e) => {
-    setInstructionsForUse(e.target.value);
-  };
+  // const onChangeProductNotes = (e) => {
+  //   setNotes(e.target.value);
+  // };
+  // const onChangeProductUses = (e) => {
+  //   setUses(e.target.value);
+  // };
+  // const onChangeProductIngredient = (e) => {
+  //   setIngredient(e.target.value);
+  // };
+  // const onChangeProductObjectsOfUse = (e) => {
+  //   setObjectsOfUse(e.target.value);
+  // };
+  // const onChangeProductPreserve = (e) => {
+  //   setPreserve(e.target.value);
+  // };
+  // const onChangeProductInstructionsForUse = (e) => {
+  //   setInstructionsForUse(e.target.value);
+  // };
   const onChangeProductHeight = (e) => {
     setHeight(e.target.value);
   };
@@ -148,13 +148,13 @@ const Index = () => {
     setName("");
     setSlogan("");
     setDescription("");
-    setNotes("");
+    // setNotes("");
+    // setUses("");
+    // setIngredient("");
+    // setObjectsOfUse("");
+    // setPreserve("");
+    // setInstructionsForUse("");
     setMadeIn("");
-    setUses("");
-    setIngredient("");
-    setObjectsOfUse("");
-    setPreserve("");
-    setInstructionsForUse("");
     setHeight("");
     setWidth("");
     setLength("");
@@ -171,9 +171,14 @@ const Index = () => {
       <Form.Item label="Tên sản phẩm">
         <Input maxLength={120} value={name} onChange={onChangeProductName} />
       </Form.Item>
-      {/* <Form.Item label="Slogan sản phẩm">
-      <TextArea rows={2} maxLength={500} value={slogan} onChange={onChangeProductSlogan} />
-    </Form.Item> */}
+      <Form.Item label="Mô tả ngắn">
+        <TextArea
+          rows={2}
+          maxLength={500}
+          value={slogan}
+          onChange={onChangeProductSlogan}
+        />
+      </Form.Item>
       <Form.Item label="Mô tả">
         <TextArea
           rows={4}
@@ -195,11 +200,11 @@ const Index = () => {
             ))}
         </Select>
       </Form.Item>
+      <Form.Item label="Xuất xứ">
+        <Input maxLength={30} value={madeIn} onChange={onChangeProductMadeIn} />
+      </Form.Item>
       {/* <Form.Item label="Ghi chú">
       <TextArea rows={3} maxLength={1000} value={notes} onChange={onChangeProductNotes} />
-    </Form.Item>
-    <Form.Item label="Xuất xứ">
-      <Input maxLength={30} value={madeIn} onChange={onChangeProductMadeIn} />
     </Form.Item>
     <Form.Item label="Công dụng">
       <TextArea rows={3} maxLength={500} value={uses} onChange={onChangeProductUses} />

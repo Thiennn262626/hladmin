@@ -24,8 +24,7 @@ type attributes = {
 
 type attributeValue = {
   locAttributeValueName: string;
-  mediaID: string;
-  urlMedia: string;
+  media_url: string;
 };
 
 type SKU = {
@@ -42,11 +41,11 @@ export default function TestPhanLoai() {
     { price: 0, totalStock: 0, priceBefore: 0 },
   ];
 
-
   const saveRedux = () => {
-    dispatch(setAttributess(attributes));
-    dispatch(setProductSKUs(SKUs));
+    // dispatch(setAttributess(attributes));
+    // dispatch(setProductSKUs(SKUs));
   };
+
   const resetSKUs = () => {
     setSKUs(initialSKUs);
   };
@@ -56,23 +55,26 @@ export default function TestPhanLoai() {
     setSKUs((prevSKUs) => {
       const newSKUs = [...prevSKUs];
       newSKUs[index] = { ...newSKUs[index], [field]: parseFloat(value) || 0 };
+      dispatch(setProductSKUs(newSKUs));
       return newSKUs;
     });
   };
 
   const handleChangeAttributes = (locAttributeName: string, index: number) => {
     setAttributes((prevAttributes) => {
-      const newAttributes = [...prevAttributes];
+      let newAttributes = [...prevAttributes];
 
       if (newAttributes[index]) {
         newAttributes[index].locAttributeName = locAttributeName;
       }
-
+      console.log("handleChangeAttributes", newAttributes);
       return newAttributes;
     });
+    // dispatch(setAttributess(attributes));
   };
 
-  const handleChangeAttributeValueMedia = (attributeIndex: number, valueIndex: number, mediaID: string, urlMedia: string) => {
+  const handleChangeAttributeValueMedia = (attributeIndex: number, valueIndex: number, media_url: string) => {
+    console.log(attributeIndex, valueIndex, media_url);
     setAttributes((prevAttributes) => {
       const newAttributes = [...prevAttributes];
 
@@ -83,13 +85,13 @@ export default function TestPhanLoai() {
       ) {
         newAttributes[attributeIndex].attributeValue[valueIndex] = {
           ...newAttributes[attributeIndex].attributeValue[valueIndex],
-          mediaID: mediaID,
-          urlMedia: urlMedia,
+          media_url: media_url,
         };
       }
-
+      console.log("handleChangeAttributeValueMedia", newAttributes);
       return newAttributes;
     });
+    // dispatch(setAttributess(attributes));
   };
 
 
@@ -104,29 +106,30 @@ export default function TestPhanLoai() {
             attributeValue: [
               {
                 locAttributeValueName: 'Loại 1',
-                mediaID: '',
-                urlMedia: '',
+                media_url: '',
               },
             ]
           },
         ];
       }
-
+      console.log("handleAddItemToAttributes", prevAttributes);
       return prevAttributes;
     });
+    // dispatch(setAttributess(attributes));
   };
 
   const handleDeleteItemInAttributes = (index: number) => {
     resetSKUs();
     setAttributes((prevAttributes) => {
       prevAttributes[index].attributeValue.forEach((value) => {
-        handleChangeAttributeValueMedia(index, prevAttributes[index].attributeValue.indexOf(value), "", "");
+        handleChangeAttributeValueMedia(index, prevAttributes[index].attributeValue.indexOf(value), "");
       }
       );
       // Use the functional form of setAttributes to ensure the update is based on the latest state
+      console.log("handleDeleteItemInAttributes", prevAttributes);
       return prevAttributes.filter((_, i) => i !== index);// hàm filter trả về mảng mới với các phần tử thỏa mãn điều kiện
-
     });
+    // dispatch(setAttributess(attributes));
   };
 
 
@@ -138,9 +141,11 @@ export default function TestPhanLoai() {
       if (newAttributes[attributeIndex] && newAttributes[attributeIndex].attributeValue[valueIndex]) {
         newAttributes[attributeIndex].attributeValue[valueIndex].locAttributeValueName = locAttributeValueName;
       }
-
+      console.log("handleChangeAttributeValue", newAttributes);
+      // dispatch(setAttributess(newAttributes));
       return newAttributes;
     });
+    // dispatch(setAttributess(attributes));
   };
 
   const handleAddItemToAttributeValue = (attributeIndex: number) => {
@@ -156,15 +161,16 @@ export default function TestPhanLoai() {
               ...attribute.attributeValue,
               {
                 locAttributeValueName: '',
-                mediaID: '',
-                urlMedia: '',
+                media_url: '',
               },
             ],
           };
         }
+        console.log("handleAddItemToAttributeValue", attribute);
         return attribute;
       });
     });
+    // dispatch(setAttributess(attributes));
   };
 
 
@@ -181,24 +187,30 @@ export default function TestPhanLoai() {
         if (index === attributeIndex) {
           // Check if there's more than one element before applying the filter
           if (attribute.attributeValue.length > 1) {
-            handleChangeAttributeValueMedia(attributeIndex, valueIndex, "", "");
+            handleChangeAttributeValueMedia(attributeIndex, valueIndex, "");
             return {
               ...attribute,
               attributeValue: attribute.attributeValue.filter((_, i) => i !== valueIndex),
             };
           }
         }
+        console.log("handleDeleteItemInAttributeValue", attribute);
         return attribute;
       });
     });
+    // dispatch(setAttributess(attributes));
   };
   const uploadImagePL = async (file, attributeIndex, valueIndex) => {
-    handleChangeAttributeValueMedia(attributeIndex, valueIndex, "a", "");
+    handleChangeAttributeValueMedia(attributeIndex, valueIndex, "a");
     const data = new FormData();
     data.append("file", file);
-    const response = await productServices.addImg(data);
-    if (response) {
-      handleChangeAttributeValueMedia(attributeIndex, valueIndex, response?.mediaID, response?.url);
+    try {
+      const response = await productServices.addImg(data);
+      if (response) {
+        handleChangeAttributeValueMedia(attributeIndex, valueIndex, response?.media_url);
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
     }
   };
 
@@ -286,9 +298,9 @@ export default function TestPhanLoai() {
           //<<<SaveOutlined /> /> />
           <div className='!w-full'>
             <b className='!pb-[20px] !pr-[20px]'>Thông tin phân loại</b>
-            <Button type="text" icon={<SaveOutlined />} onClick={saveRedux}>
+            {/* <Button type="text" icon={<SaveOutlined />} onClick={saveRedux}>
               Lưu
-            </Button>
+            </Button> */}
 
             <div className='flex  m-[15px] !w-full'>
               <div className='w-[20%]'>
@@ -309,20 +321,34 @@ export default function TestPhanLoai() {
                       <Space>
                         <Input
                           placeholder="Loại"
-                          value={name1}
+                          value={index === 0 ? name1 : name2}
                           onChange={(e) => {
-                            setName1(e.target.value);
+                            if (index === 0) {
+                              setName1(e.target.value);
+                            } else {
+                              setName2(e.target.value);
+                            }
                           }}
 
                         />
                         <Button type="text" icon={<PlusOutlined />} onClick={(e) => {
-                          if (!name1) {
-                            notify.notify1('Vui lòng nhập tên loại', 'info');
-                            return;
+                          if (index === 0) {
+                            if (!name1) {
+                              notify.notify1('Vui lòng nhập tên loại', 'info');
+                              return;
+                            }
+                            handleAddItemToAttributeValue(index)
+                            handleChangeAttributeValue(index, attribute.attributeValue.length, name1);
+                            setName1('');
+                          } else {
+                            if (!name2) {
+                              notify.notify1('Vui lòng nhập tên loại', 'info');
+                              return;
+                            }
+                            handleAddItemToAttributeValue(index)
+                            handleChangeAttributeValue(index, attribute.attributeValue.length, name2);
+                            setName2('');
                           }
-                          handleAddItemToAttributeValue(index)
-                          handleChangeAttributeValue(index, attribute.attributeValue.length, name1);
-                          setName1('');
                         }}>
                           Thêm
                         </Button>
@@ -369,7 +395,7 @@ export default function TestPhanLoai() {
                           <tr key={`${index1}`} className='h-[135px]'>
                             {/* <td>{c1.locAttributeValueName}</td>  */}
                             <td className='!h-[100%] '>
-                              {c1.mediaID !== "" && (
+                              {c1.media_url !== "" && (
                                 <div
 
                                   style={{
@@ -385,7 +411,7 @@ export default function TestPhanLoai() {
                                     preview={false}
                                     width={'100%'}
                                     height={'100%'}
-                                    src={c1.urlMedia}
+                                    src={c1.media_url}
                                     style={{
                                       objectFit: 'cover', // Đảm bảo ảnh fit đúng vào kích thước vuông
                                     }}
@@ -403,25 +429,25 @@ export default function TestPhanLoai() {
                                       zIndex: 1,
                                     }}
                                     onClick={() => {
-                                      handleChangeAttributeValueMedia(0, index1, "", "");
+                                      handleChangeAttributeValueMedia(0, index1, "");
                                     }}
                                   />
                                 </div>
                               )}
-                              {c1.mediaID === "" && (
+                              {c1.media_url === "" && (
                                 <div className='mt-[15px]'>
                                   <Form.Item name="upload">
                                     <Upload
                                       listType="picture-card"
                                       onRemove={() => {
-                                        handleChangeAttributeValueMedia(0, index1, "", "");
+                                        handleChangeAttributeValueMedia(0, index1, "");
                                       }}
                                       onPreview={() => { console.log("onPreview") }}
                                       beforeUpload={(file) => {
                                         uploadImagePL(file, 0, index1);
                                       }}
                                     >
-                                      {c1.mediaID === "" && (
+                                      {c1.media_url === "" && (
                                         <div>
                                           <PlusOutlined />
                                           <div
@@ -500,7 +526,7 @@ export default function TestPhanLoai() {
                               <tr key={`${index1}${index2}`}>
                                 {index2 === 0 ?
                                   <td className='!h-full'>
-                                    {c1.mediaID !== "" && (
+                                    {c1.media_url !== "" && (
                                       <div
                                         style={{
                                           position: 'relative',
@@ -515,7 +541,7 @@ export default function TestPhanLoai() {
                                           preview={false}
                                           width={'100%'}
                                           height={'100%'}
-                                          src={c1.urlMedia}
+                                          src={c1.media_url}
                                           style={{
                                             objectFit: 'cover', // Đảm bảo ảnh fit đúng vào kích thước vuông
                                           }}
@@ -533,25 +559,26 @@ export default function TestPhanLoai() {
                                             zIndex: 1,
                                           }}
                                           onClick={() => {
-                                            handleChangeAttributeValueMedia(0, index1, "", "");
+                                            handleChangeAttributeValueMedia(0, index1, "");
                                           }}
                                         />
                                       </div>
                                     )}
-                                    {c1.mediaID === "" && (
+                                    {c1.media_url === "" && (
                                       <div>
                                         <Form.Item name="upload">
                                           <Upload
                                             listType="picture-card"
                                             onRemove={() => {
-                                              handleChangeAttributeValueMedia(0, index1, "", "");
+                                              console.log("onRemove", index1);
+                                              handleChangeAttributeValueMedia(0, index1, "");
                                             }}
                                             onPreview={() => { console.log("onPreview") }}
                                             beforeUpload={(file) => {
                                               uploadImagePL(file, 0, index1);
                                             }}
                                           >
-                                            {c1.mediaID === "" && (
+                                            {c1.media_url === "" && (
                                               <div>
                                                 <PlusOutlined />
                                                 <div

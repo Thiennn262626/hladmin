@@ -50,7 +50,7 @@ const counterProductSlice = createSlice({
     setAvatars(state, action) {
       state.avatars = action.payload;
       state.dataPost.avatarMediaIDS = action.payload.map((avatar) => ({
-        mediaID: avatar.mediaID,
+        media_url: avatar.media_url,
       }));
       console.log("data", state.dataPost);
     },
@@ -62,14 +62,13 @@ const counterProductSlice = createSlice({
       console.log("dataAttribute", state.dataAttribute);
     },
     setAttributess(state, action) {
+      state.dataPost.attributes = [];
       state.dataPost.attributes = action.payload;
-      console.log("attributes", state.dataPost.attributes);
-      console.log("datapost", state.dataPost);
+      console.log("setAttributess", state.dataPost.attributes);
     },
     setProductSKUs(state, action) {
       state.dataPost.productSKUs = action.payload;
-      console.log("productSKUs", state.dataPost.productSKUs);
-      console.log("datapost", state.dataPost);
+      console.log("setProductSKUs", state.dataPost.productSKUs);
     },
     setProductName(state, action) {
       state.dataPost.productName = action.payload;
