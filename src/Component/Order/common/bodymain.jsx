@@ -39,9 +39,6 @@ const Bodymain = ({ status, countList}) => {
 
     useEffect(() => {
         fetchOrder(0, pagination.pageSize);
-        // return () => {
-        //     setOrder([]);
-        // }
     }, []);
 
     const openDrawerApply = () => {

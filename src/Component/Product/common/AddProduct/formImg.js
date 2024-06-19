@@ -23,6 +23,7 @@ const Index = () => {
     data.append("file", file);
     try {
       const response = await productServices.addImg(data);
+      console.log("Upload response:", response);
       if (response) {
         const avatarMediaID = {
           media_url: response?.media_url,
@@ -35,28 +36,16 @@ const Index = () => {
     }
   };
 
-  // const uploadImage = async (file) => {
-  //   const data = new FormData();
-  //   data.append("file", file);
-  //   console.log("file1", file?.name);
-  //   console.log("file2", file?.uid);
-  //   const response = await productServices.addImg(data);
-  //   if (response) {
-  //     const avatarMediaID = {
-  //       media_url: response?.media_url,
-  //       uid: file?.uid,
-  //     };
-  //     dispatch(setAvatars([...fileList, avatarMediaID]));
-  //   }
-  // };
   const handleRemove = (file) => {
     const newAvatarMediaIDS = avatarMediaIDS.filter(
       (item) => item.uid !== file?.uid
     );
     dispatch(setAvatars(newAvatarMediaIDS));
   };
+
   const setPreviewImage = (file) => {
     const avatarMediaID = avatarMediaIDS.find((item) => item.uid === file?.uid);
+    console.log("Preview image URL:", avatarMediaID?.media_url);
     window.open(avatarMediaID?.media_url, "_blank");
   };
   return (

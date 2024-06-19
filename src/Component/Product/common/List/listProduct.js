@@ -1,25 +1,56 @@
 import React, { useState, useEffect } from "react";
-import { productServices } from "../../../services/productService";
+import { productServices } from "../../../../services/productService";
 import { Table, Tag, Space } from "antd";
 import {
   setLoadProduct,
   setModalSkus,
   setProductID,
-} from "../../Product/counterProduct";
+} from "../../counterProduct";
 import { useDispatch, useSelector } from "react-redux";
-import { notify } from "../../../utils/notify";
+import { notify } from "../../../../utils/notify";
 import { LockOutlined, UnlockOutlined } from "@ant-design/icons";
 const Bodymain = () => {
   const dispatch = useDispatch();
   const [listProduct, setListProduct] = useState([]);
-  const { search, sortBy, minAmount, maxAmount, loadListProduct } = useSelector(
-    (state) => state.counter
-  );
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10,
+    total: 0,
+  });
+  const sortBy = useSelector((state) => state.counterProduct.sortBy);
+  const [countList, setCountList] = useState(100);
+
+  const fetchProduct = async (offset, limit) => {
+    try {
+      console.log("fetchProduct", offset, limit, sortBy);
+      const res = await productServices.listProduct(offset, limit, sortBy);
+      if (res) {
+        setListProduct(res.result || []);
+        setPagination((prev) => ({ ...prev, total: res.total }));
+        setCountList(res.total);
+      }
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  };
+
+  const handleTableChange = (pagination, filters, sorter, extra) => {
+    setPagination(pagination);
+    const offset = (pagination.current - 1) * pagination.pageSize;
+    const limit = pagination.pageSize;
+    fetchProduct(offset, limit);
+  };
+
+  useEffect(() => {
+    console.log("sortBy", sortBy);
+    fetchProduct(0, pagination.pageSize);
+  }, [sortBy]);
 
   const handleOnCLick = (record) => {
     dispatch(setModalSkus(true));
     dispatch(setProductID(record?.productID));
   };
+
   const handleOnCLickLock = async (record, enable) => {
     let content =
       enable === 0
@@ -45,29 +76,6 @@ const Bodymain = () => {
       }
     }
   };
-  useEffect(() => {
-    let data = {};
-    if (search !== "") {
-      data.search = search;
-    }
-    if (sortBy !== -1) {
-      data.sortBy = sortBy;
-    }
-    if (minAmount !== -1) {
-      data.minAmount = minAmount;
-    }
-    if (maxAmount !== -1) {
-      data.maxAmount = maxAmount;
-    }
-    const fetchProduct = async () => {
-      const res = await productServices.listProduct(0, 100, 0);
-      if (res) {
-        setListProduct(res.result);
-        dispatch(setLoadProduct(false));
-      }
-    };
-    fetchProduct();
-  }, [search, sortBy, minAmount, maxAmount, loadListProduct]);
 
   const columns = [
     {
@@ -124,9 +132,16 @@ const Bodymain = () => {
   return (
     <>
       <Table
-        className="p-[25px] border rounded-[12px] m-[10px] hover:shadow-lg transition-all duration-300 bg-[#FAFAFA]"
+        className="p-[25px] transition-all duration-300 bg-[#FAFAFA]"
         columns={columns}
         dataSource={listProduct}
+        pagination={{
+          ...pagination,
+          position: ["topCenter"],
+          total: countList, // Cập nhật lại total từ countList
+          totalPage: Math.ceil(countList / pagination.pageSize),
+        }}
+        onChange={handleTableChange}
       />
     </>
   );

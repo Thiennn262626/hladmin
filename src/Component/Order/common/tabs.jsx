@@ -88,7 +88,7 @@ export const Tab = () => {
     ];
   
   return (
-    <Tabs className='bg-[#ffffff] p-[25px]' onChange={onChange}>
+    <Tabs className='bg-[#ffffff] p-[10px]' onChange={onChange} centered= {true}>
       {items.map((tab) => {
         const { key, label, children } = tab;
         return (

@@ -4,7 +4,7 @@ import { Tab } from "./common/tabs";
 const Index = () => {
   return (
     <>
-      <div className="m-[50px]">
+      <div className="m-[20px]">
         <Tab />
       </div>
     </>

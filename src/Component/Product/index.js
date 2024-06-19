@@ -3,9 +3,9 @@ import Add from "./common";
 
 const Index = () => {
   return (
-    <div  >
-        <Add />
-      </div>
+    <div>
+      <Add />
+    </div>
   );
 };
 

@@ -29,12 +29,9 @@ const counterProductSlice = createSlice({
       productSKUs: [],
     },
     items: [],
-    dataAttribute: [],
     //
     search: "",
-    sortBy: -1,
-    minAmount: -1,
-    maxAmount: -1,
+    sortBy: 0,
   },
   reducers: {
     setLoadProduct(state, action) {
@@ -56,10 +53,6 @@ const counterProductSlice = createSlice({
     },
     setItems(state, action) {
       state.items = action.payload;
-    },
-    setDataAttribute(state, action) {
-      state.dataAttribute = action.payload;
-      console.log("dataAttribute", state.dataAttribute);
     },
     setAttributess(state, action) {
       state.dataPost.attributes = [];
@@ -123,12 +116,6 @@ const counterProductSlice = createSlice({
       state.sortBy = action.payload;
       console.log("sortBy", state.sortBy);
     },
-    setMin(state, action) {
-      state.minAmount = action.payload;
-    },
-    setMax(state, action) {
-      state.maxAmount = action.payload;
-    },
   },
 });
 
@@ -138,7 +125,6 @@ export const {
   setProductID,
   setAvatars,
   setItems,
-  setDataAttribute,
   setAttributess,
   setProductSKUs,
   setProductName,
@@ -158,8 +144,6 @@ export const {
   setProductCategoryID,
   setSearch,
   setSortBy,
-  setMin,
-  setMax,
 } = counterProductSlice.actions;
 
 export default counterProductSlice.reducer;

@@ -3,13 +3,13 @@ import { Button, Modal, Input } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { Table, Tag, Space } from "antd";
 import { LockOutlined, UnlockOutlined } from "@ant-design/icons";
-import { notify } from "../../../utils/notify";
+import { notify } from "../../../../utils/notify";
 
 import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, theme } from "antd";
 
-import { setModalSkus } from "../../Product/counterProduct";
-import { productServices } from "../../../services/productService";
+import { setModalSkus } from "../../counterProduct";
+import { productServices } from "../../../../services/productService";
 const { useToken } = theme;
 
 const App = () => {
