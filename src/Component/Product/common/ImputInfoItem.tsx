@@ -41,10 +41,10 @@ export default function TestPhanLoai() {
     { price: 0, totalStock: 0, priceBefore: 0 },
   ];
 
-  const saveRedux = () => {
-    // dispatch(setAttributess(attributes));
-    // dispatch(setProductSKUs(SKUs));
-  };
+  // const saveRedux = () => {
+  //   dispatch(setAttributess(attributes));
+  //   dispatch(setProductSKUs(SKUs));
+  // };
 
   const resetSKUs = () => {
     setSKUs(initialSKUs);
@@ -62,44 +62,68 @@ export default function TestPhanLoai() {
 
   const handleChangeAttributes = (locAttributeName: string, index: number) => {
     setAttributes((prevAttributes) => {
-      let newAttributes = [...prevAttributes];
-
-      if (newAttributes[index]) {
-        newAttributes[index].locAttributeName = locAttributeName;
-      }
-      console.log("handleChangeAttributes", newAttributes);
+      const newAttributes = prevAttributes.map((attribute, i) =>
+        i === index
+          ? { ...attribute, locAttributeName: locAttributeName }
+          : attribute
+      );
+      dispatch(setAttributess(newAttributes));
       return newAttributes;
     });
-    // dispatch(setAttributess(attributes));
   };
 
+  // const handleChangeAttributeValueMedia = (attributeIndex: number, valueIndex: number, media_url: string) => {
+  //   setAttributes((prevAttributes) => {
+  //     const newAttributes = [...prevAttributes];
+
+  //     if (
+  //       newAttributes[attributeIndex] &&
+  //       newAttributes[attributeIndex].attributeValue &&
+  //       newAttributes[attributeIndex].attributeValue[valueIndex]
+  //     ) {
+  //       newAttributes[attributeIndex].attributeValue[valueIndex] = {
+  //         ...newAttributes[attributeIndex].attributeValue[valueIndex],
+  //         media_url: media_url,
+  //       };
+  //     }
+  //     console.log("handleChangeAttributeValueMedia", newAttributes);
+  //     return newAttributes;
+  //   });
+  // };
   const handleChangeAttributeValueMedia = (attributeIndex: number, valueIndex: number, media_url: string) => {
-    console.log(attributeIndex, valueIndex, media_url);
     setAttributes((prevAttributes) => {
-      const newAttributes = [...prevAttributes];
-
-      if (
-        newAttributes[attributeIndex] &&
-        newAttributes[attributeIndex].attributeValue &&
-        newAttributes[attributeIndex].attributeValue[valueIndex]
-      ) {
-        newAttributes[attributeIndex].attributeValue[valueIndex] = {
-          ...newAttributes[attributeIndex].attributeValue[valueIndex],
-          media_url: media_url,
-        };
-      }
-      console.log("handleChangeAttributeValueMedia", newAttributes);
+      const newAttributes = prevAttributes.map((attribute, i) => {
+        if (i === attributeIndex) {
+          const newAttributeValues = attribute.attributeValue.map((value, j) => {
+            if (j === valueIndex) {
+              return {
+                ...value,
+                media_url: media_url,
+              };
+            }
+            return value;
+          });
+          return {
+            ...attribute,
+            attributeValue: newAttributeValues,
+          };
+        }
+        return attribute;
+      });
+      dispatch(setAttributess(newAttributes));
       return newAttributes;
     });
-    // dispatch(setAttributess(attributes));
   };
+
 
 
   const handleAddItemToAttributes = () => {
     resetSKUs();
+
     setAttributes((prevAttributes) => {
+      // Kiểm tra nếu số lượng attributes ít hơn 2, thì thêm một item mới
       if (prevAttributes.length < 2) {
-        return [
+        const newAttributes = [
           ...prevAttributes,
           {
             locAttributeName: '',
@@ -111,42 +135,91 @@ export default function TestPhanLoai() {
             ]
           },
         ];
+        dispatch(setAttributess(newAttributes));
+        return newAttributes;
       }
-      console.log("handleAddItemToAttributes", prevAttributes);
       return prevAttributes;
     });
-    // dispatch(setAttributess(attributes));
   };
 
+
+
+  // const handleDeleteItemInAttributes = (index: number) => {
+  //   resetSKUs();
+  //   setAttributes((prevAttributes) => {
+  //     prevAttributes[index].attributeValue.forEach((value) => {
+  //       handleChangeAttributeValueMedia(index, prevAttributes[index].attributeValue.indexOf(value), "");
+  //     }
+  //     );
+  //     console.log("handleDeleteItemInAttributes", prevAttributes);
+  //     return prevAttributes.filter((_, i) => i !== index);// hàm filter trả về mảng mới với các phần tử thỏa mãn điều kiện
+  //   });
+  // };
   const handleDeleteItemInAttributes = (index: number) => {
     resetSKUs();
-    setAttributes((prevAttributes) => {
-      prevAttributes[index].attributeValue.forEach((value) => {
-        handleChangeAttributeValueMedia(index, prevAttributes[index].attributeValue.indexOf(value), "");
-      }
-      );
-      // Use the functional form of setAttributes to ensure the update is based on the latest state
-      console.log("handleDeleteItemInAttributes", prevAttributes);
-      return prevAttributes.filter((_, i) => i !== index);// hàm filter trả về mảng mới với các phần tử thỏa mãn điều kiện
-    });
-    // dispatch(setAttributess(attributes));
-  };
 
-
-  const handleChangeAttributeValue = (attributeIndex: number, valueIndex: number, locAttributeValueName: string) => {
-    resetSKUs();
     setAttributes((prevAttributes) => {
+      // Tạo một bản sao của mảng attributes
       const newAttributes = [...prevAttributes];
 
-      if (newAttributes[attributeIndex] && newAttributes[attributeIndex].attributeValue[valueIndex]) {
-        newAttributes[attributeIndex].attributeValue[valueIndex].locAttributeValueName = locAttributeValueName;
+      // Lặp qua mỗi attributeValue và gọi hàm handleChangeAttributeValueMedia để xóa media_url
+      if (index === 0) {
+        newAttributes[index].attributeValue.forEach((value, valueIndex) => {
+          handleChangeAttributeValueMedia(index, valueIndex, "");
+        });
       }
-      console.log("handleChangeAttributeValue", newAttributes);
-      // dispatch(setAttributess(newAttributes));
+      // Sử dụng filter để tạo một mảng mới mà không chứa attribute tại vị trí index
+      const updatedAttributes = newAttributes.filter((_, i) => i !== index);
+
+      console.log("handleDeleteItemInAttributes", updatedAttributes);
+      dispatch(setAttributess(updatedAttributes));
+      return updatedAttributes;
+    });
+  };
+
+
+
+  // const handleChangeAttributeValue = (attributeIndex: number, valueIndex: number, locAttributeValueName: string) => {
+  //   resetSKUs();
+  //   setAttributes((prevAttributes) => {
+  //     const newAttributes = [...prevAttributes];
+
+  //     if (newAttributes[attributeIndex] && newAttributes[attributeIndex].attributeValue[valueIndex]) {
+  //       newAttributes[attributeIndex].attributeValue[valueIndex].locAttributeValueName = locAttributeValueName;
+  //     }
+  //     console.log("handleChangeAttributeValue", newAttributes);
+  //     // dispatch(setAttributess(newAttributes));
+  //     return newAttributes;
+  //   });
+  //   // dispatch(setAttributess(attributes));
+  // };
+  const handleChangeAttributeValue = (attributeIndex: number, valueIndex: number, locAttributeValueName: string) => {
+    resetSKUs();
+
+    setAttributes((prevAttributes) => {
+      const newAttributes = prevAttributes.map((attribute, idx) => {
+        if (idx === attributeIndex) {
+          const newAttributeValues = attribute.attributeValue.map((value, vIdx) => {
+            if (vIdx === valueIndex) {
+              return {
+                ...value,
+                locAttributeValueName: locAttributeValueName,
+              };
+            }
+            return value;
+          });
+          return {
+            ...attribute,
+            attributeValue: newAttributeValues,
+          };
+        }
+        return attribute;
+      });
+      dispatch(setAttributess(newAttributes));
       return newAttributes;
     });
-    // dispatch(setAttributess(attributes));
   };
+
 
   const handleAddItemToAttributeValue = (attributeIndex: number) => {
 
@@ -170,36 +243,65 @@ export default function TestPhanLoai() {
         return attribute;
       });
     });
-    // dispatch(setAttributess(attributes));
   };
 
 
+  // const handleDeleteItemInAttributeValue = (attributeIndex: number, valueIndex: number) => {
+  //   //nếu còn 1 phần tử thì không cho xóa
+  //   if (attributes[attributeIndex].attributeValue.length === 1) {
+  //     notify.notify1('Phải có ít nhất 1 loại', 'info');
+  //     return;
+  //   }
+  //   resetSKUs();
+  //   setAttributes((prevAttributes) => {
+  //     // Use the functional form of setAttributes to ensure the update is based on the latest state
+  //     return prevAttributes.map((attribute, index) => {
+  //       if (index === attributeIndex) {
+  //         // Check if there's more than one element before applying the filter
+  //         if (attribute.attributeValue.length > 1) {
+  //           handleChangeAttributeValueMedia(attributeIndex, valueIndex, "");
+  //           return {
+  //             ...attribute,
+  //             attributeValue: attribute.attributeValue.filter((_, i) => i !== valueIndex),
+  //           };
+  //         }
+  //       }
+  //       console.log("handleDeleteItemInAttributeValue", attribute);
+  //       return attribute;
+  //     });
+  //   });
+  // };
   const handleDeleteItemInAttributeValue = (attributeIndex: number, valueIndex: number) => {
-    //nếu còn 1 phần tử thì không cho xóa
+    // Kiểm tra nếu chỉ còn 1 phần tử thì không cho xóa
     if (attributes[attributeIndex].attributeValue.length === 1) {
       notify.notify1('Phải có ít nhất 1 loại', 'info');
       return;
     }
+
     resetSKUs();
+
     setAttributes((prevAttributes) => {
-      // Use the functional form of setAttributes to ensure the update is based on the latest state
-      return prevAttributes.map((attribute, index) => {
+      const newAttributes = prevAttributes.map((attribute, index) => {
         if (index === attributeIndex) {
-          // Check if there's more than one element before applying the filter
           if (attribute.attributeValue.length > 1) {
-            handleChangeAttributeValueMedia(attributeIndex, valueIndex, "");
+            if (attributeIndex !== 1) {
+              console.log("handleDeleteItemInAttributeValue, handleChangeAttributeValueMedia");
+              handleChangeAttributeValueMedia(attributeIndex, valueIndex, "");
+            }
             return {
               ...attribute,
               attributeValue: attribute.attributeValue.filter((_, i) => i !== valueIndex),
             };
           }
         }
-        console.log("handleDeleteItemInAttributeValue", attribute);
         return attribute;
       });
+      console.log("handleDeleteItemInAttributeValue", newAttributes);
+      dispatch(setAttributess(newAttributes));
+      return newAttributes;
     });
-    // dispatch(setAttributess(attributes));
   };
+
   const uploadImagePL = async (file, attributeIndex, valueIndex) => {
     handleChangeAttributeValueMedia(attributeIndex, valueIndex, "a");
     const data = new FormData();
@@ -247,9 +349,9 @@ export default function TestPhanLoai() {
       <div>
         <Divider />
         <b className='!pb-[20px]'>Thông tin bán hàng</b>
-        <Button type="text" icon={<SaveOutlined />} onClick={saveRedux}>
+        {/* <Button type="text" icon={<SaveOutlined />} onClick={saveRedux}>
           Lưu
-        </Button>
+        </Button> */}
 
         <Divider />
         <div>
