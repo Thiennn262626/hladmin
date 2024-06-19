@@ -79,7 +79,7 @@ const Index = () => {
       notify.notify1("Vui lòng nhập SKU", "error");
       return;
     }
-    ImputInfoItem.setLoadings(true);
+    setLoadings(true);
     const response = await productServices.addProduct(dataPost);
     if (response) {
       setLoadings(false);
