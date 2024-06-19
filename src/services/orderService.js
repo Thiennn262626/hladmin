@@ -36,7 +36,7 @@ async function setStateOrder(id, orderStatus) {
       `/api/hlshop/admin/order/admin-update-order-status?orderID=${id}&orderStatus=${orderStatus}`
     );
     if (response) {
-      handelException.handelNotificationSwal("Success", "success");
+      handelException.handelNotificationSwal("Thành công!", "success");
       return true;
     }
   } catch (error) {
