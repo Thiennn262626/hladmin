@@ -7,8 +7,8 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import { FolderAddOutlined } from "@ant-design/icons";
 import { Button } from "antd";
-import { productServices } from "../../../services/productService";
-import { notify } from "../../../utils/notify";
+import { productServices } from "../../../../services/productService.js";
+import { notify } from "../../../../utils/notify.js";
 
 const Index = () => {
   const dataPost = useSelector((state) => state.counterProduct.dataPost);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { productServices } from "../../../services/productService";
+import { productServices } from "../../../../services/productService";
 import { Form, Input, Select, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -18,7 +18,7 @@ import {
   setProductLength,
   setProductWeight,
   setProductCategoryID,
-} from "../../Product/counterProduct";
+} from "../../counterProduct";
 import { DeleteOutlined } from "@ant-design/icons";
 import { set } from "nprogress";
 const { TextArea } = Input;

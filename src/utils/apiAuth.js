@@ -1,50 +1,10 @@
-// import axios from "axios";
-// import NProgress from "nprogress";
-// import "nprogress/nprogress.css";
-// import { handelException } from "../services/handelException.js";
-// // const URL = "https://hl-shop.azurewebsites.net";
-// const URL = "http://localhost:80";
-// const token = localStorage.getItem("token");
-// const api = axios.create({
-//   baseURL: URL,
-//   headers: {
-//     Authorization: token ? `Bearer ${token}` : "",
-//   },
-// });
-// //Khi một yêu cầu được thực hiện
-// api.interceptors.request.use(
-//   (config) => {
-//     NProgress.start();
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
-// api.interceptors.response.use(
-//   async (response) => {
-//     NProgress.done();
-
-//     if (response && response.data) {
-//       return response.data;
-//     }
-//     return response;
-//   },
-//   (error) => {
-//     NProgress.done();
-//     handelException.handelExceptions(error);
-//     return Promise.reject(error);
-//   }
-// );
-// export default api;
-
 import axios from "axios";
 //NProgress: Thư viện cho việc hiển thị thanh tiến trình (progress bar).
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import { handelException } from "../services/handelException";
-const URL = "https://hlshop.azurewebsites.net";
-// const URL = "http://localhost:3001";
+// const URL = "https://hlshop.azurewebsites.net";
+const URL = "http://localhost:3001";
 //Tạo một khách hàng Axios:
 const apiClient = axios.create({
   baseURL: URL,

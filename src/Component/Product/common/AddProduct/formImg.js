@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
-import { productServices } from "../../../services/productService";
+import { productServices } from "../../../../services/productService";
 import { Form, Upload } from "antd";
 import { useSelector, useDispatch } from "react-redux";
-import { setAvatars } from "../../Product/counterProduct";
+import { setAvatars } from "../../counterProduct";
 
 const Index = () => {
   const dispatch = useDispatch();

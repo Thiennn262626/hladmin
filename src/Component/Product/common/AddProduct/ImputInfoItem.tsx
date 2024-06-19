@@ -1,13 +1,13 @@
 import { useRef, Fragment, useEffect } from 'react';
-import { productServices } from '../../../services/productService'
+import { productServices } from '../../../../services/productService'
 import { PlusOutlined, DeleteOutlined, SaveOutlined } from '@ant-design/icons';
 import { Space, Tag } from 'antd';
 import React, { useState } from 'react';
-import { notify } from '../../../utils/notify';
+import { notify } from '../../../../utils/notify';
 import {
   setAttributess,
   setProductSKUs
-} from '../../../Component/Product/counterProduct';
+} from '../../counterProduct';
 import { useDispatch } from 'react-redux';
 import {
   Form,
