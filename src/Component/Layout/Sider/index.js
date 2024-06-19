@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShopOutlined, FileDoneOutlined , SnippetsOutlined } from '@ant-design/icons';
+import { ShopOutlined, FileDoneOutlined, SnippetsOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import { useNavigate } from "react-router-dom";
 function getItem(label, key, icon, children, type) {
@@ -27,9 +27,9 @@ const items = [
     {
         type: 'divider',
     },
-    getItem('Thống kê', 'sub5', <SnippetsOutlined />, [
-        getItem('Thu nhập', '4'),
-    ]),
+    // getItem('Thống kê', 'sub5', <SnippetsOutlined />, [
+    //     getItem('Thu nhập', '4'),
+    // ]),
 ];
 const App = () => {
     const navigate = useNavigate();
