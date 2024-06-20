@@ -6,6 +6,7 @@ import ModelLogin from "../Login/ModelLogin/index";
 import { Layout, Space } from "antd";
 import { useEffect } from "react";
 import { loginService } from "../../services/loginService";
+import { pad } from "lodash";
 const { Header, Sider, Content,  } = Layout;
 const Index = () => {
   useEffect(() => {
@@ -25,8 +26,11 @@ const Index = () => {
   }, []);
   const headerStyle = {
     textAlign: "center",
+    justifyContent: "center",
     width: "100%",
+    height: "100px",
     backgroundColor: "#ffffff",
+    // padding: "0 0 10px 0",
   };
   const contentStyle = {
     textAlign: "center",
