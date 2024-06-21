@@ -139,11 +139,25 @@ async function restockSku(productSKUID, totalStock) {
   }
 }
 
+async function getProductById(id) {
+  try {
+    const response = await apiAuth.get(
+      `api/hlshop/admin/product/get-product-by-id?ProductID=${id}`
+    );
+    if (response) {
+      return response;
+    }
+  } catch (error) {
+    console.error("Error fetching location data:", error);
+  }
+}
+
 export const productServices = {
   addImg,
   getCategory,
   addProduct,
   listProduct,
+  getProductById,
   getProductSku,
   enableProduct,
   enableSku,

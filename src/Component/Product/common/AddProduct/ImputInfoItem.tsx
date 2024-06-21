@@ -348,7 +348,11 @@ export default function TestPhanLoai() {
     <>
       <div>
         <Divider />
-        <b className='!pb-[20px]'>Thông tin bán hàng</b>
+        <div className="flex justify-start">
+          <b className="font-bold text-lg">
+            Thông tin bán hàng:
+          </b>
+        </div>
         {/* <Button type="text" icon={<SaveOutlined />} onClick={saveRedux}>
           Lưu
         </Button> */}

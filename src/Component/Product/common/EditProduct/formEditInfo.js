@@ -6,144 +6,129 @@ import {
   setProductName,
   setProductSlogan,
   setProductDescription,
-  setProductNotes,
   setProductMadeIn,
-  setProductUses,
-  setProductIngredient,
-  setProductObjectsOfUse,
-  setProductPreserve,
-  setProductInstructionsForUse,
   setProductHeight,
   setProductWidth,
   setProductLength,
   setProductWeight,
   setProductCategoryID,
 } from "../../counterProduct";
-import { DeleteOutlined } from "@ant-design/icons";
-import { set } from "nprogress";
+import { DeleteOutlined, SaveOutlined } from "@ant-design/icons";
+
 const { TextArea } = Input;
-const Index = () => {
+
+const FormEditInfo = ({ product }) => {
   const dispatch = useDispatch();
 
   const [name, setName] = useState("");
   const [slogan, setSlogan] = useState("");
   const [description, setDescription] = useState("");
   const [madeIn, setMadeIn] = useState("");
-  // const [notes, setNotes] = useState("");
-  // const [uses, setUses] = useState("");
-  // const [ingredient, setIngredient] = useState("");
-  // const [objectsOfUse, setObjectsOfUse] = useState("");
-  // const [preserve, setPreserve] = useState("");
-  // const [instructionsForUse, setInstructionsForUse] = useState("");
   const [height, setHeight] = useState("");
   const [width, setWidth] = useState("");
   const [length, setLength] = useState("");
   const [weight, setWeight] = useState("");
   const [categoryID, setCategoryID] = useState("");
 
+  const [category, setCategory] = useState([]);
+
+  useEffect(() => {
+    if (product) {
+      setName(product.productName || "");
+      setSlogan(product.productSlogan || "");
+      setDescription(product.productDescription || "");
+      setMadeIn(product.productMadeIn || "");
+      setHeight(product.productHeight || "");
+      setWidth(product.productWidth || "");
+      setLength(product.productLength || "");
+      setWeight(product.productWeight || "");
+      setCategoryID(product.productCategory?.productCategoryID || "");
+    }
+  }, [product]);
+
   useEffect(() => {
     dispatch(setProductName(name));
   }, [name]);
+
   useEffect(() => {
     dispatch(setProductSlogan(slogan));
   }, [slogan]);
+
   useEffect(() => {
     dispatch(setProductDescription(description));
   }, [description]);
+
   useEffect(() => {
     dispatch(setProductMadeIn(madeIn));
   }, [madeIn]);
-  // useEffect(() => {
-  //   dispatch(setProductNotes(notes));
-  // }, [notes]);
-  // useEffect(() => {
-  //   dispatch(setProductUses(uses));
-  // }, [uses]);
-  // useEffect(() => {
-  //   dispatch(setProductIngredient(ingredient));
-  // }, [ingredient]);
-  // useEffect(() => {
-  //   dispatch(setProductObjectsOfUse(objectsOfUse));
-  // }, [objectsOfUse]);
-  // useEffect(() => {
-  //   dispatch(setProductPreserve(preserve));
-  // }, [preserve]);
-  // useEffect(() => {
-  //   dispatch(setProductInstructionsForUse(instructionsForUse));
-  // }, [instructionsForUse]);
+
   useEffect(() => {
     dispatch(setProductHeight(height));
   }, [height]);
+
   useEffect(() => {
     dispatch(setProductWidth(width));
   }, [width]);
+
   useEffect(() => {
     dispatch(setProductLength(length));
   }, [length]);
+
   useEffect(() => {
     dispatch(setProductWeight(weight));
   }, [weight]);
+
   useEffect(() => {
     dispatch(setProductCategoryID(categoryID));
   }, [categoryID]);
 
-  const [category, setCategory] = useState([]);
   useEffect(() => {
     const getCategory = async () => {
       const response = await productServices.getCategory();
       if (response) {
-        setCategory(response?.result);
+        setCategory(response.result);
       }
     };
     getCategory();
   }, []);
+
   const onChangeProductName = (e) => {
     setName(e.target.value);
   };
+
   const onChangeProductSlogan = (e) => {
     setSlogan(e.target.value);
   };
+
   const onChangeProductDescription = (e) => {
     setDescription(e.target.value);
   };
+
   const onChangeProductMadeIn = (e) => {
     setMadeIn(e.target.value);
   };
-  // const onChangeProductNotes = (e) => {
-  //   setNotes(e.target.value);
-  // };
-  // const onChangeProductUses = (e) => {
-  //   setUses(e.target.value);
-  // };
-  // const onChangeProductIngredient = (e) => {
-  //   setIngredient(e.target.value);
-  // };
-  // const onChangeProductObjectsOfUse = (e) => {
-  //   setObjectsOfUse(e.target.value);
-  // };
-  // const onChangeProductPreserve = (e) => {
-  //   setPreserve(e.target.value);
-  // };
-  // const onChangeProductInstructionsForUse = (e) => {
-  //   setInstructionsForUse(e.target.value);
-  // };
+
   const onChangeProductHeight = (e) => {
     setHeight(e.target.value);
   };
+
   const onChangeProductWidth = (e) => {
     setWidth(e.target.value);
   };
+
   const onChangeProductLength = (e) => {
     setLength(e.target.value);
   };
+
   const onChangeProductWeight = (e) => {
     setWeight(e.target.value);
   };
+
   const onChangeProductCategoryID = (value) => {
     setCategoryID(value);
   };
 
-  //hàm xóa các thuộc tính input
+  // Clear input fields
   const clearInputInfo = () => {
     setName("");
     setSlogan("");
@@ -168,6 +153,9 @@ const Index = () => {
         <Button type="text" icon={<DeleteOutlined />} onClick={clearInputInfo}>
           Làm sạch
         </Button>
+        <Button type="text" icon={<SaveOutlined />} onClick={() => {}}>
+          Lưu thay đổi
+        </Button>
       </div>
       <Form.Item label="Tên sản phẩm" labelAlign="left">
         <Input maxLength={120} value={name} onChange={onChangeProductName} />
@@ -182,7 +170,7 @@ const Index = () => {
       </Form.Item>
       <Form.Item label="Mô tả" labelAlign="left">
         <TextArea
-          rows={6}
+          rows={4}
           maxLength={1000}
           value={description}
           onChange={onChangeProductDescription}
@@ -208,24 +196,6 @@ const Index = () => {
       <Form.Item label="Xuất xứ" labelAlign="left">
         <Input maxLength={30} value={madeIn} onChange={onChangeProductMadeIn} />
       </Form.Item>
-      {/* <Form.Item label="Ghi chú">
-      <TextArea rows={3} maxLength={1000} value={notes} onChange={onChangeProductNotes} />
-    </Form.Item>
-    <Form.Item label="Công dụng">
-      <TextArea rows={3} maxLength={500} value={uses} onChange={onChangeProductUses} />
-    </Form.Item>
-    <Form.Item label="Thành phần">
-      <TextArea rows={3} maxLength={500} value={ingredient} onChange={onChangeProductIngredient} />
-    </Form.Item> */}
-      {/* <Form.Item label="Đối tượng sử dụng">
-      <TextArea rows={3} maxLength={500} value={objectsOfUse} onChange={onChangeProductObjectsOfUse} />
-    </Form.Item>
-    <Form.Item label="Bảo quản">
-      <TextArea rows={3} maxLength={500} value={preserve} onChange={onChangeProductPreserve} />
-    </Form.Item> */}
-      {/* <Form.Item label="Hướng dẫn sử dụng">
-      <TextArea rows={3} maxLength={500} value={instructionsForUse} onChange={onChangeProductInstructionsForUse} />
-    </Form.Item> */}
       <div className="flex justify-start mb-3">
         <b className="!pb-[20px] !pr-[20px] font-bold text-lg">
           Thông tin vận chuyển
@@ -236,6 +206,9 @@ const Index = () => {
           onClick={clearInputDelivery}
         >
           Làm sạch
+        </Button>
+        <Button type="text" icon={<SaveOutlined />} onClick={() => {}}>
+          Lưu thay đổi
         </Button>
       </div>
       <Form.Item label="Chiều cao" labelAlign="left">
@@ -253,4 +226,5 @@ const Index = () => {
     </>
   );
 };
-export default Index;
+
+export default FormEditInfo;
