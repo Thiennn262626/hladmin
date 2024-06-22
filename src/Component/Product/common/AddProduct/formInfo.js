@@ -183,7 +183,7 @@ const Index = () => {
       <Form.Item label="Mô tả" labelAlign="left">
         <TextArea
           rows={6}
-          maxLength={1000}
+          maxLength={3000}
           value={description}
           onChange={onChangeProductDescription}
         />
@@ -238,18 +238,40 @@ const Index = () => {
           Làm sạch
         </Button>
       </div>
-      <Form.Item label="Chiều cao" labelAlign="left">
-        <Input maxLength={30} value={height} onChange={onChangeProductHeight} />
-      </Form.Item>
-      <Form.Item label="Chiều rộng" labelAlign="left">
-        <Input maxLength={30} value={width} onChange={onChangeProductWidth} />
-      </Form.Item>
-      <Form.Item label="Chiều dài" labelAlign="left">
-        <Input maxLength={30} value={length} onChange={onChangeProductLength} />
-      </Form.Item>
-      <Form.Item label="Trọng lượng" labelAlign="left">
-        <Input maxLength={30} value={weight} onChange={onChangeProductWeight} />
-      </Form.Item>
+      <Form labelCol={{ span: 3 }} wrapperCol={{ span: 3 }}>
+        <Form.Item label="Chiều cao" labelAlign="left">
+          <Input
+            maxLength={30}
+            value={height}
+            onChange={onChangeProductHeight}
+            addonAfter="cm"
+          />
+        </Form.Item>
+        <Form.Item label="Chiều rộng" labelAlign="left">
+          <Input
+            maxLength={30}
+            value={width}
+            onChange={onChangeProductWidth}
+            addonAfter="cm"
+          />
+        </Form.Item>
+        <Form.Item label="Chiều dài" labelAlign="left">
+          <Input
+            maxLength={30}
+            value={length}
+            onChange={onChangeProductLength}
+            addonAfter="cm"
+          />
+        </Form.Item>
+        <Form.Item label="Trọng lượng" labelAlign="left">
+          <Input
+            maxLength={30}
+            value={weight}
+            onChange={onChangeProductWeight}
+            addonAfter="g"
+          />
+        </Form.Item>
+      </Form>
     </>
   );
 };

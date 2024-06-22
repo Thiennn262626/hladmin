@@ -1,86 +1,50 @@
 import React, { useState, useEffect } from "react";
 import { productServices } from "../../../../services/productService";
 import { Form, Input, Select, Button } from "antd";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  setProductName,
-  setProductSlogan,
-  setProductDescription,
-  setProductMadeIn,
-  setProductHeight,
-  setProductWidth,
-  setProductLength,
-  setProductWeight,
-  setProductCategoryID,
-} from "../../counterProduct";
 import { DeleteOutlined, SaveOutlined } from "@ant-design/icons";
-
+import { notify } from "../../../../utils/notify";
 const { TextArea } = Input;
 
 const FormEditInfo = ({ product }) => {
-  const dispatch = useDispatch();
+  const [dataEditProductInfo, setDataEditProductInfo] = useState({
+    productID: product.productID,
+    productName: "",
+    productSlogan: "",
+    productDescription: "",
+    productMadeIn: "",
+    productCategoryID: "",
+  });
 
-  const [name, setName] = useState("");
-  const [slogan, setSlogan] = useState("");
-  const [description, setDescription] = useState("");
-  const [madeIn, setMadeIn] = useState("");
-  const [height, setHeight] = useState("");
-  const [width, setWidth] = useState("");
-  const [length, setLength] = useState("");
-  const [weight, setWeight] = useState("");
-  const [categoryID, setCategoryID] = useState("");
+  const [dataEditProductDelivery, setDataEditProductDelivery] = useState({
+    productID: product.productID,
+    productHeight: "",
+    productWidth: "",
+    productLength: "",
+    productWeight: "",
+  });
 
   const [category, setCategory] = useState([]);
 
   useEffect(() => {
     if (product) {
-      setName(product.productName || "");
-      setSlogan(product.productSlogan || "");
-      setDescription(product.productDescription || "");
-      setMadeIn(product.productMadeIn || "");
-      setHeight(product.productHeight || "");
-      setWidth(product.productWidth || "");
-      setLength(product.productLength || "");
-      setWeight(product.productWeight || "");
-      setCategoryID(product.productCategory?.productCategoryID || "");
+      setDataEditProductInfo({
+        productID: product.productID,
+        productName: product.productName || "",
+        productSlogan: product.productSlogan || "",
+        productDescription: product.productDescription || "",
+        productMadeIn: product.productMadeIn || "",
+        productCategoryID: product.productCategory?.productCategoryID || "",
+      });
+
+      setDataEditProductDelivery({
+        productID: product.productID,
+        productHeight: product.productHeight || "",
+        productWidth: product.productWidth || "",
+        productLength: product.productLength || "",
+        productWeight: product.productWeight || "",
+      });
     }
   }, [product]);
-
-  useEffect(() => {
-    dispatch(setProductName(name));
-  }, [name]);
-
-  useEffect(() => {
-    dispatch(setProductSlogan(slogan));
-  }, [slogan]);
-
-  useEffect(() => {
-    dispatch(setProductDescription(description));
-  }, [description]);
-
-  useEffect(() => {
-    dispatch(setProductMadeIn(madeIn));
-  }, [madeIn]);
-
-  useEffect(() => {
-    dispatch(setProductHeight(height));
-  }, [height]);
-
-  useEffect(() => {
-    dispatch(setProductWidth(width));
-  }, [width]);
-
-  useEffect(() => {
-    dispatch(setProductLength(length));
-  }, [length]);
-
-  useEffect(() => {
-    dispatch(setProductWeight(weight));
-  }, [weight]);
-
-  useEffect(() => {
-    dispatch(setProductCategoryID(categoryID));
-  }, [categoryID]);
 
   useEffect(() => {
     const getCategory = async () => {
@@ -92,56 +56,138 @@ const FormEditInfo = ({ product }) => {
     getCategory();
   }, []);
 
-  const onChangeProductName = (e) => {
-    setName(e.target.value);
+  const handleInfoChange = (e) => {
+    const { name, value } = e.target;
+    setDataEditProductInfo((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  const onChangeProductSlogan = (e) => {
-    setSlogan(e.target.value);
+  const handleDeliveryChange = (e) => {
+    const { name, value } = e.target;
+    setDataEditProductDelivery((prev) => ({
+      ...prev,
+      [name]: parseFloat(value) || "",
+    }));
   };
 
-  const onChangeProductDescription = (e) => {
-    setDescription(e.target.value);
+  const handleSelectChange = (value) => {
+    setDataEditProductInfo((prev) => ({
+      ...prev,
+      productCategoryID: value,
+    }));
   };
 
-  const onChangeProductMadeIn = (e) => {
-    setMadeIn(e.target.value);
-  };
-
-  const onChangeProductHeight = (e) => {
-    setHeight(e.target.value);
-  };
-
-  const onChangeProductWidth = (e) => {
-    setWidth(e.target.value);
-  };
-
-  const onChangeProductLength = (e) => {
-    setLength(e.target.value);
-  };
-
-  const onChangeProductWeight = (e) => {
-    setWeight(e.target.value);
-  };
-
-  const onChangeProductCategoryID = (value) => {
-    setCategoryID(value);
-  };
-
-  // Clear input fields
   const clearInputInfo = () => {
-    setName("");
-    setSlogan("");
-    setDescription("");
-    setMadeIn("");
-    setCategoryID("");
+    setDataEditProductInfo({
+      productName: "",
+      productSlogan: "",
+      productDescription: "",
+      productMadeIn: "",
+      productCategoryID: "",
+    });
   };
 
   const clearInputDelivery = () => {
-    setHeight("");
-    setWidth("");
-    setLength("");
-    setWeight("");
+    setDataEditProductDelivery({
+      productHeight: "",
+      productWidth: "",
+      productLength: "",
+      productWeight: "",
+    });
+  };
+
+  const saveProductInfo = async () => {
+    try {
+      // Kiểm tra null cho dataEditProductInfo
+      const {
+        productName,
+        productSlogan,
+        productDescription,
+        productMadeIn,
+        productCategoryID,
+      } = dataEditProductInfo;
+
+      if (
+        !productName ||
+        !productSlogan ||
+        !productDescription ||
+        !productMadeIn ||
+        !productCategoryID
+      ) {
+        notify.notify1(
+          "All product information fields must be filled.",
+          "error"
+        );
+        return;
+      }
+
+      const content = `
+      Are you sure you want to update the product information with the following details?
+    `;
+
+      const check = await notify.notify2(
+        "Update Product Info",
+        "warning",
+        content,
+        "Yes",
+        "No"
+      );
+
+      if (check) {
+        await productServices.updateProductInfo(dataEditProductInfo);
+      }
+    } catch (error) {
+      notify.notify1("Failed to update product information.", "error");
+    }
+  };
+
+  const saveDeliveryInfo = async () => {
+    try {
+      // Kiểm tra null và là số cho dataEditProductDelivery
+      const { productHeight, productWidth, productLength, productWeight } =
+        dataEditProductDelivery;
+
+      if (
+        isNaN(productHeight) ||
+        productHeight <= 0 ||
+        isNaN(productWidth) ||
+        productWidth <= 0 ||
+        isNaN(productLength) ||
+        productLength <= 0 ||
+        isNaN(productWeight) ||
+        productWeight <= 0
+      ) {
+        notify.notify1(
+          "Height, width, length, and weight must be numbers greater than 0.",
+          "error"
+        );
+        return;
+      }
+
+      const content = `
+      Are you sure you want to update the product delivery information with the following details?
+      - Height: ${productHeight} cm
+      - Width: ${productWidth} cm
+      - Length: ${productLength} cm
+      - Weight: ${productWeight} g
+    `;
+
+      const check = await notify.notify2(
+        "Update Product Delivery Info",
+        "warning",
+        content,
+        "Yes",
+        "No"
+      );
+
+      if (check) {
+        await productServices.updateProductDelivery(dataEditProductDelivery);
+      }
+    } catch (error) {
+      notify.notify1("Failed to update product delivery information.", "error");
+    }
   };
 
   return (
@@ -153,33 +199,40 @@ const FormEditInfo = ({ product }) => {
         <Button type="text" icon={<DeleteOutlined />} onClick={clearInputInfo}>
           Làm sạch
         </Button>
-        <Button type="text" icon={<SaveOutlined />} onClick={() => {}}>
+        <Button type="text" icon={<SaveOutlined />} onClick={saveProductInfo}>
           Lưu thay đổi
         </Button>
       </div>
       <Form.Item label="Tên sản phẩm" labelAlign="left">
-        <Input maxLength={120} value={name} onChange={onChangeProductName} />
+        <Input
+          maxLength={120}
+          name="productName"
+          value={dataEditProductInfo.productName}
+          onChange={handleInfoChange}
+        />
       </Form.Item>
       <Form.Item label="Mô tả ngắn" labelAlign="left">
         <TextArea
           rows={2}
           maxLength={500}
-          value={slogan}
-          onChange={onChangeProductSlogan}
+          name="productSlogan"
+          value={dataEditProductInfo.productSlogan}
+          onChange={handleInfoChange}
         />
       </Form.Item>
       <Form.Item label="Mô tả" labelAlign="left">
         <TextArea
           rows={4}
-          maxLength={1000}
-          value={description}
-          onChange={onChangeProductDescription}
+          maxLength={3000}
+          name="productDescription"
+          value={dataEditProductInfo.productDescription}
+          onChange={handleInfoChange}
         />
       </Form.Item>
       <Form.Item label="Danh mục" labelAlign="left">
         <Select
-          value={categoryID}
-          onChange={onChangeProductCategoryID}
+          value={dataEditProductInfo.productCategoryID}
+          onChange={handleSelectChange}
           style={{ textAlign: "left" }}
         >
           {category.length > 0 &&
@@ -194,7 +247,12 @@ const FormEditInfo = ({ product }) => {
         </Select>
       </Form.Item>
       <Form.Item label="Xuất xứ" labelAlign="left">
-        <Input maxLength={30} value={madeIn} onChange={onChangeProductMadeIn} />
+        <Input
+          maxLength={30}
+          name="productMadeIn"
+          value={dataEditProductInfo.productMadeIn}
+          onChange={handleInfoChange}
+        />
       </Form.Item>
       <div className="flex justify-start mb-3">
         <b className="!pb-[20px] !pr-[20px] font-bold text-lg">
@@ -207,22 +265,48 @@ const FormEditInfo = ({ product }) => {
         >
           Làm sạch
         </Button>
-        <Button type="text" icon={<SaveOutlined />} onClick={() => {}}>
+        <Button type="text" icon={<SaveOutlined />} onClick={saveDeliveryInfo}>
           Lưu thay đổi
         </Button>
       </div>
-      <Form.Item label="Chiều cao" labelAlign="left">
-        <Input maxLength={30} value={height} onChange={onChangeProductHeight} />
-      </Form.Item>
-      <Form.Item label="Chiều rộng" labelAlign="left">
-        <Input maxLength={30} value={width} onChange={onChangeProductWidth} />
-      </Form.Item>
-      <Form.Item label="Chiều dài" labelAlign="left">
-        <Input maxLength={30} value={length} onChange={onChangeProductLength} />
-      </Form.Item>
-      <Form.Item label="Trọng lượng" labelAlign="left">
-        <Input maxLength={30} value={weight} onChange={onChangeProductWeight} />
-      </Form.Item>
+      <Form labelCol={{ span: 3 }} wrapperCol={{ span: 3 }}>
+        <Form.Item label="Chiều cao" labelAlign="left">
+          <Input
+            maxLength={30}
+            name="productHeight"
+            value={dataEditProductDelivery.productHeight}
+            onChange={handleDeliveryChange}
+            addonAfter="cm"
+          />
+        </Form.Item>
+        <Form.Item label="Chiều rộng" labelAlign="left">
+          <Input
+            maxLength={30}
+            name="productWidth"
+            value={dataEditProductDelivery.productWidth}
+            onChange={handleDeliveryChange}
+            addonAfter="cm"
+          />
+        </Form.Item>
+        <Form.Item label="Chiều dài" labelAlign="left">
+          <Input
+            maxLength={30}
+            name="productLength"
+            value={dataEditProductDelivery.productLength}
+            onChange={handleDeliveryChange}
+            addonAfter="cm"
+          />
+        </Form.Item>
+        <Form.Item label="Trọng lượng" labelAlign="left">
+          <Input
+            maxLength={30}
+            name="productWeight"
+            value={dataEditProductDelivery.productWeight}
+            onChange={handleDeliveryChange}
+            addonAfter="g"
+          />
+        </Form.Item>
+      </Form>
     </>
   );
 };

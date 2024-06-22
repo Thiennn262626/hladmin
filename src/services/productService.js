@@ -152,6 +152,78 @@ async function getProductById(id) {
   }
 }
 
+async function updateSkuPrice(productSKUID, price) {
+  let data = {
+    productSKUID: productSKUID,
+    price: price,
+  };
+  try {
+    const response = await apiAuth.post(
+      `api/hlshop/admin/product/update-sku-price`,
+      data
+    );
+    if (response) {
+      handelException.handelNotificationSwal(`${response?.message}`, "success");
+      return true;
+    }
+  } catch (error) {
+    handelException.handelNotificationSwal("Error", "error");
+    console.error("Error fetching location data:", error);
+  }
+}
+
+async function updateSkuPriceBefore(productSKUID, price) {
+  let data = {
+    productSKUID: productSKUID,
+    price: price,
+  };
+  try {
+    const response = await apiAuth.post(
+      `api/hlshop/admin/product/update-sku-price-before`,
+      data
+    );
+    if (response) {
+      handelException.handelNotificationSwal(`${response?.message}`, "success");
+      return true;
+    }
+  } catch (error) {
+    handelException.handelNotificationSwal("Error", "error");
+    console.error("Error fetching location data:", error);
+  }
+}
+
+async function updateProductInfo(data) {
+  try {
+    const response = await apiAuth.post(
+      `api/hlshop/admin/product/update-product-info`,
+      data
+    );
+    if (response) {
+      handelException.handelNotificationSwal(`${response?.message}`, "success");
+      return true;
+    }
+  } catch (error) {
+    handelException.handelNotificationSwal("Error", "error");
+    console.error("Error fetching location data:", error);
+  }
+}
+
+async function updateProductDelivery(data) {
+  try {
+    const response = await apiAuth.post(
+      `api/hlshop/admin/product/update-product-delivery`,
+      data
+    );
+    if (response) {
+      handelException.handelNotificationSwal(`${response?.message}`, "success");
+      return true;
+    }
+  } catch (error) {
+    handelException.handelNotificationSwal("Error", "error");
+    console.error("Error fetching location data:", error);
+  }
+}
+
 export const productServices = {
   addImg,
   getCategory,
@@ -162,4 +234,8 @@ export const productServices = {
   enableProduct,
   enableSku,
   restockSku,
+  updateSkuPrice,
+  updateSkuPriceBefore,
+  updateProductInfo,
+  updateProductDelivery,
 };

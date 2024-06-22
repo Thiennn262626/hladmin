@@ -90,7 +90,7 @@ const Index = () => {
       labelCol={{ span: 3 }}
       wrapperCol={{ span: 18 }}
       layout="horizontal"
-      style={{ maxWidth: 1500 }}
+      style={{ maxWidth: 1500, marginBottom: 200 }}
       className="bg-white p-4 m-[20px]"
     >
       <FormAddImg />
