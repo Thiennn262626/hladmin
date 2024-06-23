@@ -28,13 +28,13 @@ const Index = () => {
   const [name, setName] = useState("");
   const [slogan, setSlogan] = useState("");
   const [description, setDescription] = useState("");
-  const [notes, setNotes] = useState("");
   const [madeIn, setMadeIn] = useState("");
-  const [uses, setUses] = useState("");
-  const [ingredient, setIngredient] = useState("");
-  const [objectsOfUse, setObjectsOfUse] = useState("");
-  const [preserve, setPreserve] = useState("");
-  const [instructionsForUse, setInstructionsForUse] = useState("");
+  // const [notes, setNotes] = useState("");
+  // const [uses, setUses] = useState("");
+  // const [ingredient, setIngredient] = useState("");
+  // const [objectsOfUse, setObjectsOfUse] = useState("");
+  // const [preserve, setPreserve] = useState("");
+  // const [instructionsForUse, setInstructionsForUse] = useState("");
   const [height, setHeight] = useState("");
   const [width, setWidth] = useState("");
   const [length, setLength] = useState("");
@@ -144,34 +144,35 @@ const Index = () => {
   };
 
   //hàm xóa các thuộc tính input
-  const clearInput = () => {
+  const clearInputInfo = () => {
     setName("");
     setSlogan("");
     setDescription("");
-    // setNotes("");
-    // setUses("");
-    // setIngredient("");
-    // setObjectsOfUse("");
-    // setPreserve("");
-    // setInstructionsForUse("");
     setMadeIn("");
+    setCategoryID("");
+  };
+
+  const clearInputDelivery = () => {
     setHeight("");
     setWidth("");
     setLength("");
     setWeight("");
-    setCategoryID("");
   };
 
   return (
     <>
-      <b className="!pb-[20px] !pr-[20px]">Thông tin sản phẩm</b>
-      <Button type="text" icon={<DeleteOutlined />} onClick={clearInput}>
-        Xóa
-      </Button>
-      <Form.Item label="Tên sản phẩm">
+      <div className="flex justify-start mb-3">
+        <b className="!pb-[20px] !pr-[20px] font-bold text-lg">
+          Thông tin sản phẩm
+        </b>
+        <Button type="text" icon={<DeleteOutlined />} onClick={clearInputInfo}>
+          Làm sạch
+        </Button>
+      </div>
+      <Form.Item label="Tên sản phẩm" labelAlign="left">
         <Input maxLength={120} value={name} onChange={onChangeProductName} />
       </Form.Item>
-      <Form.Item label="Mô tả ngắn">
+      <Form.Item label="Mô tả ngắn" labelAlign="left">
         <TextArea
           rows={2}
           maxLength={500}
@@ -179,16 +180,20 @@ const Index = () => {
           onChange={onChangeProductSlogan}
         />
       </Form.Item>
-      <Form.Item label="Mô tả">
+      <Form.Item label="Mô tả" labelAlign="left">
         <TextArea
-          rows={4}
-          maxLength={1000}
+          rows={6}
+          maxLength={3000}
           value={description}
           onChange={onChangeProductDescription}
         />
       </Form.Item>
-      <Form.Item label="Danh mục">
-        <Select value={categoryID} onChange={onChangeProductCategoryID}>
+      <Form.Item label="Danh mục" labelAlign="left">
+        <Select
+          value={categoryID}
+          onChange={onChangeProductCategoryID}
+          style={{ textAlign: "left" }}
+        >
           {category.length > 0 &&
             category.map((item) => (
               <Select.Option
@@ -200,7 +205,7 @@ const Index = () => {
             ))}
         </Select>
       </Form.Item>
-      <Form.Item label="Xuất xứ">
+      <Form.Item label="Xuất xứ" labelAlign="left">
         <Input maxLength={30} value={madeIn} onChange={onChangeProductMadeIn} />
       </Form.Item>
       {/* <Form.Item label="Ghi chú">
@@ -221,22 +226,52 @@ const Index = () => {
       {/* <Form.Item label="Hướng dẫn sử dụng">
       <TextArea rows={3} maxLength={500} value={instructionsForUse} onChange={onChangeProductInstructionsForUse} />
     </Form.Item> */}
-      <b className="!pb-[20px] !pr-[20px]">Thông tin vận chuyển</b>
-      <Button type="text" icon={<DeleteOutlined />} onClick={clearInput}>
-        Xóa
-      </Button>
-      <Form.Item label="Chiều cao">
-        <Input maxLength={30} value={height} onChange={onChangeProductHeight} />
-      </Form.Item>
-      <Form.Item label="Chiều rộng">
-        <Input maxLength={30} value={width} onChange={onChangeProductWidth} />
-      </Form.Item>
-      <Form.Item label="Chiều dài">
-        <Input maxLength={30} value={length} onChange={onChangeProductLength} />
-      </Form.Item>
-      <Form.Item label="Trọng lượng">
-        <Input maxLength={30} value={weight} onChange={onChangeProductWeight} />
-      </Form.Item>
+      <div className="flex justify-start mb-3">
+        <b className="!pb-[20px] !pr-[20px] font-bold text-lg">
+          Thông tin vận chuyển
+        </b>
+        <Button
+          type="text"
+          icon={<DeleteOutlined />}
+          onClick={clearInputDelivery}
+        >
+          Làm sạch
+        </Button>
+      </div>
+      <Form labelCol={{ span: 3 }} wrapperCol={{ span: 3 }}>
+        <Form.Item label="Chiều cao" labelAlign="left">
+          <Input
+            maxLength={30}
+            value={height}
+            onChange={onChangeProductHeight}
+            addonAfter="cm"
+          />
+        </Form.Item>
+        <Form.Item label="Chiều rộng" labelAlign="left">
+          <Input
+            maxLength={30}
+            value={width}
+            onChange={onChangeProductWidth}
+            addonAfter="cm"
+          />
+        </Form.Item>
+        <Form.Item label="Chiều dài" labelAlign="left">
+          <Input
+            maxLength={30}
+            value={length}
+            onChange={onChangeProductLength}
+            addonAfter="cm"
+          />
+        </Form.Item>
+        <Form.Item label="Trọng lượng" labelAlign="left">
+          <Input
+            maxLength={30}
+            value={weight}
+            onChange={onChangeProductWeight}
+            addonAfter="g"
+          />
+        </Form.Item>
+      </Form>
     </>
   );
 };

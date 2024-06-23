@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { set } from "nprogress";
 
 const counterProductSlice = createSlice({
   name: "Product",

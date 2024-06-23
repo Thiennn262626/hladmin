@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { productServices } from "../../../../services/productService";
 import { Table, Tag, Space } from "antd";
-import {
-  setLoadProduct,
-  setModalSkus,
-  setProductID,
-} from "../../counterProduct";
 import { useDispatch, useSelector } from "react-redux";
 import { notify } from "../../../../utils/notify";
-import { LockOutlined, UnlockOutlined } from "@ant-design/icons";
+import { LockOutlined, UnlockOutlined, EditOutlined } from "@ant-design/icons";
 const Bodymain = () => {
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [listProduct, setListProduct] = useState([]);
   const [pagination, setPagination] = useState({
     current: 1,
@@ -46,10 +42,10 @@ const Bodymain = () => {
     fetchProduct(0, pagination.pageSize);
   }, [sortBy]);
 
-  const handleOnCLick = (record) => {
-    dispatch(setModalSkus(true));
-    dispatch(setProductID(record?.productID));
-  };
+  // const handleOnCLick = (record) => {
+  //   dispatch(setModalSkus(true));
+  //   dispatch(setProductID(record?.productID));
+  // };
 
   const handleOnCLickLock = async (record, enable) => {
     let content =
@@ -77,6 +73,10 @@ const Bodymain = () => {
     }
   };
 
+  // const handleOnCLickEdit = (record) => {
+  //   navigate(`/product/edit/${record?.productID}`);
+  // };
+
   const columns = [
     {
       title: "Ảnh",
@@ -92,7 +92,15 @@ const Bodymain = () => {
       title: "Tên sản phẩm",
       dataIndex: "name",
       render: (_, record) => (
-        <p onClick={() => handleOnCLick(record)}> {record?.productName}</p>
+        //note
+        <p
+          onClick={() => {
+            navigate(`/product/edit/${record?.productID}`);
+          }}
+        >
+          {" "}
+          {record?.productName}
+        </p>
       ),
     },
     {
@@ -111,22 +119,21 @@ const Bodymain = () => {
     },
     {
       title: "Hành động",
-      render: (_, record) =>
-        record?.productEnable === true ? (
-          <Space size="middle">
-            <a onClick={() => handleOnCLickLock(record, 0)}>
-              {" "}
+      render: (_, record) => (
+        <Space size="middle">
+          <a onClick={() => handleOnCLickLock(record, 0)}>
+            {record?.productEnable === true ? (
               <LockOutlined />
-            </a>
-          </Space>
-        ) : (
-          <Space size="middle">
-            <a onClick={() => handleOnCLickLock(record, 1)}>
-              {" "}
+            ) : (
               <UnlockOutlined />
-            </a>
-          </Space>
-        ),
+            )}
+          </a>
+          {/* <a onClick={() => handleOnCLickEdit(record, 0)}>
+            {"   "}
+            <EditOutlined />
+          </a> */}
+        </Space>
+      ),
     },
   ];
   return (

@@ -9,6 +9,7 @@ import {
   Order,
   AddProduct,
   ListProduct,
+  EditProduct,
 } from "./Component";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: "/product",
         element: <ListProduct />,
+      },
+      {
+        path: "/product/edit/:id",
+        element: <EditProduct />,
       },
     ],
   },

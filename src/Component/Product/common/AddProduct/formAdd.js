@@ -87,11 +87,11 @@ const Index = () => {
   };
   return (
     <Form
-      labelCol={{ span: 4 }}
-      wrapperCol={{ span: 14 }}
+      labelCol={{ span: 3 }}
+      wrapperCol={{ span: 18 }}
       layout="horizontal"
-      style={{ maxWidth: 1300 }}
-      className="!mx-auto bg-white p-4 border border-gray-300 rounded-lg shadow-xl mt-[30px] mb-[30px]"
+      style={{ maxWidth: 1500, marginBottom: 200 }}
+      className="bg-white p-4 m-[20px]"
     >
       <FormAddImg />
       <FormInfo />
@@ -101,7 +101,7 @@ const Index = () => {
         icon={<FolderAddOutlined />}
         loading={loadings}
         onClick={() => enterLoading(1)}
-        className="!bg-blue-500 !text-white !hover:bg-green-600 !border-none !rounded-lg !shadow-xl  "
+        className="!bg-blue-500 !text-white !hover:bg-green-600 !border-none !rounded-lg !shadow-xl h-[50px] w-[240px] mt-4"
       >
         Thêm sản phẩm
       </Button>
