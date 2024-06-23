@@ -27,7 +27,7 @@
 .logo {
     display: flex;
     flex-direction: row;
-    justify-content: start;
+    justify-content: flex-start;
     // flex: 1;
     // Con chuột hình ngón tay
     &:hover {
