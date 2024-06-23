@@ -43,7 +43,7 @@ async function addProduct(data) {
       data
     );
     if (response) {
-      handelException.handelNotificationSwal("Success", "success");
+      handelException.handelNotificationSwal("Thành công", "success");
       console.log("response", response);
       return response;
     }
