@@ -42,11 +42,6 @@ const Bodymain = () => {
     fetchProduct(0, pagination.pageSize);
   }, [sortBy]);
 
-  // const handleOnCLick = (record) => {
-  //   dispatch(setModalSkus(true));
-  //   dispatch(setProductID(record?.productID));
-  // };
-
   const handleOnCLickLock = async (record, enable) => {
     let content =
       enable === 0
@@ -73,9 +68,9 @@ const Bodymain = () => {
     }
   };
 
-  // const handleOnCLickEdit = (record) => {
-  //   navigate(`/product/edit/${record?.productID}`);
-  // };
+  const handleOnCLickEdit = (record) => {
+    navigate(`/product/edit/${record?.productID}`);
+  };
 
   const columns = [
     {
@@ -128,10 +123,10 @@ const Bodymain = () => {
               <UnlockOutlined />
             )}
           </a>
-          {/* <a onClick={() => handleOnCLickEdit(record, 0)}>
+          <a onClick={() => handleOnCLickEdit(record, 0)}>
             {"   "}
             <EditOutlined />
-          </a> */}
+          </a>
         </Space>
       ),
     },
@@ -145,7 +140,7 @@ const Bodymain = () => {
         pagination={{
           ...pagination,
           position: ["topCenter"],
-          total: countList, // Cập nhật lại total từ countList
+          total: countList,
           totalPage: Math.ceil(countList / pagination.pageSize),
         }}
         onChange={handleTableChange}

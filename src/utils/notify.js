@@ -1,6 +1,6 @@
-import './notify.css';
+import "./notify.css";
 import Swal from "sweetalert2";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 async function notify1(title, icon, denyButtonText) {
   Swal.fire({
@@ -30,9 +30,9 @@ async function notify2(title, icon, text, confirmButtonText, cancelButtonText) {
       confirmButtonText: confirmButtonText || "Yes",
       cancelButtonText: cancelButtonText || "Cancel",
       customClass: {
-        confirmButton: 'swal-button--confirm',
-        cancelButton: 'swal-button--cancel'
-      }
+        confirmButton: "swal-button--confirm",
+        cancelButton: "swal-button--cancel",
+      },
     }).then((result) => {
       if (result.isConfirmed) {
         resolve(true);
@@ -43,29 +43,21 @@ async function notify2(title, icon, text, confirmButtonText, cancelButtonText) {
   });
 }
 
-async function handelNotificationSwal(message, icon) {
-  Swal.fire({
-    icon: icon,
-    text: message,
-    showConfirmButton: false,
-    timer: 1500,
-  });
-}
 async function showNotification(title, body, link, autoCloseDelayInSeconds) {
   // Kiểm tra xem trình duyệt có hỗ trợ API Notification không
-  if ('Notification' in window) {
+  if ("Notification" in window) {
     // Yêu cầu quyền hiển thị thông báo
     Notification.requestPermission().then(function (permission) {
-      if (permission === 'granted') {
+      if (permission === "granted") {
         // Tạo đối tượng thông báo với các thuộc tính tùy chỉnh
         const options = {
           body,
-          icon: '/images/logohub.png',
+          icon: "/images/logohub.png",
           requireInteraction: true,
           vibrate: [200, 100, 200, 100, 200, 100, 200],
           tag: "vibration-sample",
           dir: "ltr", // Thiết lập hướng văn bản là từ trái sang phải
-          badge: '/images/badge.png', // Icon hiển thị góc trái
+          badge: "/images/badge.png", // Icon hiển thị góc trái
           // sound: '/sound/notification.mp3',
         };
 
@@ -84,8 +76,7 @@ async function showNotification(title, body, link, autoCloseDelayInSeconds) {
           handleNotificationAction(link);
           event.preventDefault();
         };
-      }
-      else {
+      } else {
         // Xử lý khi quyền hiển thị thông báo bị từ chối
         console.log("Notification permission denied");
       }
@@ -95,9 +86,6 @@ async function showNotification(title, body, link, autoCloseDelayInSeconds) {
 
 // Hàm xử lý hành động của thông báo
 function handleNotificationAction(clickAction) {
-  // Thực hiện hành động mong muốn, ví dụ: mở một liên kết
-  // mở liên kết mới
-
   window.location.href = clickAction;
 }
 
@@ -110,19 +98,11 @@ async function messageNotify(payload) {
     closeOnClick: true,
     draggable: false,
   });
-  // const notificationSound = new Audio('/sound/notification.mp3');
-  // // Sử dụng đối tượng Audio đã được tạo sẵn
-  // if (notificationSound) {
-  //   await notificationSound.play().catch(error => console.error("Error playing audio:", error));
-  // }
-
-
 }
 
 export const notify = {
-  handelNotificationSwal,
   notify1,
   notify2,
   showNotification,
-  messageNotify
+  messageNotify,
 };

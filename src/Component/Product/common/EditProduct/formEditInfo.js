@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { productServices } from "../../../../services/productService";
 import { Form, Input, Select, Button } from "antd";
-import { DeleteOutlined, SaveOutlined } from "@ant-design/icons";
+import { ClearOutlined, SaveOutlined } from "@ant-design/icons";
 import { notify } from "../../../../utils/notify";
 const { TextArea } = Input;
 
@@ -116,30 +116,27 @@ const FormEditInfo = ({ product }) => {
         !productMadeIn ||
         !productCategoryID
       ) {
-        notify.notify1(
-          "All product information fields must be filled.",
-          "error"
-        );
+        notify.notify1("Vui lòng nhập đầy đủ thông tin sản phẩm.", "error");
         return;
       }
 
       const content = `
-      Are you sure you want to update the product information with the following details?
+      Bạn có chắc chắn muốn cập nhật thông tin sản phẩm với các thông tin sau?
     `;
 
       const check = await notify.notify2(
-        "Update Product Info",
+        "Cập nhật thông tin sản phẩm",
         "warning",
         content,
-        "Yes",
-        "No"
+        "Có",
+        "Không"
       );
 
       if (check) {
         await productServices.updateProductInfo(dataEditProductInfo);
       }
     } catch (error) {
-      notify.notify1("Failed to update product information.", "error");
+      notify.notify1("Cập nhật thông tin sản phẩm thất bại.", "error");
     }
   };
 
@@ -160,14 +157,14 @@ const FormEditInfo = ({ product }) => {
         productWeight <= 0
       ) {
         notify.notify1(
-          "Height, width, length, and weight must be numbers greater than 0.",
+          "Vui lòng nhập đúng thông tin vận chuyển sản phẩm.",
           "error"
         );
         return;
       }
 
       const content = `
-      Are you sure you want to update the product delivery information with the following details?
+      Bạn có chắc chắn muốn cập nhật thông tin vận chuyển sản phẩm với các thông tin sau?
       - Height: ${productHeight} cm
       - Width: ${productWidth} cm
       - Length: ${productLength} cm
@@ -175,18 +172,21 @@ const FormEditInfo = ({ product }) => {
     `;
 
       const check = await notify.notify2(
-        "Update Product Delivery Info",
+        "Cập nhật thông tin vận chuyển sản phẩm",
         "warning",
         content,
-        "Yes",
-        "No"
+        "Có",
+        "Không"
       );
 
       if (check) {
         await productServices.updateProductDelivery(dataEditProductDelivery);
       }
     } catch (error) {
-      notify.notify1("Failed to update product delivery information.", "error");
+      notify.notify1(
+        "Cập nhật thông tin vận chuyển sản phẩm thất bại.",
+        "error"
+      );
     }
   };
 
@@ -196,8 +196,8 @@ const FormEditInfo = ({ product }) => {
         <b className="!pb-[20px] !pr-[20px] font-bold text-lg">
           Thông tin sản phẩm
         </b>
-        <Button type="text" icon={<DeleteOutlined />} onClick={clearInputInfo}>
-          Làm sạch
+        <Button type="text" icon={<ClearOutlined />} onClick={clearInputInfo}>
+          ---
         </Button>
         <Button type="text" icon={<SaveOutlined />} onClick={saveProductInfo}>
           Lưu thay đổi
@@ -260,10 +260,10 @@ const FormEditInfo = ({ product }) => {
         </b>
         <Button
           type="text"
-          icon={<DeleteOutlined />}
+          icon={<ClearOutlined />}
           onClick={clearInputDelivery}
         >
-          Làm sạch
+          ---
         </Button>
         <Button type="text" icon={<SaveOutlined />} onClick={saveDeliveryInfo}>
           Lưu thay đổi

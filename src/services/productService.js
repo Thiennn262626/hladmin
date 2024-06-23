@@ -13,12 +13,11 @@ async function addImg(file) {
         },
       }
     );
-
-    console.log("response", response);
     if (response) {
       return response;
     }
   } catch (error) {
+    handelException.handelNotificationSwal("Lỗi upload ảnh sản phẩm", "error");
     console.error("Error uploading image:", error);
   }
 }
@@ -32,37 +31,42 @@ async function getCategory() {
       return response;
     }
   } catch (error) {
-    console.error("Error fetching location data:", error);
+    handelException.handelNotificationSwal(
+      "Lỗi lấy danh sách ngành hàng",
+      "error"
+    );
   }
 }
 async function addProduct(data) {
   try {
-    console.log("data addProduct", data);
     const response = await apiAuth.post(
       `api/hlshop/admin/product/create-product`,
       data
     );
     if (response) {
-      handelException.handelNotificationSwal("Success", "success");
-      console.log("response", response);
+      handelException.handelNotificationSwal(
+        "Thêm sản phẩm thành công",
+        "success"
+      );
       return response;
     }
   } catch (error) {
-    handelException.handelNotificationSwal("Error", "error");
-    console.error("Error fetching location data:", error);
+    handelException.handelNotificationSwal("Lỗi thêm sản phẩm", "error");
   }
 }
 async function listProduct(offset = 0, limit = 10, sortBy = 0, search) {
   try {
     const url = `api/hlshop/admin/product/get-all-product?offset=${offset}&limit=${limit}&sortBy=${sortBy}&search=${search}`;
-    console.log("url", url);
     const response = await apiAuth.get(url);
     if (response) {
       console.log("response", response);
       return response;
     }
   } catch (error) {
-    console.error("Error fetching location data:", error);
+    handelException.handelNotificationSwal(
+      "Lỗi lấy danh sách sản phẩm",
+      "error"
+    );
   }
 }
 async function getProductSku(id) {
@@ -71,11 +75,13 @@ async function getProductSku(id) {
       `api/hlshop/admin/product/get-product-sku-by-product-id?productID=${id}`
     );
     if (response) {
-      console.log("response", response);
       return response;
     }
   } catch (error) {
-    console.error("Error fetching location data:", error);
+    handelException.handelNotificationSwal(
+      "Lỗi lấy danh sách sku sản phẩm",
+      "error"
+    );
   }
 }
 
@@ -90,11 +96,17 @@ async function enableProduct(productID, enable) {
       data
     );
     if (response) {
-      handelException.handelNotificationSwal(`${response?.message}`, "success");
+      handelException.handelNotificationSwal(
+        "Cập nhật trạng thái sản phẩm thành công",
+        "success"
+      );
       return true;
     }
   } catch (error) {
-    handelException.handelNotificationSwal("Error", "error");
+    handelException.handelNotificationSwal(
+      "Lỗi cập nhật trạng thái sản phẩm",
+      "error"
+    );
     console.error("Error fetching location data:", error);
   }
 }
@@ -110,15 +122,21 @@ async function enableSku(productSKUID, enable) {
       data
     );
     if (response) {
-      handelException.handelNotificationSwal(`${response?.message}`, "success");
+      handelException.handelNotificationSwal(
+        "Cập nhật trạng thái sản phẩm thành công",
+        "success"
+      );
       return true;
     }
   } catch (error) {
-    handelException.handelNotificationSwal("Error", "error");
+    handelException.handelNotificationSwal(
+      "Lỗi cập nhật trạng thái sản phẩm",
+      "error"
+    );
     console.error("Error fetching location data:", error);
   }
 }
-//api/hlshop/admin/product/restock-sku
+
 async function restockSku(productSKUID, totalStock) {
   let data = {
     productSKUID: productSKUID,
@@ -130,11 +148,17 @@ async function restockSku(productSKUID, totalStock) {
       data
     );
     if (response) {
-      handelException.handelNotificationSwal(`${response?.message}`, "success");
+      handelException.handelNotificationSwal(
+        "Cập nhật trạng thái sản phẩm thành công",
+        "success"
+      );
       return true;
     }
   } catch (error) {
-    handelException.handelNotificationSwal("Error", "error");
+    handelException.handelNotificationSwal(
+      "Lỗi cập nhật trạng thái sản phẩm",
+      "error"
+    );
     console.error("Error fetching location data:", error);
   }
 }
@@ -148,7 +172,10 @@ async function getProductById(id) {
       return response;
     }
   } catch (error) {
-    console.error("Error fetching location data:", error);
+    handelException.handelNotificationSwal(
+      "Lỗi lấy thông tin sản phẩm",
+      "error"
+    );
   }
 }
 
@@ -167,8 +194,7 @@ async function updateSkuPrice(productSKUID, price) {
       return true;
     }
   } catch (error) {
-    handelException.handelNotificationSwal("Error", "error");
-    console.error("Error fetching location data:", error);
+    handelException.handelNotificationSwal("Cập nhật giá thất bại", "error");
   }
 }
 
@@ -187,8 +213,7 @@ async function updateSkuPriceBefore(productSKUID, price) {
       return true;
     }
   } catch (error) {
-    handelException.handelNotificationSwal("Error", "error");
-    console.error("Error fetching location data:", error);
+    handelException.handelNotificationSwal("Cập nhật giá thất bại", "error");
   }
 }
 
@@ -203,8 +228,10 @@ async function updateProductInfo(data) {
       return true;
     }
   } catch (error) {
-    handelException.handelNotificationSwal("Error", "error");
-    console.error("Error fetching location data:", error);
+    handelException.handelNotificationSwal(
+      "Cập nhật thông tin sản phẩm thất bại",
+      "error"
+    );
   }
 }
 
@@ -219,8 +246,10 @@ async function updateProductDelivery(data) {
       return true;
     }
   } catch (error) {
-    handelException.handelNotificationSwal("Error", "error");
-    console.error("Error fetching location data:", error);
+    handelException.handelNotificationSwal(
+      "Cập nhật thông tin vận chuyển sản phẩm thất bại",
+      "error"
+    );
   }
 }
 

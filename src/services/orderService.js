@@ -12,7 +12,10 @@ async function getListOrderByStatus(orderStatus, offset, limit) {
     return response;
   } catch (error) {
     console.error("Error fetching location data:", error);
-    handelException.handelNotificationSwal("Error", "error get list order");
+    handelException.handelNotificationSwal(
+      "Lỗi lấy danh sách đơn hàng",
+      "error"
+    );
   }
 }
 async function detailOrder(id) {
@@ -27,7 +30,10 @@ async function detailOrder(id) {
     return response;
   } catch (error) {
     console.error("Error fetching location data:", error);
-    handelException.handelNotificationSwal("Error", "error detail order");
+    handelException.handelNotificationSwal(
+      "Lỗi lấy chi tiết đơn hàng",
+      "error"
+    );
   }
 }
 async function setStateOrder(id, orderStatus) {
@@ -36,11 +42,17 @@ async function setStateOrder(id, orderStatus) {
       `/api/hlshop/admin/order/admin-update-order-status?orderID=${id}&orderStatus=${orderStatus}`
     );
     if (response) {
-      handelException.handelNotificationSwal("Thành công!", "success");
+      handelException.handelNotificationSwal(
+        "Cập nhật trạng thái đơn hàng thành công",
+        "success"
+      );
       return true;
     }
   } catch (error) {
-    handelException.handelNotificationSwal("Error", "error set state order");
+    handelException.handelNotificationSwal(
+      "Lỗi cập nhật trạng thái đơn hàng",
+      "error"
+    );
     console.error("Error fetching location data:", error);
   }
 }
@@ -56,7 +68,10 @@ async function getOrderCountList() {
     return response;
   } catch (error) {
     console.error("Error fetching location data:", error);
-    handelException.handelNotificationSwal("Error", "error get count list");
+    handelException.handelNotificationSwal(
+      "Lỗi lấy danh sách đơn hàng count list",
+      "error"
+    );
   }
 }
 export const orderServices = {
