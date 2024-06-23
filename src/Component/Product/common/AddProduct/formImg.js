@@ -9,15 +9,23 @@ const Index = () => {
   const dispatch = useDispatch();
   const avatarMediaIDS = useSelector((state) => state.counterProduct.avatars);
   const [fileList, setFileList] = useState([]);
+
   useEffect(() => {
-    setFileList(avatarMediaIDS);
+    setFileList(
+      avatarMediaIDS.map((item) => ({
+        ...item,
+        url: item.media_url, // set url for preview
+      }))
+    );
   }, [avatarMediaIDS]);
+
   const normFile = (e) => {
     if (Array.isArray(e)) {
       return e;
     }
     return e?.fileList;
   };
+
   const uploadImage = async (file) => {
     const data = new FormData();
     data.append("file", file);
@@ -28,8 +36,9 @@ const Index = () => {
         const avatarMediaID = {
           media_url: response?.media_url,
           uid: file?.uid,
+          name: file?.name, // add name for preview
         };
-        dispatch(setAvatars([...fileList, avatarMediaID]));
+        dispatch(setAvatars([...avatarMediaIDS, avatarMediaID]));
       }
     } catch (error) {
       console.error("Error uploading image:", error);
@@ -48,6 +57,7 @@ const Index = () => {
     console.log("Preview image URL:", avatarMediaID?.media_url);
     window.open(avatarMediaID?.media_url, "_blank");
   };
+
   return (
     <Form.Item
       label="Hình ảnh"
@@ -61,7 +71,7 @@ const Index = () => {
           fileList={fileList}
           beforeUpload={(file) => {
             uploadImage(file);
-            return false;
+            return false; // Prevent auto upload by Ant Design
           }}
           onRemove={handleRemove}
           onPreview={setPreviewImage}
@@ -77,4 +87,5 @@ const Index = () => {
     </Form.Item>
   );
 };
+
 export default Index;

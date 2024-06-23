@@ -245,32 +245,6 @@ export default function TestPhanLoai() {
     });
   };
 
-
-  // const handleDeleteItemInAttributeValue = (attributeIndex: number, valueIndex: number) => {
-  //   //nếu còn 1 phần tử thì không cho xóa
-  //   if (attributes[attributeIndex].attributeValue.length === 1) {
-  //     notify.notify1('Phải có ít nhất 1 loại', 'info');
-  //     return;
-  //   }
-  //   resetSKUs();
-  //   setAttributes((prevAttributes) => {
-  //     // Use the functional form of setAttributes to ensure the update is based on the latest state
-  //     return prevAttributes.map((attribute, index) => {
-  //       if (index === attributeIndex) {
-  //         // Check if there's more than one element before applying the filter
-  //         if (attribute.attributeValue.length > 1) {
-  //           handleChangeAttributeValueMedia(attributeIndex, valueIndex, "");
-  //           return {
-  //             ...attribute,
-  //             attributeValue: attribute.attributeValue.filter((_, i) => i !== valueIndex),
-  //           };
-  //         }
-  //       }
-  //       console.log("handleDeleteItemInAttributeValue", attribute);
-  //       return attribute;
-  //     });
-  //   });
-  // };
   const handleDeleteItemInAttributeValue = (attributeIndex: number, valueIndex: number) => {
     // Kiểm tra nếu chỉ còn 1 phần tử thì không cho xóa
     if (attributes[attributeIndex].attributeValue.length === 1) {

@@ -31,30 +31,6 @@ const Index = () => {
       notify.notify1("Vui lòng nhập xuất xứ", "error");
       return;
     }
-    // if (dataPost.productNotes === "") {
-    //   notify.notify1("Vui lòng nhập ghi chú", "error");
-    //   return;
-    // }
-    // if (dataPost.productUses === "") {
-    //   notify.notify1("Vui lòng nhập công dụng", "error");
-    //   return;
-    // }
-    // if (dataPost.productIngredient === "") {
-    //   notify.notify1("Vui lòng nhập thành phần", "error");
-    //   return;
-    // }
-    // if (dataPost.productObjectsOfUse === "") {
-    //   notify.notify1("Vui lòng nhập đối tượng sử dụng", "error");
-    //   return;
-    // }
-    // if (dataPost.productPreserve === "") {
-    //   notify.notify1("Vui lòng nhập bảo quản", "error");
-    //   return;
-    // }
-    // if (dataPost.productInstructionsForUse === "") {
-    //   notify.notify1("Vui lòng nhập hướng dẫn sử dụng", "error");
-    //   return;
-    // }
     if (dataPost.productHeight === "") {
       notify.notify1("Vui lòng nhập chiều cao", "error");
       return;

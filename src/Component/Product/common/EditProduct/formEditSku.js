@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Button, Input, Table, Tag, Space, Dropdown, theme } from "antd";
-import { LockOutlined, UnlockOutlined, DownOutlined } from "@ant-design/icons";
+import {
+  LockOutlined,
+  UnlockOutlined,
+  DownOutlined,
+  EditOutlined,
+} from "@ant-design/icons";
 import { notify } from "../../../../utils/notify";
 import { productServices } from "../../../../services/productService";
 import { wrap } from "lodash";
@@ -51,7 +56,7 @@ const App = ({ product }) => {
   const reStock = async (record, action) => {
     if (quantity < 0 || isNaN(quantity)) {
       notify.notify1(
-        "Quantity must be greater than 0 and be a number",
+        "Số lượng phải lớn hơn hoặc bằng 0 và phải là số",
         "error"
       );
       return;
@@ -59,15 +64,15 @@ const App = ({ product }) => {
 
     const content =
       action === "update"
-        ? "Are you sure you want to update this sku quantity?"
-        : "Are you sure you want to add this quantity to the existing sku quantity?";
+        ? "Bạn có chắc chắn muốn cập nhật số lượng tồn của sku này?"
+        : "Bạn có chắc chắn muốn thêm số lượng tồn cho sku này?";
 
     const check = await notify.notify2(
-      action === "update" ? "Update Quantity" : "Add Quantity",
+      action === "update" ? "Cập nhật số lượng" : "Thêm số lượng",
       "warning",
       content,
-      "Yes",
-      "No"
+      "Có",
+      "Không"
     );
 
     if (check) {
@@ -93,17 +98,17 @@ const App = ({ product }) => {
   };
   const updatePrice = async (record, key) => {
     if (price <= 0 || isNaN(price)) {
-      notify.notify1("Price must be greater than 0 and be a number", "error");
+      notify.notify1("Giá tiền phải lớn hơn 0 và phải là số", "error");
       return;
     }
 
-    const content = "Are you sure you want to update this sku price?";
+    const content = "Bạn có chắc chắn muốn cập nhật giá tiền cho sku này?";
     const check = await notify.notify2(
-      "Update Price",
+      "Cập nhật giá tiền",
       "warning",
       content,
-      "Yes",
-      "No"
+      "Có",
+      "Không"
     );
 
     if (check) {
@@ -150,7 +155,7 @@ const App = ({ product }) => {
       ),
     },
     {
-      title: "Giá",
+      title: "Giá bán",
       align: "center",
       dataIndex: "price",
       render: (_, record) => (
@@ -174,7 +179,7 @@ const App = ({ product }) => {
                     className="bg-[#4096FF]"
                     type="primary"
                   >
-                    OK
+                    Cập nhật
                   </Button>
                 </Space>
               </div>
@@ -183,7 +188,7 @@ const App = ({ product }) => {
           >
             <a onClick={(e) => e.preventDefault()}>
               <Space>
-                Edit Price
+                <EditOutlined />
                 <DownOutlined />
               </Space>
             </a>
@@ -192,7 +197,7 @@ const App = ({ product }) => {
       ),
     },
     {
-      title: "Giá trước khi giảm",
+      title: "Giá gốc",
       align: "center",
       dataIndex: "priceBefore",
       render: (_, record) => (
@@ -218,7 +223,7 @@ const App = ({ product }) => {
                     className="bg-[#4096FF]"
                     type="primary"
                   >
-                    OK
+                    Cập nhật
                   </Button>
                 </Space>
               </div>
@@ -227,7 +232,7 @@ const App = ({ product }) => {
           >
             <a onClick={(e) => e.preventDefault()}>
               <Space>
-                Edit Price
+                <EditOutlined />
                 <DownOutlined />
               </Space>
             </a>
@@ -242,11 +247,18 @@ const App = ({ product }) => {
       render: (_, record) => (
         <div className="flex w-full justify-between pr-2">
           <div className="flex items-center w-3/4">
-            <p className="w-3/4 text-center">{record?.quantity}</p>
+            {/* <p className="w-3/4 text-center">{record?.quantity}</p> */}
+            {record?.quantity === 0 ? (
+              <p className="text-red-500 w-3/4 text-center">
+                {record?.quantity}
+              </p>
+            ) : (
+              <p className="w-3/4 text-center">{record?.quantity}</p>
+            )}
           </div>
           <Dropdown
             overlay={
-              <div style={contentStyle} className="w-[200px]">
+              <div style={contentStyle} className="w-[220px]">
                 <Space className="w-full" style={{ padding: 8 }}>
                   <Input
                     className="w-[100%]"
@@ -259,7 +271,7 @@ const App = ({ product }) => {
                     className="bg-[#4096FF]"
                     type="primary"
                   >
-                    OK
+                    Cập nhật
                   </Button>
                   <Button
                     onClick={() => reStock(record, "add")}
@@ -275,7 +287,8 @@ const App = ({ product }) => {
           >
             <a onClick={(e) => e.preventDefault()}>
               <Space>
-                Restock <DownOutlined />
+                <EditOutlined />
+                <DownOutlined />
               </Space>
             </a>
           </Dropdown>
@@ -334,6 +347,7 @@ const App = ({ product }) => {
     columns.splice(1, 0, {
       title: "Phân loại",
       align: "center",
+      width: 150,
       dataIndex: "attribute",
       render: (_, record) => (
         <div className="flex w-full justify-around">
@@ -350,15 +364,15 @@ const App = ({ product }) => {
   const handleOnCLickLock = async (record, enable) => {
     const content =
       enable === 0
-        ? "Are you sure you want to lock this sku?"
-        : "Are you sure you want to unlock this sku?";
+        ? "Bạn có chắc chắn muốn khóa sku này?"
+        : "Bạn có chắc chắn muốn mở khóa sku này?";
 
     const check = await notify.notify2(
       "Lock/Unlock",
       "warning",
       content,
-      "Yes",
-      "No"
+      "Có",
+      "Không"
     );
     if (check) {
       const res = await productServices.enableSku(record?.productSKUID, enable);
