@@ -162,7 +162,7 @@ const Index = () => {
       </Form.Item>
       <div className="flex justify-start mb-3">
         <b className="!pb-[20px] !pr-[20px] font-bold text-lg">
-          Thông tin vận chuyển
+          Kích thước & Trọng lượng
         </b>
         <Button
           type="text"
