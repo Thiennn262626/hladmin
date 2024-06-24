@@ -1,27 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, SaveOutlined } from "@ant-design/icons";
 import { productServices } from "../../../../services/productService";
 import { Form, Upload, Button, Space } from "antd";
-import { FolderAddOutlined } from "@ant-design/icons";
-import { useDispatch } from "react-redux";
-import { setAvatars } from "../../counterProduct";
 
 const FormEditImg = ({ product }) => {
-  const dispatch = useDispatch();
+  const [initialFileList, setInitialFileList] = useState([]);
   const [fileList, setFileList] = useState([]);
+  const [isChanged, setIsChanged] = useState(false);
 
   useEffect(() => {
     if (product?.medias) {
       const initialFileList = product.medias.map((media, index) => ({
         uid: `-1-${index}`,
-        name: `image-${index}.png`,
-        status: "done",
         url: media.linkString,
         media_url: media.linkString,
+        mediaID: media.mediaID,
       }));
       setFileList(initialFileList);
+      setInitialFileList(initialFileList);
     }
   }, [product]);
+
+  useEffect(() => {
+    const isChanged =
+      JSON.stringify(initialFileList) !== JSON.stringify(fileList);
+    if (fileList.length === 0) {
+      setIsChanged(false);
+    } else {
+      setIsChanged(isChanged);
+    }
+  }, [fileList, initialFileList]);
 
   const normFile = (e) => {
     if (Array.isArray(e)) {
@@ -38,13 +46,11 @@ const FormEditImg = ({ product }) => {
       if (response) {
         const newFile = {
           uid: file.uid,
-          name: file.name,
-          status: "done",
           url: response.media_url,
           media_url: response.media_url,
+          mediaID: response.mediaID,
         };
         setFileList((prevList) => [...prevList, newFile]);
-        dispatch(setAvatars([...fileList, newFile]));
       }
     } catch (error) {
       console.error("Error uploading image:", error);
@@ -54,7 +60,6 @@ const FormEditImg = ({ product }) => {
   const handleRemove = (file) => {
     const newFileList = fileList.filter((item) => item.uid !== file.uid);
     setFileList(newFileList);
-    dispatch(setAvatars(newFileList));
   };
 
   const setPreviewImage = (file) => {
@@ -62,9 +67,24 @@ const FormEditImg = ({ product }) => {
     window.open(media?.media_url, "_blank");
   };
 
-  const handleSave = () => {
-    // Handle save functionality here
-    console.log("Saving images...", fileList);
+  const handleSave = async () => {
+    const updatedMedias = fileList.map((file) => ({
+      mediaID: file.mediaID || null,
+      linkString: file.media_url,
+    }));
+
+    const updatedProduct = {
+      productID: product.productID,
+      medias: updatedMedias,
+    };
+
+    try {
+      console.log("Images saving...", updatedProduct);
+      await productServices.updateProductImages(updatedProduct);
+      setIsChanged(false);
+    } catch (error) {
+      console.error("Error saving images:", error);
+    }
   };
 
   return (
@@ -93,10 +113,10 @@ const FormEditImg = ({ product }) => {
           )}
         </Upload>
         <Button
-          type="primary"
-          icon={<FolderAddOutlined />}
-          onClick={() => handleSave}
-          className="!bg-blue-500 !text-white"
+          type="text"
+          icon={<SaveOutlined />}
+          onClick={handleSave}
+          disabled={!isChanged}
         >
           Lưu thay đổi
         </Button>

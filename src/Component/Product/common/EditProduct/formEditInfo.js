@@ -23,26 +23,35 @@ const FormEditInfo = ({ product }) => {
     productWeight: "",
   });
 
+  const [initialProductInfo, setInitialProductInfo] = useState({});
+  const [initialProductDelivery, setInitialProductDelivery] = useState({});
   const [category, setCategory] = useState([]);
+  const [isChangedInfo, setIsChangedInfo] = useState(false);
+  const [isChangedDelivery, setIsChangedDelivery] = useState(false);
 
   useEffect(() => {
     if (product) {
-      setDataEditProductInfo({
+      const info = {
         productID: product.productID,
         productName: product.productName || "",
         productSlogan: product.productSlogan || "",
         productDescription: product.productDescription || "",
         productMadeIn: product.productMadeIn || "",
         productCategoryID: product.productCategory?.productCategoryID || "",
-      });
+      };
 
-      setDataEditProductDelivery({
+      const delivery = {
         productID: product.productID,
         productHeight: product.productHeight || "",
         productWidth: product.productWidth || "",
         productLength: product.productLength || "",
         productWeight: product.productWeight || "",
-      });
+      };
+
+      setDataEditProductInfo(info);
+      setDataEditProductDelivery(delivery);
+      setInitialProductInfo(info);
+      setInitialProductDelivery(delivery);
     }
   }, [product]);
 
@@ -55,6 +64,24 @@ const FormEditInfo = ({ product }) => {
     };
     getCategory();
   }, []);
+
+  useEffect(() => {
+    const isInfoChanged = Object.keys(dataEditProductInfo).some(
+      (key) => dataEditProductInfo[key] !== initialProductInfo[key]
+    );
+
+    const isDeliveryChanged = Object.keys(dataEditProductDelivery).some(
+      (key) => dataEditProductDelivery[key] !== initialProductDelivery[key]
+    );
+
+    setIsChangedInfo(isInfoChanged);
+    setIsChangedDelivery(isDeliveryChanged);
+  }, [
+    dataEditProductInfo,
+    dataEditProductDelivery,
+    initialProductInfo,
+    initialProductDelivery,
+  ]);
 
   const handleInfoChange = (e) => {
     const { name, value } = e.target;
@@ -100,7 +127,6 @@ const FormEditInfo = ({ product }) => {
 
   const saveProductInfo = async () => {
     try {
-      // Kiểm tra null cho dataEditProductInfo
       const {
         productName,
         productSlogan,
@@ -142,7 +168,6 @@ const FormEditInfo = ({ product }) => {
 
   const saveDeliveryInfo = async () => {
     try {
-      // Kiểm tra null và là số cho dataEditProductDelivery
       const { productHeight, productWidth, productLength, productWeight } =
         dataEditProductDelivery;
 
@@ -199,7 +224,12 @@ const FormEditInfo = ({ product }) => {
         <Button type="text" icon={<ClearOutlined />} onClick={clearInputInfo}>
           ---
         </Button>
-        <Button type="text" icon={<SaveOutlined />} onClick={saveProductInfo}>
+        <Button
+          type="text"
+          icon={<SaveOutlined />}
+          onClick={saveProductInfo}
+          disabled={!isChangedInfo}
+        >
           Lưu thay đổi
         </Button>
       </div>
@@ -265,7 +295,12 @@ const FormEditInfo = ({ product }) => {
         >
           ---
         </Button>
-        <Button type="text" icon={<SaveOutlined />} onClick={saveDeliveryInfo}>
+        <Button
+          type="text"
+          icon={<SaveOutlined />}
+          onClick={saveDeliveryInfo}
+          disabled={!isChangedDelivery}
+        >
           Lưu thay đổi
         </Button>
       </div>

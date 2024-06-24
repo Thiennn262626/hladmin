@@ -253,6 +253,21 @@ async function updateProductDelivery(data) {
   }
 }
 
+async function updateProductImages(data) {
+  try {
+    const response = await apiAuth.post(
+      `api/hlshop/admin/product/update-product-images`,
+      data
+    );
+    if (response) {
+      handelException.handelNotificationSwal(`${response?.message}`, "success");
+      return true;
+    }
+  } catch (error) {
+    handelException.handelNotificationSwal("Cập nhật ảnh thất bại", "error");
+  }
+}
+
 export const productServices = {
   addImg,
   getCategory,
@@ -267,4 +282,5 @@ export const productServices = {
   updateSkuPriceBefore,
   updateProductInfo,
   updateProductDelivery,
+  updateProductImages,
 };

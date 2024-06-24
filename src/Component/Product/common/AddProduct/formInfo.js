@@ -31,31 +31,31 @@ const Index = () => {
 
   useEffect(() => {
     dispatch(setProductName(name));
-  }, [name]);
+  }, [name, dispatch]);
   useEffect(() => {
     dispatch(setProductSlogan(slogan));
-  }, [slogan]);
+  }, [slogan, dispatch]);
   useEffect(() => {
     dispatch(setProductDescription(description));
-  }, [description]);
+  }, [description, dispatch]);
   useEffect(() => {
     dispatch(setProductMadeIn(madeIn));
-  }, [madeIn]);
+  }, [madeIn, dispatch]);
   useEffect(() => {
     dispatch(setProductHeight(height));
-  }, [height]);
+  }, [height, dispatch]);
   useEffect(() => {
     dispatch(setProductWidth(width));
-  }, [width]);
+  }, [width, dispatch]);
   useEffect(() => {
     dispatch(setProductLength(length));
-  }, [length]);
+  }, [length, dispatch]);
   useEffect(() => {
     dispatch(setProductWeight(weight));
-  }, [weight]);
+  }, [weight, dispatch]);
   useEffect(() => {
     dispatch(setProductCategoryID(categoryID));
-  }, [categoryID]);
+  }, [categoryID, dispatch]);
 
   const [category, setCategory] = useState([]);
   useEffect(() => {
@@ -67,6 +67,7 @@ const Index = () => {
     };
     getCategory();
   }, []);
+
   const onChangeProductName = (e) => {
     setName(e.target.value);
   };
@@ -95,7 +96,7 @@ const Index = () => {
     setCategoryID(value);
   };
 
-  //hàm xóa các thuộc tính input
+  // Hàm xóa các thuộc tính input
   const clearInputInfo = () => {
     setName("");
     setSlogan("");
