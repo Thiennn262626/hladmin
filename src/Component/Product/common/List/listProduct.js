@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { productServices } from "../../../../services/productService";
 import { Table, Tag, Space } from "antd";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { notify } from "../../../../utils/notify";
 import { LockOutlined, UnlockOutlined, EditOutlined } from "@ant-design/icons";
+
 const Bodymain = () => {
   const navigate = useNavigate();
   const [listProduct, setListProduct] = useState([]);
@@ -16,19 +17,22 @@ const Bodymain = () => {
   const sortBy = useSelector((state) => state.counterProduct.sortBy);
   const [countList, setCountList] = useState(100);
 
-  const fetchProduct = async (offset, limit) => {
-    try {
-      console.log("fetchProduct", offset, limit, sortBy);
-      const res = await productServices.listProduct(offset, limit, sortBy);
-      if (res) {
-        setListProduct(res.result || []);
-        setPagination((prev) => ({ ...prev, total: res.total }));
-        setCountList(res.total);
+  const fetchProduct = useCallback(
+    async (offset, limit) => {
+      try {
+        console.log("fetchProduct", offset, limit, sortBy);
+        const res = await productServices.listProduct(offset, limit, sortBy);
+        if (res) {
+          setListProduct(res.result || []);
+          setPagination((prev) => ({ ...prev, total: res.total }));
+          setCountList(res.total);
+        }
+      } catch (error) {
+        console.error("Error fetching orders:", error);
       }
-    } catch (error) {
-      console.error("Error fetching orders:", error);
-    }
-  };
+    },
+    [sortBy]
+  );
 
   const handleTableChange = (pagination, filters, sorter, extra) => {
     setPagination(pagination);
@@ -40,25 +44,25 @@ const Bodymain = () => {
   useEffect(() => {
     console.log("sortBy", sortBy);
     fetchProduct(0, pagination.pageSize);
-  }, [sortBy]);
+  }, [fetchProduct, pagination.pageSize, sortBy]);
 
   const handleOnCLickLock = async (record, enable) => {
     let content =
-      enable === 0
+      enable === true
         ? "Bạn có chắc muốn ẩn sản phẩm này không?"
         : "Bạn có chắc muốn hiển thị sản phẩm này không?";
     const check = await notify.notify2("", "warning", content, "Có", "Không");
     if (check) {
       const res = await productServices.enableProduct(
         record?.productID,
-        enable
+        enable === true ? 0 : 1
       );
       if (res) {
         let newListProduct = [...listProduct];
         let index = newListProduct.findIndex(
           (item) => item.productID === record.productID
         );
-        if (enable === 0) {
+        if (enable === true) {
           newListProduct[index].productEnable = false;
         } else {
           newListProduct[index].productEnable = true;
@@ -80,15 +84,16 @@ const Bodymain = () => {
         <img
           className="w-[50px] h-[50px]"
           src={record?.medias[0]?.linkString}
-        ></img>
+          alt={record?.productName}
+        />
       ),
     },
     {
       title: "Tên sản phẩm",
       dataIndex: "name",
       render: (_, record) => (
-        //note
         <p
+          style={{ cursor: "pointer" }}
           onClick={() => {
             navigate(`/product/edit/${record?.productID}`);
           }}
@@ -116,21 +121,24 @@ const Bodymain = () => {
       title: "Hành động",
       render: (_, record) => (
         <Space size="middle">
-          <a onClick={() => handleOnCLickLock(record, 0)}>
+          <button
+            type="button"
+            onClick={() => handleOnCLickLock(record, record?.productEnable)}
+          >
             {record?.productEnable === true ? (
               <LockOutlined />
             ) : (
               <UnlockOutlined />
             )}
-          </a>
-          <a onClick={() => handleOnCLickEdit(record, 0)}>
-            {"   "}
+          </button>
+          <button type="button" onClick={() => handleOnCLickEdit(record)}>
             <EditOutlined />
-          </a>
+          </button>
         </Space>
       ),
     },
   ];
+
   return (
     <>
       <Table

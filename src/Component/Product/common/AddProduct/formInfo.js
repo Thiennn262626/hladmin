@@ -80,18 +80,21 @@ const Index = () => {
   const onChangeProductMadeIn = (e) => {
     setMadeIn(e.target.value);
   };
-  const onChangeProductHeight = (e) => {
-    setHeight(e.target.value);
+
+  // Hàm chỉ cho phép nhập số
+  const onChangeNumericInput = (setValue) => (e) => {
+    const value = e.target.value;
+    // Kiểm tra nếu là số hoặc rỗng thì cập nhật giá trị
+    if (/^\d*\.?\d*$/.test(value)) {
+      setValue(value);
+    }
   };
-  const onChangeProductWidth = (e) => {
-    setWidth(e.target.value);
-  };
-  const onChangeProductLength = (e) => {
-    setLength(e.target.value);
-  };
-  const onChangeProductWeight = (e) => {
-    setWeight(e.target.value);
-  };
+
+  const onChangeProductHeight = onChangeNumericInput(setHeight);
+  const onChangeProductWidth = onChangeNumericInput(setWidth);
+  const onChangeProductLength = onChangeNumericInput(setLength);
+  const onChangeProductWeight = onChangeNumericInput(setWeight);
+
   const onChangeProductCategoryID = (value) => {
     setCategoryID(value);
   };
