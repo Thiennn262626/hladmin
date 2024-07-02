@@ -8,7 +8,6 @@ import {
 } from "@ant-design/icons";
 import { notify } from "../../../../utils/notify";
 import { productServices } from "../../../../services/productService";
-import { wrap } from "lodash";
 
 const { useToken } = theme;
 
@@ -47,10 +46,6 @@ const App = ({ product }) => {
     backgroundColor: token.colorBgElevated,
     borderRadius: token.borderRadiusLG,
     boxShadow: token.boxShadowSecondary,
-  };
-
-  const menuStyle = {
-    boxShadow: "none",
   };
 
   const reStock = async (record, action) => {
@@ -149,7 +144,7 @@ const App = ({ product }) => {
           <img
             className="w-[60px] h-[60px]"
             src={record?.linkString}
-            alt="Product Image"
+            alt="product"
           />
         </div>
       ),
@@ -186,12 +181,15 @@ const App = ({ product }) => {
             }
             trigger={["click"]}
           >
-            <a onClick={(e) => e.preventDefault()}>
+            <button
+              onClick={(e) => e.preventDefault()}
+              style={{ background: "none", border: "none", padding: 0 }}
+            >
               <Space>
                 <EditOutlined />
                 <DownOutlined />
               </Space>
-            </a>
+            </button>
           </Dropdown>
         </div>
       ),
@@ -230,12 +228,15 @@ const App = ({ product }) => {
             }
             trigger={["click"]}
           >
-            <a onClick={(e) => e.preventDefault()}>
+            <button
+              onClick={(e) => e.preventDefault()}
+              style={{ background: "none", border: "none", padding: 0 }}
+            >
               <Space>
                 <EditOutlined />
                 <DownOutlined />
               </Space>
-            </a>
+            </button>
           </Dropdown>
         </div>
       ),
@@ -285,12 +286,15 @@ const App = ({ product }) => {
             }
             trigger={["click"]}
           >
-            <a onClick={(e) => e.preventDefault()}>
+            <button
+              onClick={(e) => e.preventDefault()}
+              style={{ background: "none", border: "none", padding: 0 }}
+            >
               <Space>
                 <EditOutlined />
                 <DownOutlined />
               </Space>
-            </a>
+            </button>
           </Dropdown>
         </div>
       ),
@@ -368,7 +372,7 @@ const App = ({ product }) => {
         : "Bạn có chắc chắn muốn mở khóa sku này?";
 
     const check = await notify.notify2(
-      "Lock/Unlock",
+      enable === 0 ? "Khóa" : "Mở khóa",
       "warning",
       content,
       "Có",

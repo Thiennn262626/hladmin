@@ -51,7 +51,13 @@ const Bodymain = () => {
       enable === true
         ? "Bạn có chắc muốn ẩn sản phẩm này không?"
         : "Bạn có chắc muốn hiển thị sản phẩm này không?";
-    const check = await notify.notify2("", "warning", content, "Có", "Không");
+    const check = await notify.notify2(
+      enable === true ? "Ẩn sản phẩm" : "Hiển thị sản phẩm",
+      "warning",
+      content,
+      "Có",
+      "Không"
+    );
     if (check) {
       const res = await productServices.enableProduct(
         record?.productID,

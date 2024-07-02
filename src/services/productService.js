@@ -190,7 +190,7 @@ async function updateSkuPrice(productSKUID, price) {
       data
     );
     if (response) {
-      handelException.handelNotificationSwal(`${response?.message}`, "success");
+      handelException.handelNotificationSwal(`Cập nhật thành công`, "success");
       return true;
     }
   } catch (error) {
@@ -209,7 +209,7 @@ async function updateSkuPriceBefore(productSKUID, price) {
       data
     );
     if (response) {
-      handelException.handelNotificationSwal(`${response?.message}`, "success");
+      handelException.handelNotificationSwal(`Cập nhật thành công`, "success");
       return true;
     }
   } catch (error) {
@@ -224,7 +224,7 @@ async function updateProductInfo(data) {
       data
     );
     if (response) {
-      handelException.handelNotificationSwal(`${response?.message}`, "success");
+      handelException.handelNotificationSwal(`Cập nhật thành công`, "success");
       return true;
     }
   } catch (error) {
@@ -242,7 +242,7 @@ async function updateProductDelivery(data) {
       data
     );
     if (response) {
-      handelException.handelNotificationSwal(`${response?.message}`, "success");
+      handelException.handelNotificationSwal(`Cập nhật thành công`, "success");
       return true;
     }
   } catch (error) {
@@ -260,7 +260,7 @@ async function updateProductImages(data) {
       data
     );
     if (response) {
-      handelException.handelNotificationSwal(`${response?.message}`, "success");
+      handelException.handelNotificationSwal(`Cập nhật thành công`, "success");
       return true;
     }
   } catch (error) {
