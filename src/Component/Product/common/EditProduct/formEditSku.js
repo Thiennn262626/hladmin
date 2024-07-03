@@ -308,11 +308,11 @@ const App = ({ product }) => {
         <div className="">
           {record?.SkuEnable ? (
             <Tag bordered={false} color="processing">
-              Enable
+              Hiển thị
             </Tag>
           ) : (
             <Tag bordered={false} color="error">
-              Disable
+              Ẩn
             </Tag>
           )}
           {record?.quantity === 0 && (
@@ -324,7 +324,7 @@ const App = ({ product }) => {
       ),
     },
     {
-      title: "Khóa/Mở",
+      title: "Ẩn / Hiện",
       align: "center",
       width: 100,
       dataIndex: "action",
@@ -368,11 +368,11 @@ const App = ({ product }) => {
   const handleOnCLickLock = async (record, enable) => {
     const content =
       enable === 0
-        ? "Bạn có chắc chắn muốn khóa sku này?"
-        : "Bạn có chắc chắn muốn mở khóa sku này?";
+        ? "Bạn có chắc chắn muốn Ẩn phân loại này?"
+        : "Bạn có chắc chắn muốn Hiện phân loại này?";
 
     const check = await notify.notify2(
-      enable === 0 ? "Khóa" : "Mở khóa",
+      enable === 0 ? "Ẩn phân loại" : "Hiện phân loại",
       "warning",
       content,
       "Có",
