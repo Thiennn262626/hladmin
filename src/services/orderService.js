@@ -65,7 +65,7 @@ async function getOrderCountList() {
     if (response) {
       return response;
     }
-    return response;
+    return;
   } catch (error) {
     console.error("Error fetching location data:", error);
     handelException.handelNotificationSwal(

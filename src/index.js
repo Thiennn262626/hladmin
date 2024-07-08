@@ -10,8 +10,9 @@ import {
   AddProduct,
   ListProduct,
   EditProduct,
+  Home,
 } from "./Component";
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
 import "./index.css";
 import { configureStore } from "@reduxjs/toolkit";
@@ -28,12 +29,12 @@ const storeNodemy = configureStore({
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "",
     element: <Layout />,
     children: [
       {
-        path: "/",
-        element: <Order />,
+        path: "",
+        element: <Home />,
       },
       {
         path: "/order",

@@ -6,3 +6,4 @@ export { default as Order } from "./Order";
 export { default as AddProduct } from "./Product";
 export { default as ListProduct } from "./Product/listProduct";
 export { default as EditProduct } from "./Product/editProduct";
+export { default as Home } from "./Home";

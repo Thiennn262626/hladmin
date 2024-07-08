@@ -1,5 +1,4 @@
 import apiAuth from "../utils/apiAuth";
-import api from "../utils/api";
 import { handelException } from "./handelException";
 
 async function addImg(file) {
@@ -24,7 +23,7 @@ async function addImg(file) {
 //lấy ngành hàng
 async function getCategory() {
   try {
-    const response = await api.get(
+    const response = await apiAuth.get(
       `api/hlshop/admin/product-category/get-list?offset=0&limit=100`
     );
     if (response) {
