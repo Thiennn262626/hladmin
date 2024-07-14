@@ -58,8 +58,43 @@ async function getTotalAnalySale(month, year) {
     );
   }
 }
+
+async function getProductListSale() {
+  try {
+    const response = await apiAuth.get(
+      `/api/hlshop/product/get-list-best-seller?offset=0&limit=24`
+    );
+    if (response) {
+      return response;
+    }
+  } catch (error) {
+    handelException.handelNotificationSwal(
+      "Lỗi lấy danh sách sản phẩm bán chạy",
+      "error"
+    );
+  }
+}
+
+async function getProductListBestSale() {
+  try {
+    const response = await apiAuth.get(
+      `/api/hlshop/admin/product/get_predict_best_sale`
+    );
+    if (response) {
+      return response;
+    }
+  } catch (error) {
+    handelException.handelNotificationSwal(
+      "Lỗi lấy danh sách sản phẩm bán chạy",
+      "error"
+    );
+  }
+}
+
 export const homeServices = {
   getNetWork,
   getChartAnalySale,
   getTotalAnalySale,
+  getProductListSale,
+  getProductListBestSale,
 };

@@ -89,7 +89,7 @@ const [selectedMonth, setSelectedMonth] = useState(DateTime.now().month); // Def
   )});
 
   return (
-    <div className="bg-white h-auto p-4">
+    <div className="bg-white h-auto p-4 mb-4">
       <div className="flex flex-col items-start">
         <h1 className="text-black text-2xl font-bold py-1">Phân Tích Bán Hàng</h1>
            <div className="flex flex-row justify-between w-1/2">
